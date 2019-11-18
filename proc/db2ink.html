@@ -219,7 +219,7 @@ public pure subroutine db2ink(x, nx, y, ny, fcn, kx, ky, iknot, tx, ty, bcoef, i
     
     <p>Determines the parameters of a function that interpolates
   the two-dimensional gridded data
-  <script type="math/tex; mode=display"> [x(i),y(j),\mathrm{fcn}(i,j)] ~\mathrm{for}~ i=1_ip,..,n_x ~\mathrm{and}~ j=1_ip,..,n_y </script>
+  <script type="math/tex; mode=display"> [x(i),y(j),\mathrm{fcn}(i,j)] ~\mathrm{for}~ i=1,..,n_x ~\mathrm{and}~ j=1,..,n_y </script>
   The interpolating function and its derivatives may
   subsequently be evaluated by the function <a href="../proc/db2val.html">db2val</a>.</p>
 <p>The interpolating function is a piecewise polynomial function
@@ -231,7 +231,7 @@ public pure subroutine db2ink(x, nx, y, ny, fcn, kx, ky, iknot, tx, ty, bcoef, i
 <p>where the functions <script type="math/tex">u_i</script> and <script type="math/tex">v_j</script> are one-dimensional b-spline
   basis functions. the coefficients <script type="math/tex"> a_{ij} </script> are chosen so that</p>
 <p>
-<script type="math/tex; mode=display"> s(x(i),y(j)) = \mathrm{fcn}(i,j) ~\mathrm{for}~ i=1_ip,..,n_x ~\mathrm{and}~ j=1_ip,..,n_y </script>
+<script type="math/tex; mode=display"> s(x(i),y(j)) = \mathrm{fcn}(i,j) ~\mathrm{for}~ i=1,..,n_x ~\mathrm{and}~ j=1,..,n_y </script>
 </p>
 <p>Note that for each fixed value of <script type="math/tex">y</script>, <script type="math/tex"> s(x,y) </script> is a piecewise
   polynomial function of <script type="math/tex">x</script> alone, and for each fixed value of <script type="math/tex">x</script>, <script type="math/tex"> s(x,y) </script>
@@ -629,7 +629,7 @@ public pure subroutine db2ink(x, nx, y, ny, fcn, kx, ky, iknot, tx, ty, bcoef, i
 
     <span class="kt">logical</span> <span class="kd">::</span> <span class="n">status_ok</span>
     <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(:),</span><span class="k">allocatable</span> <span class="kd">::</span> <span class="n">temp</span> <span class="c">!! work array of length `nx*ny`</span>
-    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(:),</span><span class="k">allocatable</span> <span class="kd">::</span> <span class="n">work</span> <span class="c">!! work array of length `max(2_ip*kx*(nx+1_ip),2_ip*ky*(ny+1_ip))`</span>
+    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(:),</span><span class="k">allocatable</span> <span class="kd">::</span> <span class="n">work</span> <span class="c">!! work array of length `max(2*kx*(nx+1),2*ky*(ny+1))`</span>
 
     <span class="c">!check validity of inputs</span>
 

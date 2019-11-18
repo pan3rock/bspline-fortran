@@ -1638,7 +1638,7 @@ public subroutine <a href='../proc/db1fqad.html'>db1fqad</a>(fun, tx, bcoef, nx,
   function <code>fun</code> and the <code>idx</code>-th derivative of a <code>kx</code>-th order b-spline,
   using the b-representation <code>(tx,bcoef,nx,kx)</code>, with an adaptive
   8-point Legendre-Gauss algorithm.
-  <code>(x1,x2)</code> must be a subinterval of <code>t(kx) &lt;= x &lt;= t(nx+1_ip)</code>.</p><a href="../proc/db1fqad.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+  <code>(x1,x2)</code> must be a subinterval of <code>t(kx) &lt;= x &lt;= t(nx+1)</code>.</p><a href="../proc/db1fqad.html" class="pull-right"><emph>Read more&hellip;</emph></a>
     
     <h4>Arguments</h4>
     
@@ -1869,7 +1869,7 @@ public pure subroutine <a href='../proc/db2ink.html'>db2ink</a>(x, nx, y, ny, fc
 
 <p>Determines the parameters of a function that interpolates
   the two-dimensional gridded data
-  <script type="math/tex; mode=display"> [x(i),y(j),\mathrm{fcn}(i,j)] ~\mathrm{for}~ i=1_ip,..,n_x ~\mathrm{and}~ j=1_ip,..,n_y </script>
+  <script type="math/tex; mode=display"> [x(i),y(j),\mathrm{fcn}(i,j)] ~\mathrm{for}~ i=1,..,n_x ~\mathrm{and}~ j=1,..,n_y </script>
   The interpolating function and its derivatives may
   subsequently be evaluated by the function <a href="../proc/db2val.html">db2val</a>.</p><a href="../proc/db2ink.html" class="pull-right"><emph>Read more&hellip;</emph></a>
     
@@ -3233,8 +3233,8 @@ public pure subroutine <a href='../proc/db4ink.html'>db4ink</a>(x, nx, y, ny, z,
 <p>Determines the parameters of a function that interpolates
   the four-dimensional gridded data
   <script type="math/tex; mode=display"> [x(i),y(j),z(k),q(l),\mathrm{fcn}(i,j,k,l)] ~\mathrm{for}~
-     i=1_ip,..,n_x ~\mathrm{and}~ j=1_ip,..,n_y, ~\mathrm{and}~ k=1_ip,..,n_z,
-     ~\mathrm{and}~ l=1_ip,..,n_q </script>
+     i=1,..,n_x ~\mathrm{and}~ j=1,..,n_y, ~\mathrm{and}~ k=1,..,n_z,
+     ~\mathrm{and}~ l=1,..,n_q </script>
   The interpolating function and its derivatives may
   subsequently be evaluated by the function <a href="../proc/db4val.html">db4val</a>.</p><a href="../proc/db4ink.html" class="pull-right"><emph>Read more&hellip;</emph></a>
     
