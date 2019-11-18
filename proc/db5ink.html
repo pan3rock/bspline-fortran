@@ -134,7 +134,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 4.2% of total for procedures.">50 statements</a>
+    title=" 5.2% of total for procedures.">63 statements</a>
      </li> 
      
      
@@ -910,6 +910,7 @@ public pure subroutine db5ink(x, nx, y, ny, z, nz, q, nq, r, nr, fcn, kx, ky, kz
     <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(:),</span><span class="k">allocatable</span> <span class="kd">::</span> <span class="n">temp</span> <span class="c">!! work array of length `nx*ny*nz*nq*nr`</span>
     <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(:),</span><span class="k">allocatable</span> <span class="kd">::</span> <span class="n">work</span> <span class="c">!! work array of length `max(2*kx*(nx+1),</span>
                                               <span class="c">!! 2*ky*(ny+1),2*kz*(nz+1),2*kq*(nq+1),2*kr*(nr+1))`</span>
+    <span class="kt">integer</span> <span class="kd">::</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">ii</span> <span class="c">!! counter</span>
 
     <span class="c">!  check validity of input</span>
     <span class="k">call </span><span class="n">check_inputs</span><span class="p">(</span>  <span class="n">iknot</span><span class="p">,&amp;</span>
@@ -937,7 +938,22 @@ public pure subroutine db5ink(x, nx, y, ny, z, nz, q, nq, r, nr, fcn, kx, ky, kz
         <span class="k">allocate</span><span class="p">(</span><span class="n">work</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">kx</span><span class="o">*</span><span class="p">(</span><span class="n">nx</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span><span class="mi">2</span><span class="o">*</span><span class="n">ky</span><span class="o">*</span><span class="p">(</span><span class="n">ny</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span><span class="mi">2</span><span class="o">*</span><span class="n">kz</span><span class="o">*</span><span class="p">(</span><span class="n">nz</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span><span class="mi">2</span><span class="o">*</span><span class="n">kq</span><span class="o">*</span><span class="p">(</span><span class="n">nq</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span><span class="mi">2</span><span class="o">*</span><span class="n">kr</span><span class="o">*</span><span class="p">(</span><span class="n">nr</span><span class="o">+</span><span class="mi">1</span><span class="p">))))</span>
 
         <span class="c">! copy fcn to work in packed for dbtpcf</span>
-        <span class="n">temp</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">nx</span><span class="o">*</span><span class="n">ny</span><span class="o">*</span><span class="n">nz</span><span class="o">*</span><span class="n">nq</span><span class="o">*</span><span class="n">nr</span><span class="p">)</span> <span class="o">=</span> <span class="nb">reshape</span><span class="p">(</span> <span class="n">fcn</span><span class="p">,</span> <span class="p">[</span><span class="n">nx</span><span class="o">*</span><span class="n">ny</span><span class="o">*</span><span class="n">nz</span><span class="o">*</span><span class="n">nq</span><span class="o">*</span><span class="n">nr</span><span class="p">]</span> <span class="p">)</span>
+        <span class="c">!temp(1:nx*ny*nz*nq*nr) = reshape( fcn, [nx*ny*nz*nq*nr] )</span>
+        <span class="c">! replaced with loops to avoid stack</span>
+        <span class="c">! overflow for large data set:</span>
+        <span class="n">ii</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">do </span><span class="n">m</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nr</span>
+            <span class="k">do </span><span class="n">l</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nq</span>
+                <span class="k">do </span><span class="n">k</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nz</span>
+                    <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">ny</span>
+                        <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nx</span>
+                            <span class="n">ii</span> <span class="o">=</span> <span class="n">ii</span> <span class="o">+</span> <span class="mi">1</span>
+                            <span class="n">temp</span><span class="p">(</span><span class="n">ii</span><span class="p">)</span> <span class="o">=</span> <span class="n">fcn</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">,</span><span class="n">k</span><span class="p">,</span><span class="n">l</span><span class="p">,</span><span class="n">m</span><span class="p">)</span>
+                        <span class="k">end do</span>
+<span class="k">                    end do</span>
+<span class="k">                end do</span>
+<span class="k">            end do</span>
+<span class="k">        end do</span>
 
         <span class="c">!  construct b-spline coefficients</span>
                       <span class="k">call </span><span class="n">dbtpcf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">nx</span><span class="p">,</span><span class="n">temp</span><span class="p">,</span>  <span class="n">nx</span><span class="p">,</span><span class="n">ny</span><span class="o">*</span><span class="n">nz</span><span class="o">*</span><span class="n">nq</span><span class="o">*</span><span class="n">nr</span><span class="p">,</span><span class="n">tx</span><span class="p">,</span><span class="n">kx</span><span class="p">,</span><span class="n">bcoef</span><span class="p">,</span><span class="n">work</span><span class="p">,</span><span class="n">iflag</span><span class="p">)</span>
@@ -949,7 +965,7 @@ public pure subroutine db5ink(x, nx, y, ny, z, nz, q, nq, r, nr, fcn, kx, ky, kz
         <span class="k">deallocate</span><span class="p">(</span><span class="n">temp</span><span class="p">)</span>
         <span class="k">deallocate</span><span class="p">(</span><span class="n">work</span><span class="p">)</span>
 
-     <span class="k">end if</span>
+    <span class="k">end if</span>
 
 <span class="k">    end subroutine </span><span class="n">db5ink</span>
 </pre></div>
