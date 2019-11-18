@@ -207,7 +207,7 @@
     
     <div class="col-md-9" id='text'>
     <h2>
-public pure subroutine db4val(xval, yval, zval, qval, idx, idy, idz, idq, tx, ty, tz, tq, nx, ny, nz, nq, kx, ky, kz, kq, bcoef, f, iflag, inbvx, inbvy, inbvz, inbvq, iloy, iloz, iloq, temp1, temp2, temp3, work, extrap)
+public pure subroutine db4val(xval, yval, zval, qval, idx, idy, idz, idq, tx, ty, tz, tq, nx, ny, nz, nq, kx, ky, kz, kq, bcoef, f, iflag, inbvx, inbvy, inbvz, inbvq, iloy, iloz, iloq, w3, w2, w1, w0, extrap)
     
     
    
@@ -742,12 +742,12 @@ public pure subroutine db4val(xval, yval, zval, qval, idx, idy, idz, idq, tx, ty
   
 <tr>
   
-  <td><span class="anchor" id="variable-temp1%7E2"></span>real(kind=wp),</td>
+  <td><span class="anchor" id="variable-w3"></span>real(kind=wp),</td>
   <td>intent(inout),</td>
   <td></td>
   
   <td>dimension(ky,kz,kq)</td><td>::</td>
-  <td><strong>temp1</strong></td><td><p>work array</p></td>
+  <td><strong>w3</strong></td><td><p>work array</p></td>
   
 </tr>
 
@@ -757,12 +757,12 @@ public pure subroutine db4val(xval, yval, zval, qval, idx, idy, idz, idq, tx, ty
   
 <tr>
   
-  <td><span class="anchor" id="variable-temp2%7E2"></span>real(kind=wp),</td>
+  <td><span class="anchor" id="variable-w2%7E2"></span>real(kind=wp),</td>
   <td>intent(inout),</td>
   <td></td>
   
   <td>dimension(kz,kq)</td><td>::</td>
-  <td><strong>temp2</strong></td><td><p>work array</p></td>
+  <td><strong>w2</strong></td><td><p>work array</p></td>
   
 </tr>
 
@@ -772,12 +772,12 @@ public pure subroutine db4val(xval, yval, zval, qval, idx, idy, idz, idq, tx, ty
   
 <tr>
   
-  <td><span class="anchor" id="variable-temp3"></span>real(kind=wp),</td>
+  <td><span class="anchor" id="variable-w1%7E3"></span>real(kind=wp),</td>
   <td>intent(inout),</td>
   <td></td>
   
   <td>dimension(kq)</td><td>::</td>
-  <td><strong>temp3</strong></td><td><p>work array</p></td>
+  <td><strong>w1</strong></td><td><p>work array</p></td>
   
 </tr>
 
@@ -787,12 +787,12 @@ public pure subroutine db4val(xval, yval, zval, qval, idx, idy, idz, idq, tx, ty
   
 <tr>
   
-  <td><span class="anchor" id="variable-work%7E6"></span>real(kind=wp),</td>
+  <td><span class="anchor" id="variable-w0%7E6"></span>real(kind=wp),</td>
   <td>intent(inout),</td>
   <td></td>
   
   <td>dimension(3*max(kx,ky,kz,kq))</td><td>::</td>
-  <td><strong>work</strong></td><td><p>work array</p></td>
+  <td><strong>w0</strong></td><td><p>work array</p></td>
   
 </tr>
 
@@ -886,7 +886,7 @@ public pure subroutine db4val(xval, yval, zval, qval, idx, idy, idz, idq, tx, ty
                                 <span class="n">kx</span><span class="p">,</span><span class="n">ky</span><span class="p">,</span><span class="n">kz</span><span class="p">,</span><span class="n">kq</span><span class="p">,&amp;</span>
                                 <span class="n">bcoef</span><span class="p">,</span><span class="n">f</span><span class="p">,</span><span class="n">iflag</span><span class="p">,&amp;</span>
                                 <span class="n">inbvx</span><span class="p">,</span><span class="n">inbvy</span><span class="p">,</span><span class="n">inbvz</span><span class="p">,</span><span class="n">inbvq</span><span class="p">,&amp;</span>
-                                <span class="n">iloy</span><span class="p">,</span><span class="n">iloz</span><span class="p">,</span><span class="n">iloq</span><span class="p">,</span><span class="n">temp1</span><span class="p">,</span><span class="n">temp2</span><span class="p">,</span><span class="n">temp3</span><span class="p">,</span><span class="n">work</span><span class="p">,</span><span class="n">extrap</span><span class="p">)</span>
+                                <span class="n">iloy</span><span class="p">,</span><span class="n">iloz</span><span class="p">,</span><span class="n">iloq</span><span class="p">,</span><span class="n">w3</span><span class="p">,</span><span class="n">w2</span><span class="p">,</span><span class="n">w1</span><span class="p">,</span><span class="n">w0</span><span class="p">,</span><span class="n">extrap</span><span class="p">)</span>
 
     <span class="k">implicit none</span>
 
@@ -953,10 +953,10 @@ public pure subroutine db4val(xval, yval, zval, qval, idx, idy, idz, idq, tx, ty
     <span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span>                      <span class="kd">::</span> <span class="n">iloq</span>     <span class="c">!! initialization parameter which must be set</span>
                                                            <span class="c">!! to 1 the first time this routine is called,</span>
                                                            <span class="c">!! and must not be changed by the user.</span>
-    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="n">ky</span><span class="p">,</span><span class="n">kz</span><span class="p">,</span><span class="n">kq</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span>           <span class="kd">::</span> <span class="n">temp1</span> <span class="c">!! work array</span>
-    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="n">kz</span><span class="p">,</span><span class="n">kq</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span>              <span class="kd">::</span> <span class="n">temp2</span> <span class="c">!! work array</span>
-    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="n">kq</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span>                 <span class="kd">::</span> <span class="n">temp3</span> <span class="c">!! work array</span>
-    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">3</span><span class="o">*</span><span class="nb">max</span><span class="p">(</span><span class="n">kx</span><span class="p">,</span><span class="n">ky</span><span class="p">,</span><span class="n">kz</span><span class="p">,</span><span class="n">kq</span><span class="p">)),</span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span> <span class="kd">::</span> <span class="n">work</span>  <span class="c">!! work array</span>
+    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="n">ky</span><span class="p">,</span><span class="n">kz</span><span class="p">,</span><span class="n">kq</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span>           <span class="kd">::</span> <span class="n">w3</span> <span class="c">!! work array</span>
+    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="n">kz</span><span class="p">,</span><span class="n">kq</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span>              <span class="kd">::</span> <span class="n">w2</span> <span class="c">!! work array</span>
+    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="n">kq</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span>                 <span class="kd">::</span> <span class="n">w1</span> <span class="c">!! work array</span>
+    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">3</span><span class="o">*</span><span class="nb">max</span><span class="p">(</span><span class="n">kx</span><span class="p">,</span><span class="n">ky</span><span class="p">,</span><span class="n">kz</span><span class="p">,</span><span class="n">kq</span><span class="p">)),</span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span> <span class="kd">::</span> <span class="n">w0</span> <span class="c">!! work array</span>
     <span class="kt">logical</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="k">optional</span>                <span class="kd">::</span> <span class="n">extrap</span>   <span class="c">!! if extrapolation is allowed</span>
                                                            <span class="c">!! (if not present, default is False)</span>
 
@@ -987,8 +987,8 @@ public pure subroutine db4val(xval, yval, zval, qval, idx, idy, idz, idq, tx, ty
             <span class="k">do </span><span class="n">j</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">ky</span>
                 <span class="n">kcoly</span> <span class="o">=</span> <span class="n">kcoly</span> <span class="o">+</span> <span class="mi">1</span>
                 <span class="k">call </span><span class="n">dbvalu</span><span class="p">(</span><span class="n">tx</span><span class="p">,</span><span class="n">bcoef</span><span class="p">(:,</span><span class="n">kcoly</span><span class="p">,</span><span class="n">kcolz</span><span class="p">,</span><span class="n">kcolq</span><span class="p">),&amp;</span>
-                                     <span class="n">nx</span><span class="p">,</span><span class="n">kx</span><span class="p">,</span><span class="n">idx</span><span class="p">,</span><span class="n">xval</span><span class="p">,</span><span class="n">inbvx</span><span class="p">,</span><span class="n">work</span><span class="p">,</span><span class="n">iflag</span><span class="p">,&amp;</span>
-                                     <span class="n">temp1</span><span class="p">(</span><span class="n">j</span><span class="p">,</span><span class="n">k</span><span class="p">,</span><span class="n">q</span><span class="p">),</span><span class="n">extrap</span><span class="p">)</span>
+                                     <span class="n">nx</span><span class="p">,</span><span class="n">kx</span><span class="p">,</span><span class="n">idx</span><span class="p">,</span><span class="n">xval</span><span class="p">,</span><span class="n">inbvx</span><span class="p">,</span><span class="n">w0</span><span class="p">,</span><span class="n">iflag</span><span class="p">,&amp;</span>
+                                     <span class="n">w3</span><span class="p">(</span><span class="n">j</span><span class="p">,</span><span class="n">k</span><span class="p">,</span><span class="n">q</span><span class="p">),</span><span class="n">extrap</span><span class="p">)</span>
                 <span class="k">if</span> <span class="p">(</span><span class="n">iflag</span><span class="o">/=</span><span class="mi">0</span><span class="p">)</span> <span class="k">return</span>
 <span class="k">            end do</span>
 <span class="k">        end do</span>
@@ -998,9 +998,9 @@ public pure subroutine db4val(xval, yval, zval, qval, idx, idy, idz, idq, tx, ty
     <span class="n">kcoly</span> <span class="o">=</span> <span class="n">lefty</span> <span class="o">-</span> <span class="n">ky</span> <span class="o">+</span> <span class="mi">1</span>
     <span class="k">do </span><span class="n">q</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">kq</span>
         <span class="k">do </span><span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">kz</span>
-            <span class="k">call </span><span class="n">dbvalu</span><span class="p">(</span><span class="n">ty</span><span class="p">(</span><span class="n">kcoly</span><span class="p">:),</span><span class="n">temp1</span><span class="p">(:,</span><span class="n">k</span><span class="p">,</span><span class="n">q</span><span class="p">),&amp;</span>
-                        <span class="n">ky</span><span class="p">,</span><span class="n">ky</span><span class="p">,</span><span class="n">idy</span><span class="p">,</span><span class="n">yval</span><span class="p">,</span><span class="n">inbvy</span><span class="p">,</span><span class="n">work</span><span class="p">,</span><span class="n">iflag</span><span class="p">,&amp;</span>
-                        <span class="n">temp2</span><span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="n">q</span><span class="p">),</span><span class="n">extrap</span><span class="p">)</span>
+            <span class="k">call </span><span class="n">dbvalu</span><span class="p">(</span><span class="n">ty</span><span class="p">(</span><span class="n">kcoly</span><span class="p">:),</span><span class="n">w3</span><span class="p">(:,</span><span class="n">k</span><span class="p">,</span><span class="n">q</span><span class="p">),&amp;</span>
+                        <span class="n">ky</span><span class="p">,</span><span class="n">ky</span><span class="p">,</span><span class="n">idy</span><span class="p">,</span><span class="n">yval</span><span class="p">,</span><span class="n">inbvy</span><span class="p">,</span><span class="n">w0</span><span class="p">,</span><span class="n">iflag</span><span class="p">,&amp;</span>
+                        <span class="n">w2</span><span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="n">q</span><span class="p">),</span><span class="n">extrap</span><span class="p">)</span>
             <span class="k">if</span> <span class="p">(</span><span class="n">iflag</span><span class="o">/=</span><span class="mi">0</span><span class="p">)</span> <span class="k">return</span>
 <span class="k">        end do</span>
 <span class="k">    end do</span>
@@ -1008,15 +1008,15 @@ public pure subroutine db4val(xval, yval, zval, qval, idx, idy, idz, idq, tx, ty
     <span class="c">! z -&gt; q</span>
     <span class="n">kcolz</span> <span class="o">=</span> <span class="n">leftz</span> <span class="o">-</span> <span class="n">kz</span> <span class="o">+</span> <span class="mi">1</span>
     <span class="k">do </span><span class="n">q</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">kq</span>
-        <span class="k">call </span><span class="n">dbvalu</span><span class="p">(</span><span class="n">tz</span><span class="p">(</span><span class="n">kcolz</span><span class="p">:),</span><span class="n">temp2</span><span class="p">(:,</span><span class="n">q</span><span class="p">),&amp;</span>
-                    <span class="n">kz</span><span class="p">,</span><span class="n">kz</span><span class="p">,</span><span class="n">idz</span><span class="p">,</span><span class="n">zval</span><span class="p">,</span><span class="n">inbvz</span><span class="p">,</span><span class="n">work</span><span class="p">,</span><span class="n">iflag</span><span class="p">,&amp;</span>
-                    <span class="n">temp3</span><span class="p">(</span><span class="n">q</span><span class="p">),</span><span class="n">extrap</span><span class="p">)</span>
+        <span class="k">call </span><span class="n">dbvalu</span><span class="p">(</span><span class="n">tz</span><span class="p">(</span><span class="n">kcolz</span><span class="p">:),</span><span class="n">w2</span><span class="p">(:,</span><span class="n">q</span><span class="p">),&amp;</span>
+                    <span class="n">kz</span><span class="p">,</span><span class="n">kz</span><span class="p">,</span><span class="n">idz</span><span class="p">,</span><span class="n">zval</span><span class="p">,</span><span class="n">inbvz</span><span class="p">,</span><span class="n">w0</span><span class="p">,</span><span class="n">iflag</span><span class="p">,&amp;</span>
+                    <span class="n">w1</span><span class="p">(</span><span class="n">q</span><span class="p">),</span><span class="n">extrap</span><span class="p">)</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">iflag</span><span class="o">/=</span><span class="mi">0</span><span class="p">)</span> <span class="k">return</span>
 <span class="k">    end do</span>
 
     <span class="c">! q</span>
     <span class="n">kcolq</span> <span class="o">=</span> <span class="n">leftq</span> <span class="o">-</span> <span class="n">kq</span> <span class="o">+</span> <span class="mi">1</span>
-    <span class="k">call </span><span class="n">dbvalu</span><span class="p">(</span><span class="n">tq</span><span class="p">(</span><span class="n">kcolq</span><span class="p">:),</span><span class="n">temp3</span><span class="p">,</span><span class="n">kq</span><span class="p">,</span><span class="n">kq</span><span class="p">,</span><span class="n">idq</span><span class="p">,</span><span class="n">qval</span><span class="p">,</span><span class="n">inbvq</span><span class="p">,</span><span class="n">work</span><span class="p">,</span><span class="n">iflag</span><span class="p">,</span><span class="n">f</span><span class="p">,</span><span class="n">extrap</span><span class="p">)</span>
+    <span class="k">call </span><span class="n">dbvalu</span><span class="p">(</span><span class="n">tq</span><span class="p">(</span><span class="n">kcolq</span><span class="p">:),</span><span class="n">w1</span><span class="p">,</span><span class="n">kq</span><span class="p">,</span><span class="n">kq</span><span class="p">,</span><span class="n">idq</span><span class="p">,</span><span class="n">qval</span><span class="p">,</span><span class="n">inbvq</span><span class="p">,</span><span class="n">w0</span><span class="p">,</span><span class="n">iflag</span><span class="p">,</span><span class="n">f</span><span class="p">,</span><span class="n">extrap</span><span class="p">)</span>
 
     <span class="k">end subroutine </span><span class="n">db4val</span>
 </pre></div>

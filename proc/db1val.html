@@ -207,7 +207,7 @@
     
     <div class="col-md-9" id='text'>
     <h2>
-public pure subroutine db1val(xval, idx, tx, nx, kx, bcoef, f, iflag, inbvx, work, extrap)
+public pure subroutine db1val(xval, idx, tx, nx, kx, bcoef, f, iflag, inbvx, w0, extrap)
     
     
    
@@ -411,12 +411,12 @@ public pure subroutine db1val(xval, idx, tx, nx, kx, bcoef, f, iflag, inbvx, wor
   
 <tr>
   
-  <td><span class="anchor" id="variable-work"></span>real(kind=wp),</td>
+  <td><span class="anchor" id="variable-w0"></span>real(kind=wp),</td>
   <td>intent(inout),</td>
   <td></td>
   
   <td>dimension(3*kx)</td><td>::</td>
-  <td><strong>work</strong></td><td><p>work array</p></td>
+  <td><strong>w0</strong></td><td><p>work array</p></td>
   
 </tr>
 
@@ -503,7 +503,7 @@ public pure subroutine db1val(xval, idx, tx, nx, kx, bcoef, f, iflag, inbvx, wor
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span>    <span class="k">pure subroutine </span><span class="n">db1val</span><span class="p">(</span><span class="n">xval</span><span class="p">,</span><span class="n">idx</span><span class="p">,</span><span class="n">tx</span><span class="p">,</span><span class="n">nx</span><span class="p">,</span><span class="n">kx</span><span class="p">,</span><span class="n">bcoef</span><span class="p">,</span><span class="n">f</span><span class="p">,</span><span class="n">iflag</span><span class="p">,</span><span class="n">inbvx</span><span class="p">,</span><span class="n">work</span><span class="p">,</span><span class="n">extrap</span><span class="p">)</span>
+    <div class="highlight"><pre><span></span>    <span class="k">pure subroutine </span><span class="n">db1val</span><span class="p">(</span><span class="n">xval</span><span class="p">,</span><span class="n">idx</span><span class="p">,</span><span class="n">tx</span><span class="p">,</span><span class="n">nx</span><span class="p">,</span><span class="n">kx</span><span class="p">,</span><span class="n">bcoef</span><span class="p">,</span><span class="n">f</span><span class="p">,</span><span class="n">iflag</span><span class="p">,</span><span class="n">inbvx</span><span class="p">,</span><span class="n">w0</span><span class="p">,</span><span class="n">extrap</span><span class="p">)</span>
 
     <span class="k">implicit none</span>
 
@@ -524,7 +524,7 @@ public pure subroutine db1val(xval, idx, tx, nx, kx, bcoef, f, iflag, inbvx, wor
     <span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span>                <span class="kd">::</span> <span class="n">inbvx</span>    <span class="c">!! initialization parameter which must be set</span>
                                                      <span class="c">!! to 1 the first time this routine is called,</span>
                                                      <span class="c">!! and must not be changed by the user.</span>
-    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">3</span><span class="o">*</span><span class="n">kx</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span> <span class="kd">::</span> <span class="n">work</span>   <span class="c">!! work array</span>
+    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">3</span><span class="o">*</span><span class="n">kx</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span> <span class="kd">::</span> <span class="n">w0</span>     <span class="c">!! work array</span>
     <span class="kt">logical</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="k">optional</span>          <span class="kd">::</span> <span class="n">extrap</span>   <span class="c">!! if extrapolation is allowed</span>
                                                      <span class="c">!! (if not present, default is False)</span>
 
@@ -532,7 +532,7 @@ public pure subroutine db1val(xval, idx, tx, nx, kx, bcoef, f, iflag, inbvx, wor
 
     <span class="n">iflag</span> <span class="o">=</span> <span class="n">check_value</span><span class="p">(</span><span class="n">xval</span><span class="p">,</span><span class="n">tx</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">extrap</span><span class="p">);</span> <span class="k">if</span> <span class="p">(</span><span class="n">iflag</span><span class="o">/=</span><span class="mi">0</span><span class="p">)</span> <span class="k">return</span>
 
-<span class="k">    call </span><span class="n">dbvalu</span><span class="p">(</span><span class="n">tx</span><span class="p">,</span><span class="n">bcoef</span><span class="p">,</span><span class="n">nx</span><span class="p">,</span><span class="n">kx</span><span class="p">,</span><span class="n">idx</span><span class="p">,</span><span class="n">xval</span><span class="p">,</span><span class="n">inbvx</span><span class="p">,</span><span class="n">work</span><span class="p">,</span><span class="n">iflag</span><span class="p">,</span><span class="n">f</span><span class="p">,</span><span class="n">extrap</span><span class="p">)</span>
+<span class="k">    call </span><span class="n">dbvalu</span><span class="p">(</span><span class="n">tx</span><span class="p">,</span><span class="n">bcoef</span><span class="p">,</span><span class="n">nx</span><span class="p">,</span><span class="n">kx</span><span class="p">,</span><span class="n">idx</span><span class="p">,</span><span class="n">xval</span><span class="p">,</span><span class="n">inbvx</span><span class="p">,</span><span class="n">w0</span><span class="p">,</span><span class="n">iflag</span><span class="p">,</span><span class="n">f</span><span class="p">,</span><span class="n">extrap</span><span class="p">)</span>
 
     <span class="k">end subroutine </span><span class="n">db1val</span>
 </pre></div>
