@@ -134,7 +134,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 2.4% of total for procedures.">27 statements</a>
+    title=" 2.8% of total for procedures.">31 statements</a>
      </li> 
      
      
@@ -282,7 +282,7 @@ public pure subroutine db2ink(x, nx, y, ny, fcn, kx, ky, iknot, tx, ty, bcoef, i
   
 <tr>
   
-  <td><span class="anchor" id="variable-x%7E2"></span>real(kind=wp),</td>
+  <td><span class="anchor" id="variable-x%7E3"></span>real(kind=wp),</td>
   <td>intent(in),</td>
   <td></td>
   
@@ -297,7 +297,7 @@ public pure subroutine db2ink(x, nx, y, ny, fcn, kx, ky, iknot, tx, ty, bcoef, i
   
 <tr>
   
-  <td><span class="anchor" id="variable-nx%7E4"></span>integer,</td>
+  <td><span class="anchor" id="variable-nx%7E5"></span>integer,</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -342,7 +342,7 @@ public pure subroutine db2ink(x, nx, y, ny, fcn, kx, ky, iknot, tx, ty, bcoef, i
   
 <tr>
   
-  <td><span class="anchor" id="variable-fcn"></span>real(kind=wp),</td>
+  <td><span class="anchor" id="variable-fcn%7E2"></span>real(kind=wp),</td>
   <td>intent(in),</td>
   <td></td>
   
@@ -359,7 +359,7 @@ public pure subroutine db2ink(x, nx, y, ny, fcn, kx, ky, iknot, tx, ty, bcoef, i
   
 <tr>
   
-  <td><span class="anchor" id="variable-kx%7E4"></span>integer,</td>
+  <td><span class="anchor" id="variable-kx%7E5"></span>integer,</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -393,14 +393,14 @@ public pure subroutine db2ink(x, nx, y, ny, fcn, kx, ky, iknot, tx, ty, bcoef, i
   
 <tr>
   
-  <td><span class="anchor" id="variable-iknot"></span>integer,</td>
+  <td><span class="anchor" id="variable-iknot%7E2"></span>integer,</td>
   <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
   <td><strong>iknot</strong></td><td><p>knot sequence flag:</p>
 <ul>
-<li>0 = knot sequence chosen by <a href="../interface/db1ink.html">db1ink</a>.</li>
+<li>0 = knot sequence chosen by <a href="../proc/db1ink.html">db1ink</a>.</li>
 <li>1 = knot sequence chosen by user.</li>
 </ul></td>
   
@@ -412,7 +412,7 @@ public pure subroutine db2ink(x, nx, y, ny, fcn, kx, ky, iknot, tx, ty, bcoef, i
   
 <tr>
   
-  <td><span class="anchor" id="variable-tx%7E4"></span>real(kind=wp),</td>
+  <td><span class="anchor" id="variable-tx%7E5"></span>real(kind=wp),</td>
   <td>intent(inout),</td>
   <td></td>
   
@@ -454,7 +454,7 @@ public pure subroutine db2ink(x, nx, y, ny, fcn, kx, ky, iknot, tx, ty, bcoef, i
   
 <tr>
   
-  <td><span class="anchor" id="variable-bcoef%7E4"></span>real(kind=wp),</td>
+  <td><span class="anchor" id="variable-bcoef%7E5"></span>real(kind=wp),</td>
   <td>intent(out),</td>
   <td></td>
   
@@ -469,7 +469,7 @@ public pure subroutine db2ink(x, nx, y, ny, fcn, kx, ky, iknot, tx, ty, bcoef, i
   
 <tr>
   
-  <td><span class="anchor" id="variable-iflag%7E5"></span>integer,</td>
+  <td><span class="anchor" id="variable-iflag%7E6"></span>integer,</td>
   <td>intent(out)</td>
   <td></td>
   
@@ -627,9 +627,9 @@ public pure subroutine db2ink(x, nx, y, ny, fcn, kx, ky, iknot, tx, ty, bcoef, i
                                                       <span class="c">!! * 800 = `size(x)`  \( \ne \) `size(bcoef,1)`</span>
                                                       <span class="c">!! * 801 = `size(y)`  \( \ne \) `size(bcoef,2)`</span>
 
-    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="n">nx</span><span class="o">*</span><span class="n">ny</span><span class="p">)</span> <span class="kd">::</span> <span class="n">temp</span>
-    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">kx</span><span class="o">*</span><span class="p">(</span><span class="n">nx</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span><span class="mi">2</span><span class="o">*</span><span class="n">ky</span><span class="o">*</span><span class="p">(</span><span class="n">ny</span><span class="o">+</span><span class="mi">1</span><span class="p">)))</span> <span class="kd">::</span> <span class="n">work</span>
     <span class="kt">logical</span> <span class="kd">::</span> <span class="n">status_ok</span>
+    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(:),</span><span class="k">allocatable</span> <span class="kd">::</span> <span class="n">temp</span> <span class="c">!! work array of length `nx*ny`</span>
+    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(:),</span><span class="k">allocatable</span> <span class="kd">::</span> <span class="n">work</span> <span class="c">!! work array of length `max(2*kx*(nx+1),2*ky*(ny+1))`</span>
 
     <span class="c">!check validity of inputs</span>
 
@@ -646,16 +646,20 @@ public pure subroutine db2ink(x, nx, y, ny, fcn, kx, ky, iknot, tx, ty, bcoef, i
     <span class="k">if</span> <span class="p">(</span><span class="n">status_ok</span><span class="p">)</span> <span class="k">then</span>
 
         <span class="c">!choose knots</span>
-
         <span class="k">if</span> <span class="p">(</span><span class="n">iknot</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">then</span>
 <span class="k">            call </span><span class="n">dbknot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">nx</span><span class="p">,</span><span class="n">kx</span><span class="p">,</span><span class="n">tx</span><span class="p">)</span>
             <span class="k">call </span><span class="n">dbknot</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="n">ny</span><span class="p">,</span><span class="n">ky</span><span class="p">,</span><span class="n">ty</span><span class="p">)</span>
         <span class="k">end if</span>
 
-        <span class="c">!construct b-spline coefficients</span>
+<span class="k">        allocate</span><span class="p">(</span><span class="n">temp</span><span class="p">(</span><span class="n">nx</span><span class="o">*</span><span class="n">ny</span><span class="p">))</span>
+        <span class="k">allocate</span><span class="p">(</span><span class="n">work</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">kx</span><span class="o">*</span><span class="p">(</span><span class="n">nx</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span><span class="mi">2</span><span class="o">*</span><span class="n">ky</span><span class="o">*</span><span class="p">(</span><span class="n">ny</span><span class="o">+</span><span class="mi">1</span><span class="p">))))</span>
 
+        <span class="c">!construct b-spline coefficients</span>
                       <span class="k">call </span><span class="n">dbtpcf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">nx</span><span class="p">,</span><span class="n">fcn</span><span class="p">,</span> <span class="n">nx</span><span class="p">,</span><span class="n">ny</span><span class="p">,</span><span class="n">tx</span><span class="p">,</span><span class="n">kx</span><span class="p">,</span><span class="n">temp</span><span class="p">,</span> <span class="n">work</span><span class="p">,</span><span class="n">iflag</span><span class="p">)</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">iflag</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span> <span class="k">call </span><span class="n">dbtpcf</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="n">ny</span><span class="p">,</span><span class="n">temp</span><span class="p">,</span><span class="n">ny</span><span class="p">,</span><span class="n">nx</span><span class="p">,</span><span class="n">ty</span><span class="p">,</span><span class="n">ky</span><span class="p">,</span><span class="n">bcoef</span><span class="p">,</span><span class="n">work</span><span class="p">,</span><span class="n">iflag</span><span class="p">)</span>
+
+        <span class="k">deallocate</span><span class="p">(</span><span class="n">temp</span><span class="p">)</span>
+        <span class="k">deallocate</span><span class="p">(</span><span class="n">work</span><span class="p">)</span>
 
     <span class="k">end if</span>
 

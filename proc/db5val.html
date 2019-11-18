@@ -134,7 +134,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 9.7% of total for procedures.">108 statements</a>
+    title=" 9.6% of total for procedures.">108 statements</a>
      </li> 
      
      
@@ -207,7 +207,7 @@
     
     <div class="col-md-9" id='text'>
     <h2>
-public pure subroutine db5val(xval, yval, zval, qval, rval, idx, idy, idz, idq, idr, tx, ty, tz, tq, tr, nx, ny, nz, nq, nr, kx, ky, kz, kq, kr, bcoef, f, iflag, inbvx, inbvy, inbvz, inbvq, inbvr, iloy, iloz, iloq, ilor, extrap)
+public pure subroutine db5val(xval, yval, zval, qval, rval, idx, idy, idz, idq, idr, tx, ty, tz, tq, tr, nx, ny, nz, nq, nr, kx, ky, kz, kq, kr, bcoef, f, iflag, inbvx, inbvy, inbvz, inbvq, inbvr, iloy, iloz, iloq, ilor, temp1, temp2, temp3, temp4, work, extrap)
     
     
    
@@ -408,7 +408,7 @@ public pure subroutine db5val(xval, yval, zval, qval, rval, idx, idy, idz, idq, 
   
 <tr>
   
-  <td><span class="anchor" id="variable-tx%7E11"></span>real(kind=wp),</td>
+  <td><span class="anchor" id="variable-tx%7E12"></span>real(kind=wp),</td>
   <td>intent(in),</td>
   <td></td>
   
@@ -493,7 +493,7 @@ public pure subroutine db5val(xval, yval, zval, qval, rval, idx, idy, idz, idq, 
   
 <tr>
   
-  <td><span class="anchor" id="variable-nx%7E11"></span>integer,</td>
+  <td><span class="anchor" id="variable-nx%7E12"></span>integer,</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -573,7 +573,7 @@ public pure subroutine db5val(xval, yval, zval, qval, rval, idx, idy, idz, idq, 
   
 <tr>
   
-  <td><span class="anchor" id="variable-kx%7E11"></span>integer,</td>
+  <td><span class="anchor" id="variable-kx%7E12"></span>integer,</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -653,7 +653,7 @@ public pure subroutine db5val(xval, yval, zval, qval, rval, idx, idy, idz, idq, 
   
 <tr>
   
-  <td><span class="anchor" id="variable-bcoef%7E11"></span>real(kind=wp),</td>
+  <td><span class="anchor" id="variable-bcoef%7E12"></span>real(kind=wp),</td>
   <td>intent(in),</td>
   <td></td>
   
@@ -683,7 +683,7 @@ public pure subroutine db5val(xval, yval, zval, qval, rval, idx, idy, idz, idq, 
   
 <tr>
   
-  <td><span class="anchor" id="variable-iflag%7E12"></span>integer,</td>
+  <td><span class="anchor" id="variable-iflag%7E13"></span>integer,</td>
   <td>intent(out)</td>
   <td></td>
   
@@ -857,6 +857,81 @@ public pure subroutine db5val(xval, yval, zval, qval, rval, idx, idy, idz, idq, 
   
 <tr>
   
+  <td><span class="anchor" id="variable-temp1%7E3"></span>real(kind=wp),</td>
+  <td>intent(inout),</td>
+  <td></td>
+  
+  <td>dimension(ky,kz,kq,kr)</td><td>::</td>
+  <td><strong>temp1</strong></td><td><p>work array</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-temp2%7E3"></span>real(kind=wp),</td>
+  <td>intent(inout),</td>
+  <td></td>
+  
+  <td>dimension(kz,kq,kr)</td><td>::</td>
+  <td><strong>temp2</strong></td><td><p>work array</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-temp3%7E2"></span>real(kind=wp),</td>
+  <td>intent(inout),</td>
+  <td></td>
+  
+  <td>dimension(kq,kr)</td><td>::</td>
+  <td><strong>temp3</strong></td><td><p>work array</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-temp4"></span>real(kind=wp),</td>
+  <td>intent(inout),</td>
+  <td></td>
+  
+  <td>dimension(kr)</td><td>::</td>
+  <td><strong>temp4</strong></td><td><p>work array</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-work%7E7"></span>real(kind=wp),</td>
+  <td>intent(inout),</td>
+  <td></td>
+  
+  <td>dimension(3*max(kx,ky,kz,kq,kr))</td><td>::</td>
+  <td><strong>work</strong></td><td><p>work array</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
   <td><span class="anchor" id="variable-extrap%7E5"></span>logical,</td>
   <td>intent(in),</td>
   <td>optional</td>
@@ -941,7 +1016,8 @@ public pure subroutine db5val(xval, yval, zval, qval, rval, idx, idy, idz, idq, 
                                 <span class="n">kx</span><span class="p">,</span><span class="n">ky</span><span class="p">,</span><span class="n">kz</span><span class="p">,</span><span class="n">kq</span><span class="p">,</span><span class="n">kr</span><span class="p">,&amp;</span>
                                 <span class="n">bcoef</span><span class="p">,</span><span class="n">f</span><span class="p">,</span><span class="n">iflag</span><span class="p">,&amp;</span>
                                 <span class="n">inbvx</span><span class="p">,</span><span class="n">inbvy</span><span class="p">,</span><span class="n">inbvz</span><span class="p">,</span><span class="n">inbvq</span><span class="p">,</span><span class="n">inbvr</span><span class="p">,&amp;</span>
-                                <span class="n">iloy</span><span class="p">,</span><span class="n">iloz</span><span class="p">,</span><span class="n">iloq</span><span class="p">,</span><span class="n">ilor</span><span class="p">,</span><span class="n">extrap</span><span class="p">)</span>
+                                <span class="n">iloy</span><span class="p">,</span><span class="n">iloz</span><span class="p">,</span><span class="n">iloq</span><span class="p">,</span><span class="n">ilor</span><span class="p">,&amp;</span>
+                                <span class="n">temp1</span><span class="p">,</span><span class="n">temp2</span><span class="p">,</span><span class="n">temp3</span><span class="p">,</span><span class="n">temp4</span><span class="p">,</span><span class="n">work</span><span class="p">,</span><span class="n">extrap</span><span class="p">)</span>
 
     <span class="k">implicit none</span>
 
@@ -1023,14 +1099,14 @@ public pure subroutine db5val(xval, yval, zval, qval, rval, idx, idy, idz, idq, 
     <span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span>                         <span class="kd">::</span> <span class="n">ilor</span>     <span class="c">!! initialization parameter which must be set</span>
                                                               <span class="c">!! to 1 the first time this routine is called,</span>
                                                               <span class="c">!! and must not be changed by the user.</span>
+    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="n">ky</span><span class="p">,</span><span class="n">kz</span><span class="p">,</span><span class="n">kq</span><span class="p">,</span><span class="n">kr</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span> <span class="kd">::</span> <span class="n">temp1</span>  <span class="c">!! work array</span>
+    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="n">kz</span><span class="p">,</span><span class="n">kq</span><span class="p">,</span><span class="n">kr</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span>    <span class="kd">::</span> <span class="n">temp2</span>  <span class="c">!! work array</span>
+    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="n">kq</span><span class="p">,</span><span class="n">kr</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span>       <span class="kd">::</span> <span class="n">temp3</span>  <span class="c">!! work array</span>
+    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="n">kr</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span>          <span class="kd">::</span> <span class="n">temp4</span>  <span class="c">!! work array</span>
+    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">3</span><span class="o">*</span><span class="nb">max</span><span class="p">(</span><span class="n">kx</span><span class="p">,</span><span class="n">ky</span><span class="p">,</span><span class="n">kz</span><span class="p">,</span><span class="n">kq</span><span class="p">,</span><span class="n">kr</span><span class="p">)),</span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span>  <span class="kd">::</span> <span class="n">work</span>  <span class="c">!! work array</span>
     <span class="kt">logical</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="k">optional</span>                   <span class="kd">::</span> <span class="n">extrap</span>   <span class="c">!! if extrapolation is allowed</span>
                                                               <span class="c">!! (if not present, default is False)</span>
 
-    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="n">ky</span><span class="p">,</span><span class="n">kz</span><span class="p">,</span><span class="n">kq</span><span class="p">,</span><span class="n">kr</span><span class="p">)</span>           <span class="kd">::</span> <span class="n">temp1</span>
-    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="n">kz</span><span class="p">,</span><span class="n">kq</span><span class="p">,</span><span class="n">kr</span><span class="p">)</span>              <span class="kd">::</span> <span class="n">temp2</span>
-    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="n">kq</span><span class="p">,</span><span class="n">kr</span><span class="p">)</span>                 <span class="kd">::</span> <span class="n">temp3</span>
-    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="n">kr</span><span class="p">)</span>                    <span class="kd">::</span> <span class="n">temp4</span>
-    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">3</span><span class="o">*</span><span class="nb">max</span><span class="p">(</span><span class="n">kx</span><span class="p">,</span><span class="n">ky</span><span class="p">,</span><span class="n">kz</span><span class="p">,</span><span class="n">kq</span><span class="p">,</span><span class="n">kr</span><span class="p">))</span> <span class="kd">::</span> <span class="n">work</span>
     <span class="kt">integer</span> <span class="kd">::</span> <span class="n">lefty</span><span class="p">,</span> <span class="n">leftz</span><span class="p">,</span> <span class="n">leftq</span><span class="p">,</span> <span class="n">leftr</span><span class="p">,</span> <span class="p">&amp;</span>
                <span class="n">kcoly</span><span class="p">,</span> <span class="n">kcolz</span><span class="p">,</span> <span class="n">kcolq</span><span class="p">,</span> <span class="n">kcolr</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">r</span>
 

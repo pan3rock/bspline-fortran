@@ -207,7 +207,7 @@
     
     <div class="col-md-9" id='text'>
     <h2>
-public subroutine db1fqad(fun, tx, bcoef, nx, kx, idx, x1, x2, tol, f, iflag)
+public subroutine db1fqad(fun, tx, bcoef, nx, kx, idx, x1, x2, tol, f, iflag, work)
     
     
    
@@ -264,7 +264,7 @@ public subroutine db1fqad(fun, tx, bcoef, nx, kx, idx, x1, x2, tol, f, iflag)
   
 <tr>
   
-  <td><span class="anchor" id="variable-tx%7E3"></span>real(kind=wp),</td>
+  <td><span class="anchor" id="variable-tx%7E4"></span>real(kind=wp),</td>
   <td>intent(in),</td>
   <td></td>
   
@@ -279,7 +279,7 @@ public subroutine db1fqad(fun, tx, bcoef, nx, kx, idx, x1, x2, tol, f, iflag)
   
 <tr>
   
-  <td><span class="anchor" id="variable-bcoef%7E3"></span>real(kind=wp),</td>
+  <td><span class="anchor" id="variable-bcoef%7E4"></span>real(kind=wp),</td>
   <td>intent(in),</td>
   <td></td>
   
@@ -294,7 +294,7 @@ public subroutine db1fqad(fun, tx, bcoef, nx, kx, idx, x1, x2, tol, f, iflag)
   
 <tr>
   
-  <td><span class="anchor" id="variable-nx%7E3"></span>integer,</td>
+  <td><span class="anchor" id="variable-nx%7E4"></span>integer,</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -309,7 +309,7 @@ public subroutine db1fqad(fun, tx, bcoef, nx, kx, idx, x1, x2, tol, f, iflag)
   
 <tr>
   
-  <td><span class="anchor" id="variable-kx%7E3"></span>integer,</td>
+  <td><span class="anchor" id="variable-kx%7E4"></span>integer,</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -403,7 +403,7 @@ public subroutine db1fqad(fun, tx, bcoef, nx, kx, idx, x1, x2, tol, f, iflag)
   
 <tr>
   
-  <td><span class="anchor" id="variable-iflag%7E4"></span>integer,</td>
+  <td><span class="anchor" id="variable-iflag%7E5"></span>integer,</td>
   <td>intent(out)</td>
   <td></td>
   
@@ -415,6 +415,21 @@ public subroutine db1fqad(fun, tx, bcoef, nx, kx, idx, x1, x2, tol, f, iflag)
 <li>
 <script type="math/tex"> \ne 0 </script> : error</li>
 </ul></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-work%7E3"></span>real(kind=wp),</td>
+  <td>intent(inout),</td>
+  <td></td>
+  
+  <td>dimension(3*kx)</td><td>::</td>
+  <td><strong>work</strong></td><td><p>work array for <a>dbfqad</a></p></td>
   
 </tr>
 
@@ -485,7 +500,7 @@ public subroutine db1fqad(fun, tx, bcoef, nx, kx, idx, x1, x2, tol, f, iflag)
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span>    <span class="k">subroutine </span><span class="n">db1fqad</span><span class="p">(</span><span class="n">fun</span><span class="p">,</span><span class="n">tx</span><span class="p">,</span><span class="n">bcoef</span><span class="p">,</span><span class="n">nx</span><span class="p">,</span><span class="n">kx</span><span class="p">,</span><span class="n">idx</span><span class="p">,</span><span class="n">x1</span><span class="p">,</span><span class="n">x2</span><span class="p">,</span><span class="n">tol</span><span class="p">,</span><span class="n">f</span><span class="p">,</span><span class="n">iflag</span><span class="p">)</span>
+    <div class="highlight"><pre><span></span>    <span class="k">subroutine </span><span class="n">db1fqad</span><span class="p">(</span><span class="n">fun</span><span class="p">,</span><span class="n">tx</span><span class="p">,</span><span class="n">bcoef</span><span class="p">,</span><span class="n">nx</span><span class="p">,</span><span class="n">kx</span><span class="p">,</span><span class="n">idx</span><span class="p">,</span><span class="n">x1</span><span class="p">,</span><span class="n">x2</span><span class="p">,</span><span class="n">tol</span><span class="p">,</span><span class="n">f</span><span class="p">,</span><span class="n">iflag</span><span class="p">,</span><span class="n">work</span><span class="p">)</span>
 
     <span class="k">implicit none</span>
 
@@ -508,8 +523,7 @@ public subroutine db1fqad(fun, tx, bcoef, nx, kx, idx, x1, x2, tol, f, iflag)
                                                   <span class="c">!!</span>
                                                   <span class="c">!! * \( = 0 \)   : no errors</span>
                                                   <span class="c">!! * \( \ne 0 \) : error</span>
-
-    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">3</span><span class="o">*</span><span class="n">kx</span><span class="p">)</span> <span class="kd">::</span> <span class="n">work</span> <span class="c">!! work array for [[dbfqad]]</span>
+    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">3</span><span class="o">*</span><span class="n">kx</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span> <span class="kd">::</span> <span class="n">work</span> <span class="c">!! work array for [[dbfqad]]</span>
 
     <span class="k">call </span><span class="n">dbfqad</span><span class="p">(</span><span class="n">fun</span><span class="p">,</span><span class="n">tx</span><span class="p">,</span><span class="n">bcoef</span><span class="p">,</span><span class="n">nx</span><span class="p">,</span><span class="n">kx</span><span class="p">,</span><span class="n">idx</span><span class="p">,</span><span class="n">x1</span><span class="p">,</span><span class="n">x2</span><span class="p">,</span><span class="n">tol</span><span class="p">,</span><span class="n">f</span><span class="p">,</span><span class="n">iflag</span><span class="p">,</span><span class="n">work</span><span class="p">)</span>
 
