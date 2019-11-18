@@ -691,7 +691,7 @@
   
   
   <td>parameter</td><td>::</td>
-  <td><strong>n_stop</strong></td><td> =</td><td>250</td><td><p>final size</p></td>
+  <td><strong>n_stop</strong></td><td> =</td><td>1000</td><td><p>final size</p></td>
   
 </tr>
 
@@ -910,9 +910,9 @@ subroutine <a href='../proc/run_test.html'>run_test</a>(n)
 <span class="k">    </span><span class="kt">integer</span> <span class="kd">::</span> <span class="n">i</span> <span class="c">!! counter</span>
 
     <span class="c">! number of data points to test (n x n x n):</span>
-    <span class="kt">integer</span><span class="p">,</span><span class="k">parameter</span> <span class="kd">::</span> <span class="n">n_start</span>  <span class="o">=</span> <span class="mi">90</span>    <span class="c">!! initial size</span>
-    <span class="kt">integer</span><span class="p">,</span><span class="k">parameter</span> <span class="kd">::</span> <span class="n">n_stop</span>   <span class="o">=</span> <span class="mi">250</span>   <span class="c">!! final size</span>
-    <span class="kt">integer</span><span class="p">,</span><span class="k">parameter</span> <span class="kd">::</span> <span class="n">n_step</span>   <span class="o">=</span> <span class="mi">20</span>    <span class="c">!! step size</span>
+    <span class="kt">integer</span><span class="p">,</span><span class="k">parameter</span> <span class="kd">::</span> <span class="n">n_start</span>  <span class="o">=</span> <span class="mi">90</span>     <span class="c">!! initial size</span>
+    <span class="kt">integer</span><span class="p">,</span><span class="k">parameter</span> <span class="kd">::</span> <span class="n">n_stop</span>   <span class="o">=</span> <span class="mi">1000</span>   <span class="c">!! final size</span>
+    <span class="kt">integer</span><span class="p">,</span><span class="k">parameter</span> <span class="kd">::</span> <span class="n">n_step</span>   <span class="o">=</span> <span class="mi">20</span>     <span class="c">!! step size</span>
 
     <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;&#39;</span>
     <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(A10,1X,A20,1X,A30)&#39;</span><span class="p">)</span> <span class="s1">&#39;num points&#39;</span><span class="p">,</span><span class="s1">&#39;size (bytes)&#39;</span><span class="p">,</span> <span class="s1">&#39;error&#39;</span>
