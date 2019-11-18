@@ -726,7 +726,7 @@
   
 <tr>
   
-  <td><span class="anchor" id="variable-kx%7E16"></span>integer,</td>
+  <td><span class="anchor" id="variable-kx%7E16"></span>integer(kind=ip),</td>
   
   
   <td>parameter</td><td>::</td>
@@ -740,7 +740,7 @@
   
 <tr>
   
-  <td><span class="anchor" id="variable-ky%7E11"></span>integer,</td>
+  <td><span class="anchor" id="variable-ky%7E11"></span>integer(kind=ip),</td>
   
   
   <td>parameter</td><td>::</td>
@@ -754,7 +754,7 @@
   
 <tr>
   
-  <td><span class="anchor" id="variable-idx%7E8"></span>integer,</td>
+  <td><span class="anchor" id="variable-idx%7E8"></span>integer(kind=ip),</td>
   
   
   <td>parameter</td><td>::</td>
@@ -768,7 +768,7 @@
   
 <tr>
   
-  <td><span class="anchor" id="variable-idy%7E6"></span>integer,</td>
+  <td><span class="anchor" id="variable-idy%7E6"></span>integer(kind=ip),</td>
   
   
   <td>parameter</td><td>::</td>
@@ -782,7 +782,7 @@
   
 <tr>
   
-  <td><span class="anchor" id="variable-nx%7E16"></span>integer,</td>
+  <td><span class="anchor" id="variable-nx%7E16"></span>integer(kind=ip),</td>
   
   
   <td>parameter</td><td>::</td>
@@ -796,7 +796,7 @@
   
 <tr>
   
-  <td><span class="anchor" id="variable-ny%7E11"></span>integer,</td>
+  <td><span class="anchor" id="variable-ny%7E11"></span>integer(kind=ip),</td>
   
   
   <td>parameter</td><td>::</td>
@@ -810,7 +810,7 @@
   
 <tr>
   
-  <td><span class="anchor" id="variable-nx_new"></span>integer,</td>
+  <td><span class="anchor" id="variable-nx_new"></span>integer(kind=ip),</td>
   
   
   <td>parameter</td><td>::</td>
@@ -824,7 +824,7 @@
   
 <tr>
   
-  <td><span class="anchor" id="variable-ny_new"></span>integer,</td>
+  <td><span class="anchor" id="variable-ny_new"></span>integer(kind=ip),</td>
   
   
   <td>parameter</td><td>::</td>
@@ -838,7 +838,7 @@
   
 <tr>
   
-  <td><span class="anchor" id="variable-iknot%7E8"></span>integer,</td>
+  <td><span class="anchor" id="variable-iknot%7E8"></span>integer(kind=ip),</td>
   
   
   <td>parameter</td><td>::</td>
@@ -1020,7 +1020,7 @@
   
 <tr>
   
-  <td><span class="anchor" id="variable-i%7E2"></span>integer</td>
+  <td><span class="anchor" id="variable-i%7E2"></span>integer(kind=ip)</td>
   
   
   <td></td><td>::</td>
@@ -1034,7 +1034,7 @@
   
 <tr>
   
-  <td><span class="anchor" id="variable-j"></span>integer</td>
+  <td><span class="anchor" id="variable-j"></span>integer(kind=ip)</td>
   
   
   <td></td><td>::</td>
@@ -1048,7 +1048,7 @@
   
 <tr>
   
-  <td><span class="anchor" id="variable-iflag%7E17"></span>integer</td>
+  <td><span class="anchor" id="variable-iflag%7E17"></span>integer(kind=ip)</td>
   
   
   <td></td><td>::</td>
@@ -1062,7 +1062,7 @@
   
 <tr>
   
-  <td><span class="anchor" id="variable-inbvx%7E7"></span>integer</td>
+  <td><span class="anchor" id="variable-inbvx%7E7"></span>integer(kind=ip)</td>
   
   
   <td></td><td>::</td>
@@ -1076,7 +1076,7 @@
   
 <tr>
   
-  <td><span class="anchor" id="variable-inbvy%7E6"></span>integer</td>
+  <td><span class="anchor" id="variable-inbvy%7E6"></span>integer(kind=ip)</td>
   
   
   <td></td><td>::</td>
@@ -1090,7 +1090,7 @@
   
 <tr>
   
-  <td><span class="anchor" id="variable-iloy%7E6"></span>integer</td>
+  <td><span class="anchor" id="variable-iloy%7E6"></span>integer(kind=ip)</td>
   
   
   <td></td><td>::</td>
@@ -1241,19 +1241,19 @@ function <a href='../proc/test_func.html'>test_func</a>(x, y) result(f)
     <div class="highlight"><pre><span></span>    <span class="k">program </span><span class="n">bspline_regridding_test</span>
 
     <span class="k">use </span><span class="n">bspline_module</span>
-    <span class="k">use </span><span class="n">bspline_kinds_module</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="n">wp</span>
+    <span class="k">use </span><span class="n">bspline_kinds_module</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="n">wp</span><span class="p">,</span> <span class="n">ip</span>
 
     <span class="k">implicit none</span>
 
-<span class="k">    </span><span class="kt">integer</span><span class="p">,</span><span class="k">parameter</span> <span class="kd">::</span> <span class="n">kx</span>     <span class="o">=</span> <span class="mi">4</span>    <span class="c">!! x bspline order</span>
-    <span class="kt">integer</span><span class="p">,</span><span class="k">parameter</span> <span class="kd">::</span> <span class="n">ky</span>     <span class="o">=</span> <span class="mi">4</span>    <span class="c">!! y bspline order</span>
-    <span class="kt">integer</span><span class="p">,</span><span class="k">parameter</span> <span class="kd">::</span> <span class="n">idx</span>    <span class="o">=</span> <span class="mi">0</span>    <span class="c">!! [[db2val]] input</span>
-    <span class="kt">integer</span><span class="p">,</span><span class="k">parameter</span> <span class="kd">::</span> <span class="n">idy</span>    <span class="o">=</span> <span class="mi">0</span>    <span class="c">!! [[db2val]] input</span>
-    <span class="kt">integer</span><span class="p">,</span><span class="k">parameter</span> <span class="kd">::</span> <span class="n">nx</span>     <span class="o">=</span> <span class="mi">6</span>    <span class="c">!! number of points in x dimension in original grid</span>
-    <span class="kt">integer</span><span class="p">,</span><span class="k">parameter</span> <span class="kd">::</span> <span class="n">ny</span>     <span class="o">=</span> <span class="mi">5</span>    <span class="c">!! number of points in y dimension in original grid</span>
-    <span class="kt">integer</span><span class="p">,</span><span class="k">parameter</span> <span class="kd">::</span> <span class="n">nx_new</span> <span class="o">=</span> <span class="mi">11</span>   <span class="c">!! number of points in x dimension for new grid</span>
-    <span class="kt">integer</span><span class="p">,</span><span class="k">parameter</span> <span class="kd">::</span> <span class="n">ny_new</span> <span class="o">=</span> <span class="mi">9</span>    <span class="c">!! number of points in y dimension for new grid</span>
-    <span class="kt">integer</span><span class="p">,</span><span class="k">parameter</span> <span class="kd">::</span> <span class="n">iknot</span>  <span class="o">=</span> <span class="mi">0</span>    <span class="c">!! automatically select the knots</span>
+<span class="k">    </span><span class="kt">integer</span><span class="p">(</span><span class="n">ip</span><span class="p">),</span><span class="k">parameter</span> <span class="kd">::</span> <span class="n">kx</span>     <span class="o">=</span> <span class="mi">4</span>    <span class="c">!! x bspline order</span>
+    <span class="kt">integer</span><span class="p">(</span><span class="n">ip</span><span class="p">),</span><span class="k">parameter</span> <span class="kd">::</span> <span class="n">ky</span>     <span class="o">=</span> <span class="mi">4</span>    <span class="c">!! y bspline order</span>
+    <span class="kt">integer</span><span class="p">(</span><span class="n">ip</span><span class="p">),</span><span class="k">parameter</span> <span class="kd">::</span> <span class="n">idx</span>    <span class="o">=</span> <span class="mi">0</span>    <span class="c">!! [[db2val]] input</span>
+    <span class="kt">integer</span><span class="p">(</span><span class="n">ip</span><span class="p">),</span><span class="k">parameter</span> <span class="kd">::</span> <span class="n">idy</span>    <span class="o">=</span> <span class="mi">0</span>    <span class="c">!! [[db2val]] input</span>
+    <span class="kt">integer</span><span class="p">(</span><span class="n">ip</span><span class="p">),</span><span class="k">parameter</span> <span class="kd">::</span> <span class="n">nx</span>     <span class="o">=</span> <span class="mi">6</span>    <span class="c">!! number of points in x dimension in original grid</span>
+    <span class="kt">integer</span><span class="p">(</span><span class="n">ip</span><span class="p">),</span><span class="k">parameter</span> <span class="kd">::</span> <span class="n">ny</span>     <span class="o">=</span> <span class="mi">5</span>    <span class="c">!! number of points in y dimension in original grid</span>
+    <span class="kt">integer</span><span class="p">(</span><span class="n">ip</span><span class="p">),</span><span class="k">parameter</span> <span class="kd">::</span> <span class="n">nx_new</span> <span class="o">=</span> <span class="mi">11</span>   <span class="c">!! number of points in x dimension for new grid</span>
+    <span class="kt">integer</span><span class="p">(</span><span class="n">ip</span><span class="p">),</span><span class="k">parameter</span> <span class="kd">::</span> <span class="n">ny_new</span> <span class="o">=</span> <span class="mi">9</span>    <span class="c">!! number of points in y dimension for new grid</span>
+    <span class="kt">integer</span><span class="p">(</span><span class="n">ip</span><span class="p">),</span><span class="k">parameter</span> <span class="kd">::</span> <span class="n">iknot</span>  <span class="o">=</span> <span class="mi">0</span>    <span class="c">!! automatically select the knots</span>
     <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="n">nx</span><span class="p">),</span><span class="k">parameter</span> <span class="kd">::</span> <span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0_wp</span><span class="p">,</span><span class="mf">2.0_wp</span><span class="p">,</span><span class="mf">4.0_wp</span><span class="p">,</span><span class="mf">6.0_wp</span><span class="p">,</span><span class="mf">8.0_wp</span><span class="p">,</span><span class="mi">1</span><span class="mf">0.0_wp</span><span class="p">]</span>  <span class="c">!! x points in original grid</span>
     <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="n">ny</span><span class="p">),</span><span class="k">parameter</span> <span class="kd">::</span> <span class="n">y</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0_wp</span><span class="p">,</span><span class="mf">2.0_wp</span><span class="p">,</span><span class="mf">4.0_wp</span><span class="p">,</span><span class="mf">6.0_wp</span><span class="p">,</span><span class="mf">8.0_wp</span><span class="p">]</span>          <span class="c">!! y points in original grid</span>
 
@@ -1264,9 +1264,9 @@ function <a href='../proc/test_func.html'>test_func</a>(x, y) result(f)
     <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="n">ny</span><span class="o">+</span><span class="n">ky</span><span class="p">)</span>         <span class="kd">::</span> <span class="n">ty</span>       <span class="c">!! y knots</span>
     <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="n">nx</span><span class="p">,</span><span class="n">ny</span><span class="p">)</span>         <span class="kd">::</span> <span class="n">fcn_2d</span>   <span class="c">!! original grid function evaluations</span>
     <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">val</span><span class="p">,</span><span class="n">tru</span><span class="p">,</span><span class="n">err</span><span class="p">,</span><span class="n">errmax</span>
-    <span class="kt">integer</span>  <span class="kd">::</span> <span class="n">i</span><span class="p">,</span><span class="n">j</span>
-    <span class="kt">integer</span>  <span class="kd">::</span> <span class="n">iflag</span>  <span class="c">!! status flag</span>
-    <span class="kt">integer</span>  <span class="kd">::</span> <span class="n">inbvx</span><span class="p">,</span><span class="n">inbvy</span><span class="p">,</span><span class="n">iloy</span>
+    <span class="kt">integer</span><span class="p">(</span><span class="n">ip</span><span class="p">)</span> <span class="kd">::</span> <span class="n">i</span><span class="p">,</span><span class="n">j</span>
+    <span class="kt">integer</span><span class="p">(</span><span class="n">ip</span><span class="p">)</span> <span class="kd">::</span> <span class="n">iflag</span>  <span class="c">!! status flag</span>
+    <span class="kt">integer</span><span class="p">(</span><span class="n">ip</span><span class="p">)</span> <span class="kd">::</span> <span class="n">inbvx</span><span class="p">,</span><span class="n">inbvy</span><span class="p">,</span><span class="n">iloy</span>
     <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="n">ky</span><span class="p">)</span>           <span class="kd">::</span> <span class="n">w1</span> <span class="c">!! work array</span>
     <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">3</span><span class="o">*</span><span class="nb">max</span><span class="p">(</span><span class="n">kx</span><span class="p">,</span><span class="n">ky</span><span class="p">))</span> <span class="kd">::</span> <span class="n">w2</span> <span class="c">!! work array</span>
 

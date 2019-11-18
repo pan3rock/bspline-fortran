@@ -413,15 +413,15 @@
 <a name="ln-12"></a>    <span class="k">program </span><span class="n">knot_tests</span>
 <a name="ln-13"></a>
 <a name="ln-14"></a>    <span class="k">use </span><span class="n">bspline_module</span>
-<a name="ln-15"></a>    <span class="k">use </span><span class="n">bspline_kinds_module</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="n">wp</span>
+<a name="ln-15"></a>    <span class="k">use </span><span class="n">bspline_kinds_module</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="n">wp</span><span class="p">,</span> <span class="n">ip</span>
 <a name="ln-16"></a>    <span class="k">use </span><span class="n">pyplot_module</span>
 <a name="ln-17"></a>
 <a name="ln-18"></a>    <span class="k">implicit none</span>
 <a name="ln-19"></a>
 <a name="ln-20"></a><span class="k">    </span><span class="kt">integer</span> <span class="kd">::</span> <span class="n">i</span>    <span class="c">!! counter</span>
 <a name="ln-21"></a>
-<a name="ln-22"></a>    <span class="kt">integer</span><span class="p">,</span><span class="k">parameter</span> <span class="kd">::</span> <span class="n">kx</span>  <span class="o">=</span> <span class="mi">4</span>    <span class="c">!! x bspline order</span>
-<a name="ln-23"></a>    <span class="kt">integer</span><span class="p">,</span><span class="k">parameter</span> <span class="kd">::</span> <span class="n">nx</span>  <span class="o">=</span> <span class="mi">6</span>    <span class="c">!! number of points in x dimension</span>
+<a name="ln-22"></a>    <span class="kt">integer</span><span class="p">(</span><span class="n">ip</span><span class="p">),</span><span class="k">parameter</span> <span class="kd">::</span> <span class="n">kx</span>  <span class="o">=</span> <span class="mi">4</span>    <span class="c">!! x bspline order</span>
+<a name="ln-23"></a>    <span class="kt">integer</span><span class="p">(</span><span class="n">ip</span><span class="p">),</span><span class="k">parameter</span> <span class="kd">::</span> <span class="n">nx</span>  <span class="o">=</span> <span class="mi">6</span>    <span class="c">!! number of points in x dimension</span>
 <a name="ln-24"></a>    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="n">nx</span><span class="p">),</span><span class="k">parameter</span> <span class="kd">::</span> <span class="n">x</span> <span class="o">=</span> <span class="p">[(</span><span class="kt">real</span><span class="p">(</span><span class="n">i</span><span class="o">*</span><span class="mi">10</span><span class="p">,</span><span class="n">wp</span><span class="p">),</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="mi">11</span><span class="p">,(</span><span class="mi">10</span><span class="o">+</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="n">nx</span><span class="p">)]</span>    <span class="c">!! [0,20,40,60,80,100]</span>
 <a name="ln-25"></a>
 <a name="ln-26"></a>    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="n">nx</span><span class="p">)</span>    <span class="kd">::</span> <span class="n">fcn</span>
@@ -430,7 +430,7 @@
 <a name="ln-29"></a>    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="mi">100</span><span class="p">)</span> <span class="kd">::</span> <span class="n">x_new</span><span class="p">,</span><span class="n">f_new_default</span><span class="p">,</span><span class="n">f1</span><span class="p">,</span><span class="n">f2</span> <span class="c">!,f_actual</span>
 <a name="ln-30"></a>    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span>                  <span class="kd">::</span> <span class="n">xval</span>
 <a name="ln-31"></a>    <span class="k">type</span><span class="p">(</span><span class="n">pyplot</span><span class="p">)</span>              <span class="kd">::</span> <span class="n">plt</span>
-<a name="ln-32"></a>    <span class="kt">integer</span>                   <span class="kd">::</span> <span class="n">iflag</span>
+<a name="ln-32"></a>    <span class="kt">integer</span><span class="p">(</span><span class="n">ip</span><span class="p">)</span>               <span class="kd">::</span> <span class="n">iflag</span>
 <a name="ln-33"></a>    <span class="kt">integer</span>                   <span class="kd">::</span> <span class="n">istat</span>  <span class="c">!! pyplot-fortran status flag</span>
 <a name="ln-34"></a>
 <a name="ln-35"></a>    <span class="c">!function evaluations for original grid:</span>
@@ -469,13 +469,13 @@
 <a name="ln-68"></a>
 <a name="ln-69"></a>        <span class="c">!f_actual(i) = test_func(xval)</span>
 <a name="ln-70"></a>
-<a name="ln-71"></a>        <span class="k">call </span><span class="n">s_default</span><span class="p">%</span><span class="n">evaluate</span><span class="p">(</span><span class="n">xval</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">f_new_default</span><span class="p">(</span><span class="n">i</span><span class="p">),</span><span class="n">iflag</span><span class="p">)</span>
+<a name="ln-71"></a>        <span class="k">call </span><span class="n">s_default</span><span class="p">%</span><span class="n">evaluate</span><span class="p">(</span><span class="n">xval</span><span class="p">,</span><span class="mi">0_ip</span><span class="p">,</span><span class="n">f_new_default</span><span class="p">(</span><span class="n">i</span><span class="p">),</span><span class="n">iflag</span><span class="p">)</span>
 <a name="ln-72"></a>        <span class="k">if</span> <span class="p">(</span><span class="n">iflag</span><span class="o">/=</span><span class="mi">0</span><span class="p">)</span> <span class="n">error</span> <span class="k">stop</span> <span class="s1">&#39;error evaluating s_default&#39;</span>
 <a name="ln-73"></a>
-<a name="ln-74"></a>        <span class="k">call </span><span class="n">s1</span><span class="p">%</span><span class="n">evaluate</span><span class="p">(</span><span class="n">xval</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">f1</span><span class="p">(</span><span class="n">i</span><span class="p">),</span><span class="n">iflag</span><span class="p">)</span>
+<a name="ln-74"></a>        <span class="k">call </span><span class="n">s1</span><span class="p">%</span><span class="n">evaluate</span><span class="p">(</span><span class="n">xval</span><span class="p">,</span><span class="mi">0_ip</span><span class="p">,</span><span class="n">f1</span><span class="p">(</span><span class="n">i</span><span class="p">),</span><span class="n">iflag</span><span class="p">)</span>
 <a name="ln-75"></a>        <span class="k">if</span> <span class="p">(</span><span class="n">iflag</span><span class="o">/=</span><span class="mi">0</span><span class="p">)</span> <span class="n">error</span> <span class="k">stop</span> <span class="s1">&#39;error evaluating s1&#39;</span>
 <a name="ln-76"></a>
-<a name="ln-77"></a>        <span class="k">call </span><span class="n">s2</span><span class="p">%</span><span class="n">evaluate</span><span class="p">(</span><span class="n">xval</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">f2</span><span class="p">(</span><span class="n">i</span><span class="p">),</span><span class="n">iflag</span><span class="p">)</span>
+<a name="ln-77"></a>        <span class="k">call </span><span class="n">s2</span><span class="p">%</span><span class="n">evaluate</span><span class="p">(</span><span class="n">xval</span><span class="p">,</span><span class="mi">0_ip</span><span class="p">,</span><span class="n">f2</span><span class="p">(</span><span class="n">i</span><span class="p">),</span><span class="n">iflag</span><span class="p">)</span>
 <a name="ln-78"></a>        <span class="k">if</span> <span class="p">(</span><span class="n">iflag</span><span class="o">/=</span><span class="mi">0</span><span class="p">)</span> <span class="n">error</span> <span class="k">stop</span> <span class="s1">&#39;error evaluating s2&#39;</span>
 <a name="ln-79"></a>
 <a name="ln-80"></a>    <span class="k">end do</span>

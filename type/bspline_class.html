@@ -583,7 +583,7 @@ pure function size_func(me) result(s)
   
   
   
-     <h4>Return Value <small>integer
+     <h4>Return Value <small>integer(kind=ip)
   </small></h4>
   <p>size of the structure in bits</p>
     
@@ -750,7 +750,7 @@ private pure function get_bspline_status_message(me, iflag) result(msg)
   
 <tr>
   
-  <td><span class="anchor" ></span>integer,</td>
+  <td><span class="anchor" ></span>integer(kind=ip),</td>
   <td>intent(in),</td>
   <td>optional</td>
   
@@ -869,8 +869,8 @@ private elemental subroutine clear_bspline_flag(me)
     <div class="highlight"><pre><span></span>    <span class="k">type</span><span class="p">,</span><span class="k">public</span><span class="p">,</span><span class="k">abstract</span> <span class="kd">::</span> <span class="n">bspline_class</span>
         <span class="c">!! Base class for the b-spline types</span>
         <span class="k">private</span>
-<span class="k">        </span><span class="kt">integer</span> <span class="kd">::</span> <span class="n">inbvx</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c">!! internal variable used by [[dbvalu]] for efficient processing</span>
-        <span class="kt">integer</span> <span class="kd">::</span> <span class="n">iflag</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c">!! saved `iflag` from the list routine call.</span>
+<span class="k">        </span><span class="kt">integer</span><span class="p">(</span><span class="n">ip</span><span class="p">)</span> <span class="kd">::</span> <span class="n">inbvx</span> <span class="o">=</span> <span class="mi">1_ip</span>  <span class="c">!! internal variable used by [[dbvalu]] for efficient processing</span>
+        <span class="kt">integer</span><span class="p">(</span><span class="n">ip</span><span class="p">)</span> <span class="kd">::</span> <span class="n">iflag</span> <span class="o">=</span> <span class="mi">1_ip</span>  <span class="c">!! saved `iflag` from the list routine call.</span>
         <span class="kt">logical</span> <span class="kd">::</span> <span class="n">initialized</span> <span class="o">=</span> <span class="p">.</span><span class="n">false</span><span class="p">.</span> <span class="c">!! true if the class is initialized and ready to use</span>
         <span class="kt">logical</span> <span class="kd">::</span> <span class="n">extrap</span> <span class="o">=</span> <span class="p">.</span><span class="n">false</span><span class="p">.</span> <span class="c">!! if true, then extrapolation is allowed during evaluation</span>
     <span class="k">contains</span>

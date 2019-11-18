@@ -305,7 +305,7 @@ public pure subroutine db3ink(x, nx, y, ny, z, nz, fcn, kx, ky, kz, iknot, tx, t
   
 <tr>
   
-  <td><span class="anchor" id="variable-nx%7E7"></span>integer,</td>
+  <td><span class="anchor" id="variable-nx%7E7"></span>integer(kind=ip),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -335,7 +335,7 @@ public pure subroutine db3ink(x, nx, y, ny, z, nz, fcn, kx, ky, kz, iknot, tx, t
   
 <tr>
   
-  <td><span class="anchor" id="variable-ny%7E3"></span>integer,</td>
+  <td><span class="anchor" id="variable-ny%7E3"></span>integer(kind=ip),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -365,7 +365,7 @@ public pure subroutine db3ink(x, nx, y, ny, z, nz, fcn, kx, ky, kz, iknot, tx, t
   
 <tr>
   
-  <td><span class="anchor" id="variable-nz"></span>integer,</td>
+  <td><span class="anchor" id="variable-nz"></span>integer(kind=ip),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -396,7 +396,7 @@ public pure subroutine db3ink(x, nx, y, ny, z, nz, fcn, kx, ky, kz, iknot, tx, t
   
 <tr>
   
-  <td><span class="anchor" id="variable-kx%7E7"></span>integer,</td>
+  <td><span class="anchor" id="variable-kx%7E7"></span>integer(kind=ip),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -413,7 +413,7 @@ public pure subroutine db3ink(x, nx, y, ny, z, nz, fcn, kx, ky, kz, iknot, tx, t
   
 <tr>
   
-  <td><span class="anchor" id="variable-ky%7E3"></span>integer,</td>
+  <td><span class="anchor" id="variable-ky%7E3"></span>integer(kind=ip),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -430,7 +430,7 @@ public pure subroutine db3ink(x, nx, y, ny, z, nz, fcn, kx, ky, kz, iknot, tx, t
   
 <tr>
   
-  <td><span class="anchor" id="variable-kz"></span>integer,</td>
+  <td><span class="anchor" id="variable-kz"></span>integer(kind=ip),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -447,7 +447,7 @@ public pure subroutine db3ink(x, nx, y, ny, z, nz, fcn, kx, ky, kz, iknot, tx, t
   
 <tr>
   
-  <td><span class="anchor" id="variable-iknot%7E3"></span>integer,</td>
+  <td><span class="anchor" id="variable-iknot%7E3"></span>integer(kind=ip),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -544,7 +544,7 @@ public pure subroutine db3ink(x, nx, y, ny, z, nz, fcn, kx, ky, kz, iknot, tx, t
   
 <tr>
   
-  <td><span class="anchor" id="variable-iflag%7E8"></span>integer,</td>
+  <td><span class="anchor" id="variable-iflag%7E8"></span>integer(kind=ip),</td>
   <td>intent(out)</td>
   <td></td>
   
@@ -663,16 +663,16 @@ public pure subroutine db3ink(x, nx, y, ny, z, nz, fcn, kx, ky, kz, iknot, tx, t
 
     <span class="k">implicit none</span>
 
-<span class="k">    </span><span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>                       <span class="kd">::</span> <span class="n">nx</span>    <span class="c">!! number of \(x\) abcissae ( \( \ge 3 \) )</span>
-    <span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>                       <span class="kd">::</span> <span class="n">ny</span>    <span class="c">!! number of \(y\) abcissae ( \( \ge 3 \) )</span>
-    <span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>                       <span class="kd">::</span> <span class="n">nz</span>    <span class="c">!! number of \(z\) abcissae ( \( \ge 3 \) )</span>
-    <span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>                       <span class="kd">::</span> <span class="n">kx</span>    <span class="c">!! The order of spline pieces in \(x\)</span>
+<span class="k">    </span><span class="kt">integer</span><span class="p">(</span><span class="n">ip</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>                   <span class="kd">::</span> <span class="n">nx</span>    <span class="c">!! number of \(x\) abcissae ( \( \ge 3 \) )</span>
+    <span class="kt">integer</span><span class="p">(</span><span class="n">ip</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>                   <span class="kd">::</span> <span class="n">ny</span>    <span class="c">!! number of \(y\) abcissae ( \( \ge 3 \) )</span>
+    <span class="kt">integer</span><span class="p">(</span><span class="n">ip</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>                   <span class="kd">::</span> <span class="n">nz</span>    <span class="c">!! number of \(z\) abcissae ( \( \ge 3 \) )</span>
+    <span class="kt">integer</span><span class="p">(</span><span class="n">ip</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>                   <span class="kd">::</span> <span class="n">kx</span>    <span class="c">!! The order of spline pieces in \(x\)</span>
                                                       <span class="c">!! ( \( 2 \le k_x &lt; n_x \) )</span>
                                                       <span class="c">!! (order = polynomial degree + 1)</span>
-    <span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>                       <span class="kd">::</span> <span class="n">ky</span>    <span class="c">!! The order of spline pieces in \(y\)</span>
+    <span class="kt">integer</span><span class="p">(</span><span class="n">ip</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>                   <span class="kd">::</span> <span class="n">ky</span>    <span class="c">!! The order of spline pieces in \(y\)</span>
                                                       <span class="c">!! ( \( 2 \le k_y &lt; n_y \) )</span>
                                                       <span class="c">!! (order = polynomial degree + 1)</span>
-    <span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>                       <span class="kd">::</span> <span class="n">kz</span>    <span class="c">!! the order of spline pieces in \(z\)</span>
+    <span class="kt">integer</span><span class="p">(</span><span class="n">ip</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>                   <span class="kd">::</span> <span class="n">kz</span>    <span class="c">!! the order of spline pieces in \(z\)</span>
                                                       <span class="c">!! ( \( 2 \le k_z &lt; n_z \) )</span>
                                                       <span class="c">!! (order = polynomial degree + 1)</span>
     <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(:),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>         <span class="kd">::</span> <span class="n">x</span>     <span class="c">!! `(nx)` array of \(x\) abcissae. must be strictly increasing.</span>
@@ -680,7 +680,7 @@ public pure subroutine db3ink(x, nx, y, ny, z, nz, fcn, kx, ky, kz, iknot, tx, t
     <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(:),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>         <span class="kd">::</span> <span class="n">z</span>     <span class="c">!! `(nz)` array of \(z\) abcissae. must be strictly increasing.</span>
     <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(:,:,:),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>     <span class="kd">::</span> <span class="n">fcn</span>   <span class="c">!! `(nx,ny,nz)` matrix of function values to interpolate. `fcn(i,j,k)` should</span>
                                                       <span class="c">!! contain the function value at the point (`x(i)`,`y(j)`,`z(k)`)</span>
-    <span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>                       <span class="kd">::</span> <span class="n">iknot</span> <span class="c">!! knot sequence flag:</span>
+    <span class="kt">integer</span><span class="p">(</span><span class="n">ip</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>                   <span class="kd">::</span> <span class="n">iknot</span> <span class="c">!! knot sequence flag:</span>
                                                       <span class="c">!!</span>
                                                       <span class="c">!! * 0 = knot sequence chosen by [[db3ink]].</span>
                                                       <span class="c">!! * 1 = knot sequence chosen by user.</span>
@@ -706,7 +706,7 @@ public pure subroutine db3ink(x, nx, y, ny, z, nz, fcn, kx, ky, kz, iknot, tx, t
                                                       <span class="c">!!</span>
                                                       <span class="c">!! Must be non-decreasing.</span>
     <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(:,:,:),</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>    <span class="kd">::</span> <span class="n">bcoef</span> <span class="c">!! `(nx,ny,nz)` matrix of coefficients of the b-spline interpolant.</span>
-    <span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>                      <span class="kd">::</span> <span class="n">iflag</span> <span class="c">!! *  0 = successful execution.</span>
+    <span class="kt">integer</span><span class="p">(</span><span class="n">ip</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>                  <span class="kd">::</span> <span class="n">iflag</span> <span class="c">!! *  0 = successful execution.</span>
                                                       <span class="c">!! *  2 = `iknot` out of range.</span>
                                                       <span class="c">!! *  3 = `nx` out of range.</span>
                                                       <span class="c">!! *  4 = `kx` out of range.</span>
@@ -735,8 +735,9 @@ public pure subroutine db3ink(x, nx, y, ny, z, nz, fcn, kx, ky, kz, iknot, tx, t
 
     <span class="kt">logical</span> <span class="kd">::</span> <span class="n">status_ok</span>
     <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(:),</span><span class="k">allocatable</span> <span class="kd">::</span> <span class="n">temp</span> <span class="c">!! work array of length `nx*ny*nz`</span>
-    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(:),</span><span class="k">allocatable</span> <span class="kd">::</span> <span class="n">work</span> <span class="c">!! work array of length `max(2*kx*(nx+1),2*ky*(ny+1),2*kz*(nz+1))`</span>
-    <span class="kt">integer</span> <span class="kd">::</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">ii</span> <span class="c">!! counter</span>
+    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(:),</span><span class="k">allocatable</span> <span class="kd">::</span> <span class="n">work</span> <span class="c">!! work array of length `max(2*kx*(nx+1),</span>
+                                              <span class="c">!! 2*ky*(ny+1),2*kz*(nz+1))`</span>
+    <span class="kt">integer</span><span class="p">(</span><span class="n">ip</span><span class="p">)</span> <span class="kd">::</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">ii</span> <span class="c">!! counter</span>
 
     <span class="c">! check validity of input</span>
 
@@ -753,33 +754,33 @@ public pure subroutine db3ink(x, nx, y, ny, z, nz, fcn, kx, ky, kz, iknot, tx, t
     <span class="k">if</span> <span class="p">(</span><span class="n">status_ok</span><span class="p">)</span> <span class="k">then</span>
 
         <span class="c">! choose knots</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">iknot</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">then</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">iknot</span> <span class="o">==</span> <span class="mi">0_ip</span><span class="p">)</span> <span class="k">then</span>
 <span class="k">            call </span><span class="n">dbknot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">nx</span><span class="p">,</span><span class="n">kx</span><span class="p">,</span><span class="n">tx</span><span class="p">)</span>
             <span class="k">call </span><span class="n">dbknot</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="n">ny</span><span class="p">,</span><span class="n">ky</span><span class="p">,</span><span class="n">ty</span><span class="p">)</span>
             <span class="k">call </span><span class="n">dbknot</span><span class="p">(</span><span class="n">z</span><span class="p">,</span><span class="n">nz</span><span class="p">,</span><span class="n">kz</span><span class="p">,</span><span class="n">tz</span><span class="p">)</span>
         <span class="k">end if</span>
 
 <span class="k">        allocate</span><span class="p">(</span><span class="n">temp</span><span class="p">(</span><span class="n">nx</span><span class="o">*</span><span class="n">ny</span><span class="o">*</span><span class="n">nz</span><span class="p">))</span>
-        <span class="k">allocate</span><span class="p">(</span><span class="n">work</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">kx</span><span class="o">*</span><span class="p">(</span><span class="n">nx</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span><span class="mi">2</span><span class="o">*</span><span class="n">ky</span><span class="o">*</span><span class="p">(</span><span class="n">ny</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span><span class="mi">2</span><span class="o">*</span><span class="n">kz</span><span class="o">*</span><span class="p">(</span><span class="n">nz</span><span class="o">+</span><span class="mi">1</span><span class="p">))))</span>
+        <span class="k">allocate</span><span class="p">(</span><span class="n">work</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="mi">2_ip</span><span class="o">*</span><span class="n">kx</span><span class="o">*</span><span class="p">(</span><span class="n">nx</span><span class="o">+</span><span class="mi">1_ip</span><span class="p">),</span><span class="mi">2_ip</span><span class="o">*</span><span class="n">ky</span><span class="o">*</span><span class="p">(</span><span class="n">ny</span><span class="o">+</span><span class="mi">1_ip</span><span class="p">),</span><span class="mi">2_ip</span><span class="o">*</span><span class="n">kz</span><span class="o">*</span><span class="p">(</span><span class="n">nz</span><span class="o">+</span><span class="mi">1_ip</span><span class="p">))))</span>
 
         <span class="c">! copy fcn to work in packed for dbtpcf</span>
         <span class="c">!temp = reshape( fcn, [nx*ny*nz] )</span>
         <span class="c">! replaced with loops to avoid stack</span>
         <span class="c">! overflow for large data set:</span>
-        <span class="n">ii</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="k">do </span><span class="n">k</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nz</span>
-            <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">ny</span>
-                <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nx</span>
-                    <span class="n">ii</span> <span class="o">=</span> <span class="n">ii</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="n">ii</span> <span class="o">=</span> <span class="mi">0_ip</span>
+        <span class="k">do </span><span class="n">k</span> <span class="o">=</span> <span class="mi">1_ip</span><span class="p">,</span> <span class="n">nz</span>
+            <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1_ip</span><span class="p">,</span> <span class="n">ny</span>
+                <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1_ip</span><span class="p">,</span> <span class="n">nx</span>
+                    <span class="n">ii</span> <span class="o">=</span> <span class="n">ii</span> <span class="o">+</span> <span class="mi">1_ip</span>
                     <span class="n">temp</span><span class="p">(</span><span class="n">ii</span><span class="p">)</span> <span class="o">=</span> <span class="n">fcn</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">,</span><span class="n">k</span><span class="p">)</span>
                 <span class="k">end do</span>
 <span class="k">            end do</span>
 <span class="k">        end do</span>
 
         <span class="c">! construct b-spline coefficients</span>
-                      <span class="k">call </span><span class="n">dbtpcf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">nx</span><span class="p">,</span><span class="n">temp</span><span class="p">,</span> <span class="n">nx</span><span class="p">,</span><span class="n">ny</span><span class="o">*</span><span class="n">nz</span><span class="p">,</span><span class="n">tx</span><span class="p">,</span><span class="n">kx</span><span class="p">,</span><span class="n">bcoef</span><span class="p">,</span><span class="n">work</span><span class="p">,</span><span class="n">iflag</span><span class="p">)</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">iflag</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span> <span class="k">call </span><span class="n">dbtpcf</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="n">ny</span><span class="p">,</span><span class="n">bcoef</span><span class="p">,</span><span class="n">ny</span><span class="p">,</span><span class="n">nx</span><span class="o">*</span><span class="n">nz</span><span class="p">,</span><span class="n">ty</span><span class="p">,</span><span class="n">ky</span><span class="p">,</span><span class="n">temp</span><span class="p">,</span> <span class="n">work</span><span class="p">,</span><span class="n">iflag</span><span class="p">)</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">iflag</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span> <span class="k">call </span><span class="n">dbtpcf</span><span class="p">(</span><span class="n">z</span><span class="p">,</span><span class="n">nz</span><span class="p">,</span><span class="n">temp</span><span class="p">,</span> <span class="n">nz</span><span class="p">,</span><span class="n">nx</span><span class="o">*</span><span class="n">ny</span><span class="p">,</span><span class="n">tz</span><span class="p">,</span><span class="n">kz</span><span class="p">,</span><span class="n">bcoef</span><span class="p">,</span><span class="n">work</span><span class="p">,</span><span class="n">iflag</span><span class="p">)</span>
+                         <span class="k">call </span><span class="n">dbtpcf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">nx</span><span class="p">,</span><span class="n">temp</span><span class="p">,</span> <span class="n">nx</span><span class="p">,</span><span class="n">ny</span><span class="o">*</span><span class="n">nz</span><span class="p">,</span><span class="n">tx</span><span class="p">,</span><span class="n">kx</span><span class="p">,</span><span class="n">bcoef</span><span class="p">,</span><span class="n">work</span><span class="p">,</span><span class="n">iflag</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">iflag</span><span class="o">==</span><span class="mi">0_ip</span><span class="p">)</span> <span class="k">call </span><span class="n">dbtpcf</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="n">ny</span><span class="p">,</span><span class="n">bcoef</span><span class="p">,</span><span class="n">ny</span><span class="p">,</span><span class="n">nx</span><span class="o">*</span><span class="n">nz</span><span class="p">,</span><span class="n">ty</span><span class="p">,</span><span class="n">ky</span><span class="p">,</span><span class="n">temp</span><span class="p">,</span> <span class="n">work</span><span class="p">,</span><span class="n">iflag</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">iflag</span><span class="o">==</span><span class="mi">0_ip</span><span class="p">)</span> <span class="k">call </span><span class="n">dbtpcf</span><span class="p">(</span><span class="n">z</span><span class="p">,</span><span class="n">nz</span><span class="p">,</span><span class="n">temp</span><span class="p">,</span> <span class="n">nz</span><span class="p">,</span><span class="n">nx</span><span class="o">*</span><span class="n">ny</span><span class="p">,</span><span class="n">tz</span><span class="p">,</span><span class="n">kz</span><span class="p">,</span><span class="n">bcoef</span><span class="p">,</span><span class="n">work</span><span class="p">,</span><span class="n">iflag</span><span class="p">)</span>
 
         <span class="k">deallocate</span><span class="p">(</span><span class="n">temp</span><span class="p">)</span>
         <span class="k">deallocate</span><span class="p">(</span><span class="n">work</span><span class="p">)</span>

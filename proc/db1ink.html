@@ -261,7 +261,7 @@ public pure subroutine db1ink(x, nx, fcn, kx, iknot, tx, bcoef, iflag)
   
 <tr>
   
-  <td><span class="anchor" id="variable-nx"></span>integer,</td>
+  <td><span class="anchor" id="variable-nx"></span>integer(kind=ip),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -292,7 +292,7 @@ public pure subroutine db1ink(x, nx, fcn, kx, iknot, tx, bcoef, iflag)
   
 <tr>
   
-  <td><span class="anchor" id="variable-kx"></span>integer,</td>
+  <td><span class="anchor" id="variable-kx"></span>integer(kind=ip),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -309,7 +309,7 @@ public pure subroutine db1ink(x, nx, fcn, kx, iknot, tx, bcoef, iflag)
   
 <tr>
   
-  <td><span class="anchor" id="variable-iknot"></span>integer,</td>
+  <td><span class="anchor" id="variable-iknot"></span>integer(kind=ip),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -364,7 +364,7 @@ public pure subroutine db1ink(x, nx, fcn, kx, iknot, tx, bcoef, iflag)
   
 <tr>
   
-  <td><span class="anchor" id="variable-iflag%7E2"></span>integer,</td>
+  <td><span class="anchor" id="variable-iflag%7E2"></span>integer(kind=ip),</td>
   <td>intent(out)</td>
   <td></td>
   
@@ -460,14 +460,14 @@ public pure subroutine db1ink(x, nx, fcn, kx, iknot, tx, bcoef, iflag)
 
     <span class="k">implicit none</span>
 
-<span class="k">    </span><span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>                      <span class="kd">::</span> <span class="n">nx</span>     <span class="c">!! Number of \(x\) abcissae</span>
-    <span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>                      <span class="kd">::</span> <span class="n">kx</span>     <span class="c">!! The order of spline pieces in \(x\)</span>
+<span class="k">    </span><span class="kt">integer</span><span class="p">(</span><span class="n">ip</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>                  <span class="kd">::</span> <span class="n">nx</span>     <span class="c">!! Number of \(x\) abcissae</span>
+    <span class="kt">integer</span><span class="p">(</span><span class="n">ip</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>                  <span class="kd">::</span> <span class="n">kx</span>     <span class="c">!! The order of spline pieces in \(x\)</span>
                                                       <span class="c">!! ( \( 2 \le k_x &lt; n_x \) )</span>
                                                       <span class="c">!! (order = polynomial degree + 1)</span>
     <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(:),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>        <span class="kd">::</span> <span class="n">x</span>      <span class="c">!! `(nx)` array of \(x\) abcissae. Must be strictly increasing.</span>
     <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(:),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>        <span class="kd">::</span> <span class="n">fcn</span>    <span class="c">!! `(nx)` array of function values to interpolate. `fcn(i)` should</span>
                                                       <span class="c">!! contain the function value at the point `x(i)`</span>
-    <span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>                      <span class="kd">::</span> <span class="n">iknot</span>  <span class="c">!! knot sequence flag:</span>
+    <span class="kt">integer</span><span class="p">(</span><span class="n">ip</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>                  <span class="kd">::</span> <span class="n">iknot</span>  <span class="c">!! knot sequence flag:</span>
                                                       <span class="c">!!</span>
                                                       <span class="c">!! * 0 = knot sequence chosen by [[db1ink]].</span>
                                                       <span class="c">!! * 1 = knot sequence chosen by user.</span>
@@ -479,7 +479,7 @@ public pure subroutine db1ink(x, nx, fcn, kx, iknot, tx, bcoef, iflag)
                                                       <span class="c">!!</span>
                                                       <span class="c">!! Must be non-decreasing.</span>
     <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(:),</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>       <span class="kd">::</span> <span class="n">bcoef</span>  <span class="c">!! `(nx)` array of coefficients of the b-spline interpolant.</span>
-    <span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>                     <span class="kd">::</span> <span class="n">iflag</span>  <span class="c">!! status flag:</span>
+    <span class="kt">integer</span><span class="p">(</span><span class="n">ip</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>                 <span class="kd">::</span> <span class="n">iflag</span>  <span class="c">!! status flag:</span>
                                                       <span class="c">!!</span>
                                                       <span class="c">!! * 0 = successful execution.</span>
                                                       <span class="c">!! * 2 = `iknot` out of range.</span>
@@ -510,14 +510,14 @@ public pure subroutine db1ink(x, nx, fcn, kx, iknot, tx, bcoef, iflag)
     <span class="k">if</span> <span class="p">(</span><span class="n">status_ok</span><span class="p">)</span> <span class="k">then</span>
 
         <span class="c">!choose knots</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">iknot</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">then</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">iknot</span> <span class="o">==</span> <span class="mi">0_ip</span><span class="p">)</span> <span class="k">then</span>
 <span class="k">            call </span><span class="n">dbknot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">nx</span><span class="p">,</span><span class="n">kx</span><span class="p">,</span><span class="n">tx</span><span class="p">)</span>
         <span class="k">end if</span>
 
-<span class="k">        allocate</span><span class="p">(</span><span class="n">work</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">kx</span><span class="o">*</span><span class="p">(</span><span class="n">nx</span><span class="o">+</span><span class="mi">1</span><span class="p">)))</span>
+<span class="k">        allocate</span><span class="p">(</span><span class="n">work</span><span class="p">(</span><span class="mi">2_ip</span><span class="o">*</span><span class="n">kx</span><span class="o">*</span><span class="p">(</span><span class="n">nx</span><span class="o">+</span><span class="mi">1_ip</span><span class="p">)))</span>
 
         <span class="c">!construct b-spline coefficients</span>
-        <span class="k">call </span><span class="n">dbtpcf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">nx</span><span class="p">,</span><span class="n">fcn</span><span class="p">,</span><span class="n">nx</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">tx</span><span class="p">,</span><span class="n">kx</span><span class="p">,</span><span class="n">bcoef</span><span class="p">,</span><span class="n">work</span><span class="p">,</span><span class="n">iflag</span><span class="p">)</span>
+        <span class="k">call </span><span class="n">dbtpcf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">nx</span><span class="p">,</span><span class="n">fcn</span><span class="p">,</span><span class="n">nx</span><span class="p">,</span><span class="mi">1_ip</span><span class="p">,</span><span class="n">tx</span><span class="p">,</span><span class="n">kx</span><span class="p">,</span><span class="n">bcoef</span><span class="p">,</span><span class="n">work</span><span class="p">,</span><span class="n">iflag</span><span class="p">)</span>
 
         <span class="k">deallocate</span><span class="p">(</span><span class="n">work</span><span class="p">)</span>
 

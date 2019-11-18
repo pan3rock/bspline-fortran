@@ -700,7 +700,7 @@
   
 <tr>
   
-  <td><span class="anchor" id="variable-kx%7E18"></span>integer,</td>
+  <td><span class="anchor" id="variable-kx%7E18"></span>integer(kind=ip),</td>
   
   
   <td>parameter</td><td>::</td>
@@ -714,7 +714,7 @@
   
 <tr>
   
-  <td><span class="anchor" id="variable-nx%7E18"></span>integer,</td>
+  <td><span class="anchor" id="variable-nx%7E18"></span>integer(kind=ip),</td>
   
   
   <td>parameter</td><td>::</td>
@@ -896,7 +896,7 @@
   
 <tr>
   
-  <td><span class="anchor" id="variable-iflag%7E19"></span>integer</td>
+  <td><span class="anchor" id="variable-iflag%7E19"></span>integer(kind=ip)</td>
   
   
   <td></td><td>::</td>
@@ -1018,15 +1018,15 @@ pure function <a href='../proc/test_func%7E2.html'>test_func</a>(x) result(f)
     <div class="highlight"><pre><span></span>    <span class="k">program </span><span class="n">knot_tests</span>
 
     <span class="k">use </span><span class="n">bspline_module</span>
-    <span class="k">use </span><span class="n">bspline_kinds_module</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="n">wp</span>
+    <span class="k">use </span><span class="n">bspline_kinds_module</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="n">wp</span><span class="p">,</span> <span class="n">ip</span>
     <span class="k">use </span><span class="n">pyplot_module</span>
 
     <span class="k">implicit none</span>
 
 <span class="k">    </span><span class="kt">integer</span> <span class="kd">::</span> <span class="n">i</span>    <span class="c">!! counter</span>
 
-    <span class="kt">integer</span><span class="p">,</span><span class="k">parameter</span> <span class="kd">::</span> <span class="n">kx</span>  <span class="o">=</span> <span class="mi">4</span>    <span class="c">!! x bspline order</span>
-    <span class="kt">integer</span><span class="p">,</span><span class="k">parameter</span> <span class="kd">::</span> <span class="n">nx</span>  <span class="o">=</span> <span class="mi">6</span>    <span class="c">!! number of points in x dimension</span>
+    <span class="kt">integer</span><span class="p">(</span><span class="n">ip</span><span class="p">),</span><span class="k">parameter</span> <span class="kd">::</span> <span class="n">kx</span>  <span class="o">=</span> <span class="mi">4</span>    <span class="c">!! x bspline order</span>
+    <span class="kt">integer</span><span class="p">(</span><span class="n">ip</span><span class="p">),</span><span class="k">parameter</span> <span class="kd">::</span> <span class="n">nx</span>  <span class="o">=</span> <span class="mi">6</span>    <span class="c">!! number of points in x dimension</span>
     <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="n">nx</span><span class="p">),</span><span class="k">parameter</span> <span class="kd">::</span> <span class="n">x</span> <span class="o">=</span> <span class="p">[(</span><span class="kt">real</span><span class="p">(</span><span class="n">i</span><span class="o">*</span><span class="mi">10</span><span class="p">,</span><span class="n">wp</span><span class="p">),</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="mi">11</span><span class="p">,(</span><span class="mi">10</span><span class="o">+</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="n">nx</span><span class="p">)]</span>    <span class="c">!! [0,20,40,60,80,100]</span>
 
     <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="n">nx</span><span class="p">)</span>    <span class="kd">::</span> <span class="n">fcn</span>
@@ -1035,7 +1035,7 @@ pure function <a href='../proc/test_func%7E2.html'>test_func</a>(x) result(f)
     <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="mi">100</span><span class="p">)</span> <span class="kd">::</span> <span class="n">x_new</span><span class="p">,</span><span class="n">f_new_default</span><span class="p">,</span><span class="n">f1</span><span class="p">,</span><span class="n">f2</span> <span class="c">!,f_actual</span>
     <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span>                  <span class="kd">::</span> <span class="n">xval</span>
     <span class="k">type</span><span class="p">(</span><span class="n">pyplot</span><span class="p">)</span>              <span class="kd">::</span> <span class="n">plt</span>
-    <span class="kt">integer</span>                   <span class="kd">::</span> <span class="n">iflag</span>
+    <span class="kt">integer</span><span class="p">(</span><span class="n">ip</span><span class="p">)</span>               <span class="kd">::</span> <span class="n">iflag</span>
     <span class="kt">integer</span>                   <span class="kd">::</span> <span class="n">istat</span>  <span class="c">!! pyplot-fortran status flag</span>
 
     <span class="c">!function evaluations for original grid:</span>
@@ -1074,13 +1074,13 @@ pure function <a href='../proc/test_func%7E2.html'>test_func</a>(x) result(f)
 
         <span class="c">!f_actual(i) = test_func(xval)</span>
 
-        <span class="k">call </span><span class="n">s_default</span><span class="p">%</span><span class="n">evaluate</span><span class="p">(</span><span class="n">xval</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">f_new_default</span><span class="p">(</span><span class="n">i</span><span class="p">),</span><span class="n">iflag</span><span class="p">)</span>
+        <span class="k">call </span><span class="n">s_default</span><span class="p">%</span><span class="n">evaluate</span><span class="p">(</span><span class="n">xval</span><span class="p">,</span><span class="mi">0_ip</span><span class="p">,</span><span class="n">f_new_default</span><span class="p">(</span><span class="n">i</span><span class="p">),</span><span class="n">iflag</span><span class="p">)</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">iflag</span><span class="o">/=</span><span class="mi">0</span><span class="p">)</span> <span class="n">error</span> <span class="k">stop</span> <span class="s1">&#39;error evaluating s_default&#39;</span>
 
-        <span class="k">call </span><span class="n">s1</span><span class="p">%</span><span class="n">evaluate</span><span class="p">(</span><span class="n">xval</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">f1</span><span class="p">(</span><span class="n">i</span><span class="p">),</span><span class="n">iflag</span><span class="p">)</span>
+        <span class="k">call </span><span class="n">s1</span><span class="p">%</span><span class="n">evaluate</span><span class="p">(</span><span class="n">xval</span><span class="p">,</span><span class="mi">0_ip</span><span class="p">,</span><span class="n">f1</span><span class="p">(</span><span class="n">i</span><span class="p">),</span><span class="n">iflag</span><span class="p">)</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">iflag</span><span class="o">/=</span><span class="mi">0</span><span class="p">)</span> <span class="n">error</span> <span class="k">stop</span> <span class="s1">&#39;error evaluating s1&#39;</span>
 
-        <span class="k">call </span><span class="n">s2</span><span class="p">%</span><span class="n">evaluate</span><span class="p">(</span><span class="n">xval</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">f2</span><span class="p">(</span><span class="n">i</span><span class="p">),</span><span class="n">iflag</span><span class="p">)</span>
+        <span class="k">call </span><span class="n">s2</span><span class="p">%</span><span class="n">evaluate</span><span class="p">(</span><span class="n">xval</span><span class="p">,</span><span class="mi">0_ip</span><span class="p">,</span><span class="n">f2</span><span class="p">(</span><span class="n">i</span><span class="p">),</span><span class="n">iflag</span><span class="p">)</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">iflag</span><span class="o">/=</span><span class="mi">0</span><span class="p">)</span> <span class="n">error</span> <span class="k">stop</span> <span class="s1">&#39;error evaluating s2&#39;</span>
 
     <span class="k">end do</span>

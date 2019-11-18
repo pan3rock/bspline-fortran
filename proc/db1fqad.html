@@ -221,7 +221,7 @@ public subroutine db1fqad(fun, tx, bcoef, nx, kx, idx, x1, x2, tol, f, iflag, w0
   function <code>fun</code> and the <code>idx</code>-th derivative of a <code>kx</code>-th order b-spline,
   using the b-representation <code>(tx,bcoef,nx,kx)</code>, with an adaptive
   8-point Legendre-Gauss algorithm.
-  <code>(x1,x2)</code> must be a subinterval of <code>t(kx) &lt;= x &lt;= t(nx+1)</code>.</p>
+  <code>(x1,x2)</code> must be a subinterval of <code>t(kx) &lt;= x &lt;= t(nx+1_ip)</code>.</p>
 <h3>See also</h3>
 <ul>
 <li><a>dbfqad</a> -- the core routine.</li>
@@ -294,7 +294,7 @@ public subroutine db1fqad(fun, tx, bcoef, nx, kx, idx, x1, x2, tol, f, iflag, w0
   
 <tr>
   
-  <td><span class="anchor" id="variable-nx%7E4"></span>integer,</td>
+  <td><span class="anchor" id="variable-nx%7E4"></span>integer(kind=ip),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -309,7 +309,7 @@ public subroutine db1fqad(fun, tx, bcoef, nx, kx, idx, x1, x2, tol, f, iflag, w0
   
 <tr>
   
-  <td><span class="anchor" id="variable-kx%7E4"></span>integer,</td>
+  <td><span class="anchor" id="variable-kx%7E4"></span>integer(kind=ip),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -324,7 +324,7 @@ public subroutine db1fqad(fun, tx, bcoef, nx, kx, idx, x1, x2, tol, f, iflag, w0
   
 <tr>
   
-  <td><span class="anchor" id="variable-idx%7E2"></span>integer,</td>
+  <td><span class="anchor" id="variable-idx%7E2"></span>integer(kind=ip),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -403,7 +403,7 @@ public subroutine db1fqad(fun, tx, bcoef, nx, kx, idx, x1, x2, tol, f, iflag, w0
   
 <tr>
   
-  <td><span class="anchor" id="variable-iflag%7E5"></span>integer,</td>
+  <td><span class="anchor" id="variable-iflag%7E5"></span>integer(kind=ip),</td>
   <td>intent(out)</td>
   <td></td>
   
@@ -428,7 +428,7 @@ public subroutine db1fqad(fun, tx, bcoef, nx, kx, idx, x1, x2, tol, f, iflag, w0
   <td>intent(inout),</td>
   <td></td>
   
-  <td>dimension(3*kx)</td><td>::</td>
+  <td>dimension(3_ip*kx)</td><td>::</td>
   <td><strong>w0</strong></td><td><p>work array for <a>dbfqad</a></p></td>
   
 </tr>
@@ -506,11 +506,11 @@ public subroutine db1fqad(fun, tx, bcoef, nx, kx, idx, x1, x2, tol, f, iflag, w0
 
 <span class="k">    procedure</span><span class="p">(</span><span class="n">b1fqad_func</span><span class="p">)</span>              <span class="kd">::</span> <span class="n">fun</span>    <span class="c">!! external function of one argument for the</span>
                                                   <span class="c">!! integrand `bf(x)=fun(x)*dbvalu(tx,bcoef,nx,kx,id,x,inbv,work)`</span>
-    <span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>                  <span class="kd">::</span> <span class="n">nx</span>     <span class="c">!! length of coefficient array</span>
-    <span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>                  <span class="kd">::</span> <span class="n">kx</span>     <span class="c">!! order of b-spline, `kx &gt;= 1`</span>
+    <span class="kt">integer</span><span class="p">(</span><span class="n">ip</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>              <span class="kd">::</span> <span class="n">nx</span>     <span class="c">!! length of coefficient array</span>
+    <span class="kt">integer</span><span class="p">(</span><span class="n">ip</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>              <span class="kd">::</span> <span class="n">kx</span>     <span class="c">!! order of b-spline, `kx &gt;= 1`</span>
     <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="n">nx</span><span class="o">+</span><span class="n">kx</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="kd">::</span> <span class="n">tx</span>     <span class="c">!! knot array</span>
     <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="n">nx</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>   <span class="kd">::</span> <span class="n">bcoef</span>  <span class="c">!! b-spline coefficient array</span>
-    <span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>                  <span class="kd">::</span> <span class="n">idx</span>    <span class="c">!! order of the spline derivative, `0 &lt;= idx &lt;= k-1`</span>
+    <span class="kt">integer</span><span class="p">(</span><span class="n">ip</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>              <span class="kd">::</span> <span class="n">idx</span>    <span class="c">!! order of the spline derivative, `0 &lt;= idx &lt;= k-1`</span>
                                                   <span class="c">!! `idx=0` gives the spline function</span>
     <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>                 <span class="kd">::</span> <span class="n">x1</span>     <span class="c">!! left point of quadrature interval in `t(k) &lt;= x &lt;= t(n+1)`</span>
     <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>                 <span class="kd">::</span> <span class="n">x2</span>     <span class="c">!! right point of quadrature interval in `t(k) &lt;= x &lt;= t(n+1)`</span>
@@ -519,11 +519,11 @@ public subroutine db1fqad(fun, tx, bcoef, nx, kx, idx, x1, x2, tol, f, iflag, w0
                                                   <span class="c">!! of `1.0e-300` and real(wp) unit roundoff for</span>
                                                   <span class="c">!! the machine</span>
     <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>                <span class="kd">::</span> <span class="n">f</span>      <span class="c">!! integral of `bf(x)` on `(x1,x2)`</span>
-    <span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>                 <span class="kd">::</span> <span class="n">iflag</span>  <span class="c">!! status flag:</span>
+    <span class="kt">integer</span><span class="p">(</span><span class="n">ip</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>             <span class="kd">::</span> <span class="n">iflag</span>  <span class="c">!! status flag:</span>
                                                   <span class="c">!!</span>
                                                   <span class="c">!! * \( = 0 \)   : no errors</span>
                                                   <span class="c">!! * \( \ne 0 \) : error</span>
-    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">3</span><span class="o">*</span><span class="n">kx</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span> <span class="kd">::</span> <span class="n">w0</span>  <span class="c">!! work array for [[dbfqad]]</span>
+    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">3_ip</span><span class="o">*</span><span class="n">kx</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span> <span class="kd">::</span> <span class="n">w0</span>  <span class="c">!! work array for [[dbfqad]]</span>
 
     <span class="k">call </span><span class="n">dbfqad</span><span class="p">(</span><span class="n">fun</span><span class="p">,</span><span class="n">tx</span><span class="p">,</span><span class="n">bcoef</span><span class="p">,</span><span class="n">nx</span><span class="p">,</span><span class="n">kx</span><span class="p">,</span><span class="n">idx</span><span class="p">,</span><span class="n">x1</span><span class="p">,</span><span class="n">x2</span><span class="p">,</span><span class="n">tol</span><span class="p">,</span><span class="n">f</span><span class="p">,</span><span class="n">iflag</span><span class="p">,</span><span class="n">w0</span><span class="p">)</span>
 

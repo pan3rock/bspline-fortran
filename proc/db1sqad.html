@@ -275,7 +275,7 @@ public pure subroutine db1sqad(tx, bcoef, nx, kx, x1, x2, f, iflag, w0)
   
 <tr>
   
-  <td><span class="anchor" id="variable-nx%7E3"></span>integer,</td>
+  <td><span class="anchor" id="variable-nx%7E3"></span>integer(kind=ip),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -290,7 +290,7 @@ public pure subroutine db1sqad(tx, bcoef, nx, kx, x1, x2, f, iflag, w0)
   
 <tr>
   
-  <td><span class="anchor" id="variable-kx%7E3"></span>integer,</td>
+  <td><span class="anchor" id="variable-kx%7E3"></span>integer(kind=ip),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -350,7 +350,7 @@ public pure subroutine db1sqad(tx, bcoef, nx, kx, x1, x2, f, iflag, w0)
   
 <tr>
   
-  <td><span class="anchor" id="variable-iflag%7E4"></span>integer,</td>
+  <td><span class="anchor" id="variable-iflag%7E4"></span>integer(kind=ip),</td>
   <td>intent(out)</td>
   <td></td>
   
@@ -451,14 +451,14 @@ public pure subroutine db1sqad(tx, bcoef, nx, kx, x1, x2, f, iflag, w0)
 
     <span class="k">implicit none</span>
 
-<span class="k">    </span><span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>                   <span class="kd">::</span> <span class="n">nx</span>      <span class="c">!! length of coefficient array</span>
-    <span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>                   <span class="kd">::</span> <span class="n">kx</span>      <span class="c">!! order of b-spline, `1 &lt;= k &lt;= 20`</span>
+<span class="k">    </span><span class="kt">integer</span><span class="p">(</span><span class="n">ip</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>               <span class="kd">::</span> <span class="n">nx</span>      <span class="c">!! length of coefficient array</span>
+    <span class="kt">integer</span><span class="p">(</span><span class="n">ip</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>               <span class="kd">::</span> <span class="n">kx</span>      <span class="c">!! order of b-spline, `1 &lt;= k &lt;= 20`</span>
     <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="n">nx</span><span class="o">+</span><span class="n">kx</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">tx</span>      <span class="c">!! knot array</span>
     <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="n">nx</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>    <span class="kd">::</span> <span class="n">bcoef</span>   <span class="c">!! b-spline coefficient array</span>
     <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>                  <span class="kd">::</span> <span class="n">x1</span>      <span class="c">!! left point of quadrature interval in `t(kx) &lt;= x &lt;= t(nx+1)`</span>
     <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>                  <span class="kd">::</span> <span class="n">x2</span>      <span class="c">!! right point of quadrature interval in `t(kx) &lt;= x &lt;= t(nx+1)`</span>
     <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>                 <span class="kd">::</span> <span class="n">f</span>       <span class="c">!! integral of the b-spline over (`x1`,`x2`)</span>
-    <span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>                  <span class="kd">::</span> <span class="n">iflag</span>   <span class="c">!! status flag:</span>
+    <span class="kt">integer</span><span class="p">(</span><span class="n">ip</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>              <span class="kd">::</span> <span class="n">iflag</span>   <span class="c">!! status flag:</span>
                                                     <span class="c">!!</span>
                                                     <span class="c">!! * \( = 0 \)   : no errors</span>
                                                     <span class="c">!! * \( \ne 0 \) : error</span>

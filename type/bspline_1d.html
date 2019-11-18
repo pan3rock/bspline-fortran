@@ -545,7 +545,7 @@ private pure function bspline_1d_constructor_auto_knots(x, fcn, kx, extrap) resu
   
 <tr>
   
-  <td><span class="anchor" ></span>integer,</td>
+  <td><span class="anchor" ></span>integer(kind=ip),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -656,7 +656,7 @@ private pure function bspline_1d_constructor_specify_knots(x, fcn, kx, tx, extra
   
 <tr>
   
-  <td><span class="anchor" ></span>integer,</td>
+  <td><span class="anchor" ></span>integer(kind=ip),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -959,7 +959,7 @@ private pure function get_bspline_status_message(me, iflag) result(msg)
   
 <tr>
   
-  <td><span class="anchor" ></span>integer,</td>
+  <td><span class="anchor" ></span>integer(kind=ip),</td>
   <td>intent(in),</td>
   <td>optional</td>
   
@@ -1160,7 +1160,7 @@ private pure subroutine initialize_1d_auto_knots(me, x, fcn, kx, iflag, extrap)
   
 <tr>
   
-  <td><span class="anchor" ></span>integer,</td>
+  <td><span class="anchor" ></span>integer(kind=ip),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -1177,7 +1177,7 @@ private pure subroutine initialize_1d_auto_knots(me, x, fcn, kx, iflag, extrap)
   
 <tr>
   
-  <td><span class="anchor" ></span>integer,</td>
+  <td><span class="anchor" ></span>integer(kind=ip),</td>
   <td>intent(out)</td>
   <td></td>
   
@@ -1296,7 +1296,7 @@ private pure subroutine initialize_1d_specify_knots(me, x, fcn, kx, tx, iflag, e
   
 <tr>
   
-  <td><span class="anchor" ></span>integer,</td>
+  <td><span class="anchor" ></span>integer(kind=ip),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -1330,7 +1330,7 @@ private pure subroutine initialize_1d_specify_knots(me, x, fcn, kx, tx, iflag, e
   
 <tr>
   
-  <td><span class="anchor" ></span>integer,</td>
+  <td><span class="anchor" ></span>integer(kind=ip),</td>
   <td>intent(out)</td>
   <td></td>
   
@@ -1445,7 +1445,7 @@ private pure subroutine evaluate_1d(me, xval, idx, f, iflag)
   
 <tr>
   
-  <td><span class="anchor" ></span>integer,</td>
+  <td><span class="anchor" ></span>integer(kind=ip),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -1476,7 +1476,7 @@ private pure subroutine evaluate_1d(me, xval, idx, f, iflag)
   
 <tr>
   
-  <td><span class="anchor" ></span>integer,</td>
+  <td><span class="anchor" ></span>integer(kind=ip),</td>
   <td>intent(out)</td>
   <td></td>
   
@@ -1632,7 +1632,7 @@ private pure function size_1d(me) result(s)
   
   
   
-     <h4>Return Value <small>integer
+     <h4>Return Value <small>integer(kind=ip)
   </small></h4>
   <p>size of the structure in bits</p>
     
@@ -1750,7 +1750,7 @@ private pure subroutine integral_1d(me, x1, x2, f, iflag)
   
 <tr>
   
-  <td><span class="anchor" ></span>integer,</td>
+  <td><span class="anchor" ></span>integer(kind=ip),</td>
   <td>intent(out)</td>
   <td></td>
   
@@ -1849,7 +1849,7 @@ private subroutine fintegral_1d(me, fun, idx, x1, x2, tol, f, iflag)
   
 <tr>
   
-  <td><span class="anchor" ></span>integer,</td>
+  <td><span class="anchor" ></span>integer(kind=ip),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -1926,7 +1926,7 @@ private subroutine fintegral_1d(me, fun, idx, x1, x2, tol, f, iflag)
   
 <tr>
   
-  <td><span class="anchor" ></span>integer,</td>
+  <td><span class="anchor" ></span>integer(kind=ip),</td>
   <td>intent(out)</td>
   <td></td>
   
@@ -1962,8 +1962,8 @@ private subroutine fintegral_1d(me, fun, idx, x1, x2, tol, f, iflag)
         <span class="c">!!@note The 1D class also contains two methods</span>
         <span class="c">!!      for computing definite integrals.</span>
         <span class="k">private</span>
-<span class="k">        </span><span class="kt">integer</span> <span class="kd">::</span> <span class="n">nx</span>  <span class="o">=</span> <span class="mi">0</span>  <span class="c">!! Number of \(x\) abcissae</span>
-        <span class="kt">integer</span> <span class="kd">::</span> <span class="n">kx</span>  <span class="o">=</span> <span class="mi">0</span>  <span class="c">!! The order of spline pieces in \(x\)</span>
+<span class="k">        </span><span class="kt">integer</span><span class="p">(</span><span class="n">ip</span><span class="p">)</span> <span class="kd">::</span> <span class="n">nx</span> <span class="o">=</span> <span class="mi">0_ip</span>  <span class="c">!! Number of \(x\) abcissae</span>
+        <span class="kt">integer</span><span class="p">(</span><span class="n">ip</span><span class="p">)</span> <span class="kd">::</span> <span class="n">kx</span> <span class="o">=</span> <span class="mi">0_ip</span>  <span class="c">!! The order of spline pieces in \(x\)</span>
         <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(:),</span><span class="k">allocatable</span> <span class="kd">::</span> <span class="n">bcoef</span>  <span class="c">!! array of coefficients of the b-spline interpolant</span>
         <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(:),</span><span class="k">allocatable</span> <span class="kd">::</span> <span class="n">tx</span>  <span class="c">!! The knots in the \(x\) direction for the spline interpolant</span>
         <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(:),</span><span class="k">allocatable</span> <span class="kd">::</span> <span class="n">work_val_1</span>   <span class="c">!! [[db1val] work array of dimension `3*kx`</span>
