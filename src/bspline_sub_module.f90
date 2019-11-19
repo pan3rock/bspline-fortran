@@ -58,11 +58,32 @@
     end interface
     public :: b1fqad_func
 
-    !Spline function order (order = polynomial degree + 1)
-    integer(ip),parameter,public :: bspline_order_quadratic = 3_ip
-    integer(ip),parameter,public :: bspline_order_cubic     = 4_ip
-    integer(ip),parameter,public :: bspline_order_quartic   = 5_ip
-    integer(ip),parameter,public :: bspline_order_quintic   = 6_ip
+    integer(ip),parameter,public :: bspline_order_quadratic = 3_ip !! spline order `k` parameter
+                                                                   !! (for input to the `db*ink` routines)
+                                                                   !! [order = polynomial degree + 1]
+    integer(ip),parameter,public :: bspline_order_cubic     = 4_ip !! spline order `k` parameter
+                                                                   !! (for input to the `db*ink` routines)
+                                                                   !! [order = polynomial degree + 1]
+    integer(ip),parameter,public :: bspline_order_quartic   = 5_ip !! spline order `k` parameter
+                                                                   !! (for input to the `db*ink` routines)
+                                                                   !! [order = polynomial degree + 1]
+    integer(ip),parameter,public :: bspline_order_quintic   = 6_ip !! spline order `k` parameter
+                                                                   !! (for input to the `db*ink` routines)
+                                                                   !! [order = polynomial degree + 1]
+    integer(ip),parameter,public :: bspline_order_hexic     = 7_ip !! spline order `k` parameter
+                                                                   !! (for input to the `db*ink` routines)
+                                                                   !! [order = polynomial degree + 1]
+    integer(ip),parameter,public :: bspline_order_heptic    = 8_ip !! spline order `k` parameter
+                                                                   !! (for input to the `db*ink` routines)
+                                                                   !! [order = polynomial degree + 1]
+    integer(ip),parameter,public :: bspline_order_octic     = 9_ip !! spline order `k` parameter
+                                                                   !! (for input to the `db*ink` routines)
+                                                                   !! [order = polynomial degree + 1]
+
+    interface db1ink
+        !! 1D initialization routines.
+        module procedure :: db1ink_default, db1ink_alt, db1ink_alt_2
+    end interface
 
     !main routines:
     public :: db1ink, db1val, db1sqad, db1fqad
@@ -88,7 +109,7 @@
 !### History
 !  * Jacob Williams, 10/30/2015 : Created 1D routine.
 
-    pure subroutine db1ink(x,nx,fcn,kx,iknot,tx,bcoef,iflag)
+    pure subroutine db1ink_default(x,nx,fcn,kx,iknot,tx,bcoef,iflag)
 
     implicit none
 
@@ -155,7 +176,160 @@
 
     end if
 
-    end subroutine db1ink
+    end subroutine db1ink_default
+!*****************************************************************************************
+
+!*****************************************************************************************
+!>
+!  Alternate version of [[db1ink_default]], where the boundary conditions can be specified.
+!
+!### History
+!  * Jacob Williams, 9/4/2018 : created this routine.
+!
+!### See also
+!  * [[dbint4]] -- the main routine that is called here.
+!
+!@note Currently, this only works for 3rd order (k=4).
+
+    pure subroutine db1ink_alt(x,nx,fcn,kx,ibcl,ibcr,fbcl,fbcr,kntopt,tx,bcoef,iflag)
+
+    implicit none
+
+    real(wp),dimension(:),intent(in)   :: x       !! \(x\) vector of abscissae of length `nx`, distinct
+                                                  !! and in increasing order
+    integer(ip),intent(in)             :: nx      !! number of data points, \( n_x \ge 2 \)
+    real(wp),dimension(:),intent(in)   :: fcn     !! \(y\) vector of ordinates of length `nx`
+    integer(ip),intent(in)             :: kx      !! spline order
+    integer(ip),intent(in)             :: ibcl    !! selection parameter for left boundary condition:
+                                                  !!
+                                                  !! * `ibcl = 1` constrain the first derivative at `x(1)` to `fbcl`
+                                                  !! * `ibcl = 2` constrain the second derivative at `x(1)` to `fbcl`
+    integer(ip),intent(in)             :: ibcr    !! selection parameter for right boundary condition:
+                                                  !!
+                                                  !! * `ibcr = 1` constrain first derivative at `x(nx)` to `fbcr`
+                                                  !! * `ibcr = 2` constrain second derivative at `x(nx)` to `fbcr`
+    real(wp),intent(in)                :: fbcl    !! left boundary values governed by `ibcl`
+    real(wp),intent(in)                :: fbcr    !! right boundary values governed by `ibcr`
+    integer(ip),intent(in)             :: kntopt  !! knot selection parameter:
+                                                  !!
+                                                  !! * `kntopt = 1` sets knot multiplicity at `t(4)` and
+                                                  !!   `t(nx+3)` to 4
+                                                  !! * `kntopt = 2` sets a symmetric placement of knots
+                                                  !!   about `t(4)` and `t(nx+3)`
+    real(wp),dimension(:),intent(out)  :: tx      !! knot array of length `nx+6`
+    real(wp),dimension(:),intent(out)  :: bcoef   !! b spline coefficient array of length `nx+2`
+    integer(ip),intent(out)            :: iflag   !! status flag:
+                                                  !!
+                                                  !! * 0: no errors
+                                                  !! * 806: [[dbint4]] can only be used when `k=4`
+
+    real(wp),dimension(:,:),allocatable :: w         !! work array of dimension `5,nx+2`
+    integer(ip)                         :: n         !! number of coefficients (n=nx+2)
+    integer(ip)                         :: k         !! order of spline (k=4)
+    logical                             :: status_ok !! status flag for error checking
+
+    real(wp),dimension(3),parameter :: tleft = 0.0_wp   !! not used for this case (see [[dbint4]])
+    real(wp),dimension(3),parameter :: tright = 0.0_wp  !! not used for this case (see [[dbint4]])
+
+
+    if (kx /= 4_ip) then
+        iflag = 806_ip
+    else
+
+        call check_inputs(  1_ip,& ! so it will check size of t
+                            iflag,&
+                            nx=nx,&
+                            kx=kx,&
+                            x=x,&
+                            f1=fcn,&
+                            bcoef1=bcoef,&
+                            tx=tx,&
+                            status_ok=status_ok,&
+                            alt=.true.)
+
+        if (status_ok) then
+            allocate(w(5_ip,nx+2_ip))
+            call dbint4(x,fcn,nx,ibcl,ibcr,fbcl,fbcr,kntopt,tleft,tright,tx,bcoef,n,k,w,iflag)
+            deallocate(w)
+        end if
+
+    end if
+
+    end subroutine db1ink_alt
+!*****************************************************************************************
+
+!*****************************************************************************************
+!>
+!  Alternate version of [[db1ink_alt]], where the first and
+!  last 3 knots are specified by the user.
+!
+!### History
+!  * Jacob Williams, 9/4/2018 : created this routine.
+!
+!### See also
+!  * [[dbint4]] -- the main routine that is called here.
+!
+!@note Currently, this only works for 3rd order (k=4).
+
+    pure subroutine db1ink_alt_2(x,nx,fcn,kx,ibcl,ibcr,fbcl,fbcr,tleft,tright,tx,bcoef,iflag)
+
+    implicit none
+
+    real(wp),dimension(:),intent(in)   :: x       !! \(x\) vector of abscissae of length `nx`, distinct
+                                                  !! and in increasing order
+    integer(ip),intent(in)             :: nx      !! number of data points, \( n_x \ge 2 \)
+    real(wp),dimension(:),intent(in)   :: fcn     !! \(y\) vector of ordinates of length `nx`
+    integer(ip),intent(in)             :: kx      !! spline order
+    integer(ip),intent(in)             :: ibcl    !! selection parameter for left boundary condition:
+                                                  !!
+                                                  !! * `ibcl = 1` constrain the first derivative at `x(1)` to `fbcl`
+                                                  !! * `ibcl = 2` constrain the second derivative at `x(1)` to `fbcl`
+    integer(ip),intent(in)             :: ibcr    !! selection parameter for right boundary condition:
+                                                  !!
+                                                  !! * `ibcr = 1` constrain first derivative at `x(nx)` to `fbcr`
+                                                  !! * `ibcr = 2` constrain second derivative at `x(nx)` to `fbcr`
+    real(wp),intent(in)                :: fbcl    !! left boundary values governed by `ibcl`
+    real(wp),intent(in)                :: fbcr    !! right boundary values governed by `ibcr`
+    real(wp),dimension(3),intent(in)   :: tleft   !! `t(1:3)` in increasing order supplied by the user.
+    real(wp),dimension(3),intent(in)   :: tright  !! `t(nx+4:nx+6)` in increasing order supplied by the user.
+    real(wp),dimension(:),intent(out)  :: tx      !! knot array of length `nx+6`
+    real(wp),dimension(:),intent(out)  :: bcoef   !! b spline coefficient array of length `nx+2`
+    integer(ip),intent(out)            :: iflag   !! status flag:
+                                                  !!
+                                                  !! * 0: no errors
+                                                  !! * 806: [[dbint4]] can only be used when k=4
+
+    real(wp),dimension(:,:),allocatable :: w         !! work array of dimension `5,nx+2`
+    integer(ip)                         :: n         !! number of coefficients (`n=nx+2`)
+    integer(ip)                         :: k         !! order of spline (`k=4`)
+    logical                             :: status_ok !! status flag for error checking
+
+    integer(ip),parameter :: kntopt = 3 !! use `tleft` and `tright` in [[dbint4]]
+
+    if (kx /= 4_ip) then
+        iflag = 806_ip
+    else
+
+        call check_inputs(  1_ip,& ! so it will check size of t
+                            iflag,&
+                            nx=nx,&
+                            kx=kx,&
+                            x=x,&
+                            f1=fcn,&
+                            bcoef1=bcoef,&
+                            tx=tx,&
+                            status_ok=status_ok,&
+                            alt=.true.)
+
+        if (status_ok) then
+            allocate(w(5,nx+2))
+            call dbint4(x,fcn,nx,ibcl,ibcr,fbcl,fbcr,kntopt,tleft,tright,tx,bcoef,n,k,w,iflag)
+            deallocate(w)
+        end if
+
+    end if
+
+    end subroutine db1ink_alt_2
 !*****************************************************************************************
 
 !*****************************************************************************************
@@ -2078,6 +2252,7 @@
                                  tx,ty,tz,tq,tr,ts,&
                                  f1,f2,f3,f4,f5,f6,&
                                  bcoef1,bcoef2,bcoef3,bcoef4,bcoef5,bcoef6,&
+                                 alt,&
                                  status_ok)
 
     implicit none
@@ -2094,11 +2269,21 @@
     real(wp),dimension(:,:,:,:),intent(in),optional     :: f4,bcoef4
     real(wp),dimension(:,:,:,:,:),intent(in),optional   :: f5,bcoef5
     real(wp),dimension(:,:,:,:,:,:),intent(in),optional :: f6,bcoef6
+    logical,intent(in),optional                         :: alt !! using the alt routine where 1st or
+                                                               !! 2nd deriv is fixed at endpoints
+                                                               !! [default is False]
     logical,intent(out)                                 :: status_ok
 
     logical :: error
+    integer :: iex  !! extra points for the alt case (in `t` and `bcoef`)
+                    !! [currently, only allowed for the 1D case & `k=4`]
 
     status_ok = .false.
+
+    iex = 0_ip ! default
+    if (present(alt)) then
+        if (alt) iex = 2_ip  ! for "alt" mode
+    end if
 
     if ((iknot < 0_ip) .or. (iknot > 1_ip)) then
 
@@ -2106,70 +2291,71 @@
 
     else
 
-        call check('x',nx,kx,x,tx,[3_ip,  4_ip, 5_ip, 6_ip,706_ip,712_ip],iflag,error); if (error) return
-        call check('y',ny,ky,y,ty,[7_ip,  8_ip, 9_ip,10_ip,707_ip,713_ip],iflag,error); if (error) return
-        call check('z',nz,kz,z,tz,[11_ip,12_ip,13_ip,14_ip,708_ip,714_ip],iflag,error); if (error) return
-        call check('q',nq,kq,q,tq,[15_ip,16_ip,17_ip,18_ip,709_ip,715_ip],iflag,error); if (error) return
-        call check('r',nr,kr,r,tr,[19_ip,20_ip,21_ip,22_ip,710_ip,716_ip],iflag,error); if (error) return
-        call check('s',ns,ks,s,ts,[23_ip,24_ip,25_ip,26_ip,711_ip,717_ip],iflag,error); if (error) return
+        call check('x',nx,kx,x,tx,[3_ip,  4_ip, 5_ip, 6_ip,706_ip,712_ip],iflag,error,iex); if (error) return
+        call check('y',ny,ky,y,ty,[7_ip,  8_ip, 9_ip,10_ip,707_ip,713_ip],iflag,error,iex); if (error) return
+        call check('z',nz,kz,z,tz,[11_ip,12_ip,13_ip,14_ip,708_ip,714_ip],iflag,error,iex); if (error) return
+        call check('q',nq,kq,q,tq,[15_ip,16_ip,17_ip,18_ip,709_ip,715_ip],iflag,error,iex); if (error) return
+        call check('r',nr,kr,r,tr,[19_ip,20_ip,21_ip,22_ip,710_ip,716_ip],iflag,error,iex); if (error) return
+        call check('s',ns,ks,s,ts,[23_ip,24_ip,25_ip,26_ip,711_ip,717_ip],iflag,error,iex); if (error) return
 
         if (present(x) .and. present(f1) .and. present(bcoef1)) then
-            if (size(x,kind=ip)/=size(f1,1_ip,kind=ip))     then; iflag = 700_ip; return; end if
-            if (size(x,kind=ip)/=size(bcoef1,1_ip,kind=ip)) then; iflag = 800_ip; return; end if
+            if (size(x,kind=ip)/=size(f1,1_ip,kind=ip))         then; iflag = 700_ip; return; end if
+            if (size(x,kind=ip)+iex/=size(bcoef1,1_ip,kind=ip)) then; iflag = 800_ip; return; end if
         end if
         if (present(x) .and. present(y) .and. present(f2) .and. present(bcoef2)) then
-            if (size(x,kind=ip)/=size(f2,1_ip,kind=ip))     then; iflag = 700_ip; return; end if
-            if (size(y,kind=ip)/=size(f2,2_ip,kind=ip))     then; iflag = 701_ip; return; end if
-            if (size(x,kind=ip)/=size(bcoef2,1_ip,kind=ip)) then; iflag = 800_ip; return; end if
-            if (size(y,kind=ip)/=size(bcoef2,2_ip,kind=ip)) then; iflag = 801_ip; return; end if
+            if (size(x,kind=ip)/=size(f2,1_ip,kind=ip))         then; iflag = 700_ip; return; end if
+            if (size(y,kind=ip)/=size(f2,2_ip,kind=ip))         then; iflag = 701_ip; return; end if
+            if (size(x,kind=ip)+iex/=size(bcoef2,1_ip,kind=ip)) then; iflag = 800_ip; return; end if
+            if (size(y,kind=ip)+iex/=size(bcoef2,2_ip,kind=ip)) then; iflag = 801_ip; return; end if
         end if
         if (present(x) .and. present(y) .and. present(z) .and. present(f3) .and. &
             present(bcoef3)) then
-            if (size(x,kind=ip)/=size(f3,1_ip,kind=ip))     then; iflag = 700_ip; return; end if
-            if (size(y,kind=ip)/=size(f3,2_ip,kind=ip))     then; iflag = 701_ip; return; end if
-            if (size(z,kind=ip)/=size(f3,3_ip,kind=ip))     then; iflag = 702_ip; return; end if
-            if (size(x,kind=ip)/=size(bcoef3,1_ip,kind=ip)) then; iflag = 800_ip; return; end if
-            if (size(y,kind=ip)/=size(bcoef3,2_ip,kind=ip)) then; iflag = 801_ip; return; end if
-            if (size(z,kind=ip)/=size(bcoef3,3_ip,kind=ip)) then; iflag = 802_ip; return; end if
+            if (size(x,kind=ip)/=size(f3,1_ip,kind=ip))         then; iflag = 700_ip; return; end if
+            if (size(y,kind=ip)/=size(f3,2_ip,kind=ip))         then; iflag = 701_ip; return; end if
+            if (size(z,kind=ip)/=size(f3,3_ip,kind=ip))         then; iflag = 702_ip; return; end if
+            if (size(x,kind=ip)+iex/=size(bcoef3,1_ip,kind=ip)) then; iflag = 800_ip; return; end if
+            if (size(y,kind=ip)+iex/=size(bcoef3,2_ip,kind=ip)) then; iflag = 801_ip; return; end if
+            if (size(z,kind=ip)+iex/=size(bcoef3,3_ip,kind=ip)) then; iflag = 802_ip; return; end if
         end if
         if (present(x) .and. present(y) .and. present(z) .and. present(q) .and. &
             present(f4) .and. present(bcoef4)) then
-            if (size(x,kind=ip)/=size(f4,1_ip,kind=ip))     then; iflag = 700_ip; return; end if
-            if (size(y,kind=ip)/=size(f4,2_ip,kind=ip))     then; iflag = 701_ip; return; end if
-            if (size(z,kind=ip)/=size(f4,3_ip,kind=ip))     then; iflag = 702_ip; return; end if
-            if (size(q,kind=ip)/=size(f4,4_ip,kind=ip))     then; iflag = 703_ip; return; end if
-            if (size(x,kind=ip)/=size(bcoef4,1_ip,kind=ip)) then; iflag = 800_ip; return; end if
-            if (size(y,kind=ip)/=size(bcoef4,2_ip,kind=ip)) then; iflag = 801_ip; return; end if
-            if (size(z,kind=ip)/=size(bcoef4,3_ip,kind=ip)) then; iflag = 802_ip; return; end if
-            if (size(q,kind=ip)/=size(bcoef4,4_ip,kind=ip)) then; iflag = 803_ip; return; end if
+            if (size(x,kind=ip)/=size(f4,1_ip,kind=ip))         then; iflag = 700_ip; return; end if
+            if (size(y,kind=ip)/=size(f4,2_ip,kind=ip))         then; iflag = 701_ip; return; end if
+            if (size(z,kind=ip)/=size(f4,3_ip,kind=ip))         then; iflag = 702_ip; return; end if
+            if (size(q,kind=ip)/=size(f4,4_ip,kind=ip))         then; iflag = 703_ip; return; end if
+            if (size(x,kind=ip)+iex/=size(bcoef4,1_ip,kind=ip)) then; iflag = 800_ip; return; end if
+            if (size(y,kind=ip)+iex/=size(bcoef4,2_ip,kind=ip)) then; iflag = 801_ip; return; end if
+            if (size(z,kind=ip)+iex/=size(bcoef4,3_ip,kind=ip)) then; iflag = 802_ip; return; end if
+            if (size(q,kind=ip)+iex/=size(bcoef4,4_ip,kind=ip)) then; iflag = 803_ip; return; end if
         end if
         if (present(x) .and. present(y) .and. present(z) .and. present(q) .and. &
             present(r) .and. present(f5) .and. present(bcoef5)) then
-            if (size(x,kind=ip)/=size(f5,1_ip,kind=ip))     then; iflag = 700_ip; return; end if
-            if (size(y,kind=ip)/=size(f5,2_ip,kind=ip))     then; iflag = 701_ip; return; end if
-            if (size(z,kind=ip)/=size(f5,3_ip,kind=ip))     then; iflag = 702_ip; return; end if
-            if (size(q,kind=ip)/=size(f5,4_ip,kind=ip))     then; iflag = 703_ip; return; end if
-            if (size(r,kind=ip)/=size(f5,5_ip,kind=ip))     then; iflag = 704_ip; return; end if
-            if (size(x,kind=ip)/=size(bcoef5,1_ip,kind=ip)) then; iflag = 800_ip; return; end if
-            if (size(y,kind=ip)/=size(bcoef5,2_ip,kind=ip)) then; iflag = 801_ip; return; end if
-            if (size(z,kind=ip)/=size(bcoef5,3_ip,kind=ip)) then; iflag = 802_ip; return; end if
-            if (size(q,kind=ip)/=size(bcoef5,4_ip,kind=ip)) then; iflag = 803_ip; return; end if
-            if (size(r,kind=ip)/=size(bcoef5,5_ip,kind=ip)) then; iflag = 804_ip; return; end if
+            if (size(x,kind=ip)/=size(f5,1_ip,kind=ip))         then; iflag = 700_ip; return; end if
+            if (size(y,kind=ip)/=size(f5,2_ip,kind=ip))         then; iflag = 701_ip; return; end if
+            if (size(z,kind=ip)/=size(f5,3_ip,kind=ip))         then; iflag = 702_ip; return; end if
+            if (size(q,kind=ip)/=size(f5,4_ip,kind=ip))         then; iflag = 703_ip; return; end if
+            if (size(r,kind=ip)/=size(f5,5_ip,kind=ip))         then; iflag = 704_ip; return; end if
+            if (size(x,kind=ip)+iex/=size(bcoef5,1_ip,kind=ip)) then; iflag = 800_ip; return; end if
+            if (size(y,kind=ip)+iex/=size(bcoef5,2_ip,kind=ip)) then; iflag = 801_ip; return; end if
+            if (size(z,kind=ip)+iex/=size(bcoef5,3_ip,kind=ip)) then; iflag = 802_ip; return; end if
+            if (size(q,kind=ip)+iex/=size(bcoef5,4_ip,kind=ip)) then; iflag = 803_ip; return; end if
+            if (size(r,kind=ip)+iex/=size(bcoef5,5_ip,kind=ip)) then; iflag = 804_ip; return; end if
         end if
         if (present(x) .and. present(y) .and. present(z) .and. present(q) .and. &
             present(r) .and. present(s) .and. present(f6) .and. present(bcoef6)) then
-            if (size(x,kind=ip)/=size(f6,1_ip,kind=ip))     then; iflag = 700_ip; return; end if
-            if (size(y,kind=ip)/=size(f6,2_ip,kind=ip))     then; iflag = 701_ip; return; end if
-            if (size(z,kind=ip)/=size(f6,3_ip,kind=ip))     then; iflag = 702_ip; return; end if
-            if (size(q,kind=ip)/=size(f6,4_ip,kind=ip))     then; iflag = 703_ip; return; end if
-            if (size(r,kind=ip)/=size(f6,5_ip,kind=ip))     then; iflag = 704_ip; return; end if
-            if (size(s,kind=ip)/=size(f6,6_ip,kind=ip))     then; iflag = 705_ip; return; end if
-            if (size(x,kind=ip)/=size(bcoef6,1_ip,kind=ip)) then; iflag = 800_ip; return; end if
-            if (size(y,kind=ip)/=size(bcoef6,2_ip,kind=ip)) then; iflag = 801_ip; return; end if
-            if (size(z,kind=ip)/=size(bcoef6,3_ip,kind=ip)) then; iflag = 802_ip; return; end if
-            if (size(q,kind=ip)/=size(bcoef6,4_ip,kind=ip)) then; iflag = 803_ip; return; end if
-            if (size(r,kind=ip)/=size(bcoef6,5_ip,kind=ip)) then; iflag = 804_ip; return; end if
-            if (size(s,kind=ip)/=size(bcoef6,6_ip,kind=ip)) then; iflag = 805_ip; return; end if
+            if (size(x,kind=ip)/=size(f6,1_ip,kind=ip))         then; iflag = 700_ip; return; end if
+            if (size(y,kind=ip)/=size(f6,2_ip,kind=ip))         then; iflag = 701_ip; return; end if
+            if (size(z,kind=ip)/=size(f6,3_ip,kind=ip))         then; iflag = 702_ip; return; end if
+            if (size(q,kind=ip)/=size(f6,4_ip,kind=ip))         then; iflag = 703_ip; return; end if
+            if (size(r,kind=ip)/=size(f6,5_ip,kind=ip))         then; iflag = 704_ip; return; end if
+            if (size(s,kind=ip)/=size(f6,6_ip,kind=ip))         then; iflag = 705_ip; return; end if
+            if (size(x,kind=ip)+iex/=size(bcoef6,1_ip,kind=ip)) then; iflag = 800_ip; return; end if
+            if (size(y,kind=ip)+iex/=size(bcoef6,2_ip,kind=ip)) then; iflag = 801_ip; return; end if
+            if (size(z,kind=ip)+iex/=size(bcoef6,3_ip,kind=ip)) then; iflag = 802_ip; return; end if
+            if (size(q,kind=ip)+iex/=size(bcoef6,4_ip,kind=ip)) then; iflag = 803_ip; return; end if
+            if (size(r,kind=ip)+iex/=size(bcoef6,5_ip,kind=ip)) then; iflag = 804_ip; return; end if
+            if (size(s,kind=ip)+iex/=size(bcoef6,6_ip,kind=ip)) then; iflag = 805_ip; return; end if
+
         end if
 
         status_ok = .true.
@@ -2179,7 +2365,7 @@
 
     contains
 
-        pure subroutine check(s,n,k,x,t,ierrs,iflag,error)  !! check `t`,`x`,`n`,`k` for validity
+        pure subroutine check(s,n,k,x,t,ierrs,iflag,error,ik)  !! check `t`,`x`,`n`,`k` for validity
 
         implicit none
 
@@ -2192,17 +2378,18 @@
                                                            !! `size(x)`,`size(t)` checks
         integer(ip),intent(out)                   :: iflag !! status return code
         logical,intent(out)                       :: error !! true if there was an error
+        integer,intent(in)                        :: ik    !! add this value to k
 
         integer(ip),dimension(2) :: itmp !! temp integer array
 
         if (present(n) .and. present(k) .and. present(x) .and. present(t)) then
             itmp = [ierrs(1_ip),ierrs(5)]
             call check_n('n'//s,n,x,itmp,iflag,error);     if (error) return
-            call check_k('k'//s,k,n,ierrs(2),iflag,error); if (error) return
+            call check_k('k'//s,k+ik,n,ierrs(2),iflag,error); if (error) return
             call check_x(s,n,x,ierrs(3),iflag,error);      if (error) return
             if (iknot /= 0_ip) then
                 itmp = [ierrs(4),ierrs(6)]
-                call check_t('t'//s,n,k,t,itmp,iflag,error); if (error) return
+                call check_t('t'//s,n,k+ik,t,itmp,iflag,error); if (error) return
             end if
         end if
 
@@ -2298,12 +2485,15 @@
             return
         end if
 
-        do i=2_ip,n + k
-            if (t(i) < t(i-1_ip))  then
-                iflag = ierr(1_ip)
-                return
-            end if
-        end do
+        if (iex==0_ip) then ! don't do this for "alt" mode since they haven't been computed yet
+            do i=2_ip,n + k
+                if (t(i) < t(i-1_ip))  then
+                    iflag = ierr(1_ip)
+                    return
+                end if
+            end do
+        end if
+
         error = .false.
 
         end subroutine check_t
@@ -2470,7 +2660,7 @@
 !  for i=n when k knots are used at x(1) or x(n).  otherwise,
 !  violation of this condition is certain to lead to an error.
 !
-!# Error conditions
+!### Error conditions
 !
 !  * improper input
 !  * singular system of equations
@@ -3058,10 +3248,10 @@
     ! make a temp copy of x (for computing the
     ! interval) in case extrapolation is allowed
     if (extrapolation_allowed) then
-        if (x<t(1_ip)) then
-            xt = t(1_ip)
-        else if(x>t(n+k)) then
-            xt = t(n+k)
+        if (x<t(k)) then
+            xt = t(k)
+        else if (x>t(n+1_ip)) then
+            xt = t(n+1_ip)
         else
             xt = x
         end if
@@ -3283,6 +3473,382 @@
     end do
 
     end subroutine dintrv
+!*****************************************************************************************
+
+!*****************************************************************************************
+!>
+!  DBINT4 computes the B representation (T,BCOEF,N,K) of a
+!  cubic spline (K=4) which interpolates data (X(I),Y(I)),I=1,NDATA.
+!
+!  Parameters IBCL, IBCR, FBCL, FBCR allow the specification of the spline
+!  first or second derivative at both X(1) and X(NDATA).  When this data is not specified
+!  by the problem, it is common practice to use a natural spline by setting second
+!  derivatives at X(1) and X(NDATA) to zero (IBCL=IBCR=2,FBCL=FBCR=0.0).
+!
+!  The spline is defined on T(4) <= X <= T(N+1) with (ordered) interior knots at
+!  X(I) values where N=NDATA+2.  The knots T(1),T(2),T(3) lie to the left of
+!  T(4)=X(1) and the knots T(N+2), T(N+3), T(N+4) lie to the right of T(N+1)=X(NDATA)
+!  in increasing order.
+!
+!  * If no extrapolation outside (X(1),X(NDATA)) is anticipated, the
+!    knots T(1)=T(2)=T(3)=T(4)=X(1) and T(N+2)=T(N+3)=T(N+4)=T(N+1)=X(NDATA)
+!    can be specified by KNTOPT=1.
+!  * KNTOPT=2 selects a knot placement for T(1), T(2), T(3) to make the
+!    first 7 knots symmetric about T(4)=X(1) and similarly for
+!    T(N+2), T(N+3), T(N+4) about T(N+1)=X(NDATA).
+!  * KNTOPT=3 allows the user to make his own selection, in increasing order,
+!    for T(1), T(2), T(3) to the left of X(1) and T(N+2), T(N+3), T(N+4) to
+!    the right of X(NDATA).
+!
+!  In any case, the interpolation on T(4) <= X <= T(N+1)
+!  by using function DBVALU is unique for given boundary
+!  conditions.
+!
+!### Error conditions
+!  * improper input
+!  * singular system of equations
+!
+!### See also
+!  * [[dbintk]]
+!
+!### History
+!  * Written by D. E. Amos (SNLA), August, 1979.
+!  * date written 800901
+!  * revision date 820801
+!  * 000330  Modified array declarations.  (JEC)
+!  * Jacob Williams, 8/30/2018 : refactored to modern Fortran.
+
+    pure subroutine dbint4(x,y,ndata,ibcl,ibcr,fbcl,fbcr,kntopt,tleft,tright,t,bcoef,n,k,w,iflag)
+
+    implicit none
+
+    real(wp),dimension(:),intent(in)   :: x       !! x vector of abscissae of length `ndata`, distinct
+                                                  !! and in increasing order
+    real(wp),dimension(:),intent(in)   :: y       !! y vector of ordinates of length ndata
+    integer(ip),intent(in)             :: ndata   !! number of data points, ndata >= 2
+    integer(ip),intent(in)             :: ibcl    !! selection parameter for left boundary condition:
+                                                  !!
+                                                  !! * ibcl = 1 constrain the first derivative at x(1) to fbcl
+                                                  !! * ibcl = 2 constrain the second derivative at x(1) to fbcl
+    integer(ip),intent(in)             :: ibcr    !! selection parameter for right boundary condition:
+                                                  !!
+                                                  !! * ibcr = 1 constrain first derivative at x(ndata) to fbcr
+                                                  !! * ibcr = 2 constrain second derivative at x(ndata) to fbcr
+    real(wp),intent(in)                :: fbcl    !! left boundary values governed by ibcl
+    real(wp),intent(in)                :: fbcr    !! right boundary values governed by ibcr
+    integer(ip),intent(in)             :: kntopt  !! knot selection parameter:
+                                                  !!
+                                                  !! * kntopt = 1 sets knot multiplicity at t(4) and
+                                                  !!   t(n+1) to 4
+                                                  !! * kntopt = 2 sets a symmetric placement of knots
+                                                  !!   about t(4) and t(n+1)
+                                                  !! * kntopt = 3 sets t(i)=tleft(i) and
+                                                  !!   t(n+1+i)=tright(i),i=1,3
+    real(wp),dimension(3),intent(in)  :: tleft    !! when kntopt = 3: t(1:3) in increasing
+                                                  !! order to be supplied by the user.
+    real(wp),dimension(3),intent(in)  :: tright   !! when kntopt = 3: t(n+2:n+4) in increasing
+                                                  !! order to be supplied by the user.
+    real(wp),dimension(:),intent(out)  :: t       !! knot array of length n+4
+    real(wp),dimension(:),intent(out)  :: bcoef   !! b spline coefficient array of length n
+    integer(ip),intent(out)            :: n       !! number of coefficients, n=ndata+2
+    integer(ip),intent(out)            :: k       !! order of spline, k=4
+    real(wp),dimension(5,ndata+2),intent(inout) :: w    !! work array
+    integer(ip),intent(out)            :: iflag   !! status flag:
+                                                  !!
+                                                  !! * 0: no errors
+                                                  !! * 2001: ndata is less than 2
+                                                  !! * 2002: x values are not distinct or not ordered
+                                                  !! * 2003: ibcl is not 1 or 2
+                                                  !! * 2004: ibcr is not 1 or 2
+                                                  !! * 2005: kntopt is not 1, 2, or 3
+                                                  !! * 2006: knot input through tleft, tright is
+                                                  !!   not ordered properly
+                                                  !! * 2007: the system of equations is singular
+
+    integer(ip)  :: i, ilb, ileft, it, iub, iw, iwp, j, jw, ndm, np, nwrow
+    real(wp) :: txn, tx1, xl
+    real(wp),dimension(4,4) :: vnikx
+    real(wp),dimension(15) :: work  !! work array for [[dbspvd]] -- length (k+1)*(k+2)/2
+
+    real(wp),parameter :: wdtol = radix(1.0_wp)**(1-digits(1.0_wp)) !! d1mach(4)
+    real(wp),parameter :: tol = sqrt(wdtol)
+
+    if (ndata<2_ip) then
+        iflag = 2001_ip ! ndata is less than 2
+        return
+    end if
+
+    ndm = ndata - 1_ip
+    do i=1_ip,ndm
+        if (x(i)>=x(i+1_ip)) then
+            iflag = 2002_ip ! x values are not distinct or not ordered
+            return
+        end if
+    end do
+
+    if (ibcl<1_ip .or. ibcl>2_ip) then
+        iflag = 2003_ip ! ibcl is not 1 or 2
+        return
+    end if
+
+    if (ibcr<1_ip .or. ibcr>2_ip) then
+        iflag = 2004_ip ! ibcr is not 1 or 2
+        return
+    end if
+
+    if (kntopt<1_ip .or. kntopt>3_ip) then
+        iflag = 2005_ip ! kntopt is not 1, 2, or 3
+        return
+    end if
+
+    iflag = 0
+    k = 4
+    n = ndata + 2
+    np = n + 1
+    do i=1_ip,ndata
+        t(i+3) = x(i)
+    end do
+
+    select case (kntopt)
+    case(1_ip)
+        ! set up knot array with multiplicity 4 at x(1) and x(ndata)
+        do i=1,3_ip
+            t(4-i) = x(1)
+            t(np+i) = x(ndata)
+        end do
+    case(2_ip)
+        !set up knot array with symmetric placement about end points
+        if (ndata>3) then
+            tx1 = x(1) + x(1)
+            txn = x(ndata) + x(ndata)
+            do i=1,3
+                t(4-i) = tx1 - x(i+1)
+                t(np+i) = txn - x(ndata-i)
+            end do
+        else
+            xl = (x(ndata)-x(1))/3.0_wp
+            do i=1,3
+                t(4-i) = t(5-i) - xl
+                t(np+i) = t(np+i-1) + xl
+            end do
+        end if
+    case(3)
+        ! set up knot array less than x(1) and greater than x(ndata) to be
+        ! supplied by user in tleft & tright when kntopt=3
+        t(1:3)             = tleft
+        t(ndata+4:ndata+6) = tright
+        do i=1,3
+            if ((t(4-i)>t(5-i)) .or. (t(np+i)<t(np+i-1))) then
+                iflag = 2006_ip ! knot input through tleft, tright is not ordered properly
+                return
+            end if
+        end do
+    end select
+
+    w = 0.0_wp
+
+    ! set up left interpolation point and left boundary condition for
+    ! right limits
+    it = ibcl + 1
+    call dbspvd(t, k, it, x(1), k, 4_ip, vnikx, work, iflag)
+    if (iflag/=0_ip) return ! error check
+    iw = 0
+    if (abs(vnikx(3,1))<tol) iw = 1
+    do j=1,3
+        w(j+1,4-j) = vnikx(4-j,it)
+        w(j,4-j) = vnikx(4-j,1)
+    end do
+    bcoef(1) = y(1)
+    bcoef(2) = fbcl
+    ! set up interpolation equations for points i=2 to i=ndata-1
+    ileft = 4
+    if (ndm>=2) then
+        do i=2,ndm
+            ileft = ileft + 1
+            call dbspvd(t, k, 1_ip, x(i), ileft, 4_ip, vnikx, work, iflag)
+            if (iflag/=0_ip) return ! error check
+            do j=1,3
+                w(j+1,3+i-j) = vnikx(4-j,1)
+            end do
+            bcoef(i+1) = y(i)
+        end do
+    end if
+
+    ! set up right interpolation point and right boundary condition for
+    ! left limits(ileft is associated with t(n)=x(ndata-1))
+    it = ibcr + 1
+    call dbspvd(t, k, it, x(ndata), ileft, 4_ip, vnikx, work, iflag)
+    if (iflag/=0_ip) return ! error check
+    jw = 0
+    if (abs(vnikx(2,1))<tol) jw = 1
+    do j=1,3
+        w(j+1,3+ndata-j) = vnikx(5-j,it)
+        w(j+2,3+ndata-j) = vnikx(5-j,1)
+    end do
+    bcoef(n-1) = fbcr
+    bcoef(n) = y(ndata)
+    ! solve system of equations
+    ilb = 2 - jw
+    iub = 2 - iw
+    nwrow = 5
+    iwp = iw + 1
+    call dbnfac(w(iwp,1), nwrow, n, ilb, iub, iflag)
+    if (iflag==2_ip) then
+        iflag = 2007_ip ! the system of equations is singular
+        return
+    else
+        ! success
+        iflag = 0_ip
+    end if
+    call dbnslv(w(iwp,1), nwrow, n, ilb, iub, bcoef)
+
+    end subroutine dbint4
+!*****************************************************************************************
+
+!*****************************************************************************************
+!>
+!  DBSPVD calculates the value and all derivatives of order
+!  less than NDERIV of all basis functions which do not
+!  (possibly) vanish at X.  ILEFT is input such that
+!  T(ILEFT) <= X < T(ILEFT+1).  A call to INTRV(T,N+1,X,
+!  ILO,ILEFT,MFLAG) will produce the proper ILEFT.  The output of
+!  DBSPVD is a matrix VNIKX(I,J) of dimension at least (K,NDERIV)
+!  whose columns contain the K nonzero basis functions and
+!  their NDERIV-1 right derivatives at X, I=1,K, J=1,NDERIV.
+!  These basis functions have indices ILEFT-K+I, I=1,K,
+!  K <= ILEFT <= N.  The nonzero part of the I-th basis
+!  function lies in (T(I),T(I+K)), I=1,N).
+!
+!  If X=T(ILEFT+1) then VNIKX contains left limiting values
+!  (left derivatives) at T(ILEFT+1).  In particular, ILEFT = N
+!  produces left limiting values at the right end point
+!  X=T(N+1).  To obtain left limiting values at T(I), I=K+1,N+1,
+!  set X= next lower distinct knot, call INTRV to get ILEFT,
+!  set X=T(I), and then call DBSPVD.
+!
+!### History
+!  * Written by Carl de Boor and modified by D. E. Amos
+!  * date written 800901
+!  * revision date 820801
+!  * 000330  Modified array declarations.  (JEC)
+!  * Jacob Williams, 8/30/2018 : refactored to modern Fortran.
+!
+!@note `DBSPVD` is the `BSPLVD` routine of the reference.
+
+    pure subroutine dbspvd(t,k,nderiv,x,ileft,ldvnik,vnikx,work,iflag)
+
+    implicit none
+
+    real(wp),dimension(:),intent(in)              :: t       !! knot vector of length N+K, where
+                                                             !! N = number of B-spline basis functions
+                                                             !! N = sum of knot multiplicities-K
+    integer(ip),intent(in)                        :: k       !! order of the B-spline, K >= 1
+    integer(ip),intent(in)                        :: nderiv  !! number of derivatives = NDERIV-1,
+                                                             !! 1 <= NDERIV <= K
+    real(wp),intent(in)                           :: x       !! argument of basis functions,
+                                                             !! T(K) <= X <= T(N+1)
+    integer(ip),intent(in)                        :: ileft   !! largest integer such that
+                                                             !! T(ILEFT) <= X < T(ILEFT+1)
+    integer(ip),intent(in)                        :: ldvnik  !! leading dimension of matrix VNIKX
+    real(wp),dimension(ldvnik,nderiv),intent(out) :: vnikx   !! matrix of dimension at least (K,NDERIV)
+                                                             !! containing the nonzero basis functions
+                                                             !! at X and their derivatives columnwise.
+    real(wp),dimension(*),intent(out)             :: work    !! a work vector of length (K+1)*(K+2)/2
+    integer(ip),intent(out)                       :: iflag   !! status flag:
+                                                             !!
+                                                             !! * 0: no errors
+                                                             !! * 3001: k does not satisfy k>=1
+                                                             !! * 3002: nderiv does not satisfy 1<=nderiv<=k
+                                                             !! * 3003: ldvnik does not satisfy ldvnik>=k
+
+    integer(ip) :: i,ideriv,ipkmd,j,jj,jlow,jm,jp1mid,kmd,kp1,l,ldummy,m,mhigh,iwork
+    real(wp) :: factor, fkmd, v
+
+    ! dimension t(ileft+k), work((k+1)*(k+2)/2)
+    ! a(i,j) = work(i+j*(j+1)/2),  i=1,j+1  j=1,k-1
+    ! a(i,k) = work(i+k*(k-1)/2)  i=1.k
+    ! work(1) and work((k+1)*(k+2)/2) are not used.
+
+    if (k<1) then
+        iflag = 3001_ip ! k does not satisfy k>=1
+        return
+    end if
+
+    if (nderiv<1 .or. nderiv>k) then
+        iflag = 3002_ip ! nderiv does not satisfy 1<=nderiv<=k
+        return
+    end if
+
+    if (ldvnik<k) then
+        iflag = 3003_ip ! ldvnik does not satisfy ldvnik>=k
+        return
+    end if
+
+    iflag = 0_ip
+
+    ideriv = nderiv
+    kp1 = k + 1
+    jj = kp1 - ideriv
+    call dbspvn(t, jj, k, 1_ip, x, ileft, vnikx, work, iwork, iflag)
+    if (iflag/=0 .or. ideriv==1) return
+    mhigh = ideriv
+    do m=2,mhigh
+        jp1mid = 1
+        do j=ideriv,k
+            vnikx(j,ideriv) = vnikx(jp1mid,1)
+            jp1mid = jp1mid + 1
+        end do
+        ideriv = ideriv - 1
+        jj = kp1 - ideriv
+        call dbspvn(t, jj, k, 2_ip, x, ileft, vnikx, work, iwork, iflag)
+        if (iflag/=0) return
+    end do
+
+    jm = kp1*(kp1+1)/2
+    do l = 1,jm
+        work(l) = 0.0_wp
+    end do
+    ! a(i,i) = work(i*(i+3)/2) = 1.0       i = 1,k
+    l = 2
+    j = 0
+    do i = 1,k
+        j = j + l
+        work(j) = 1.0_wp
+        l = l + 1
+    end do
+    kmd = k
+    do m=2,mhigh
+        kmd = kmd - 1
+        fkmd = real(kmd,wp)
+        i = ileft
+        j = k
+        jj = j*(j+1)/2
+        jm = jj - j
+        do ldummy=1,kmd
+            ipkmd = i + kmd
+            factor = fkmd/(t(ipkmd)-t(i))
+            do l=1,j
+                work(l+jj) = (work(l+jj)-work(l+jm))*factor
+            end do
+            i = i - 1
+            j = j - 1
+            jj = jm
+            jm = jm - j
+        end do
+
+        do i=1,k
+            v = 0.0_wp
+            jlow = max(i,m)
+            jj = jlow*(jlow+1)/2
+            do j=jlow,k
+                v = work(i+jj)*vnikx(j,m) + v
+                jj = jj + j + 1
+            end do
+            vnikx(i,m) = v
+        end do
+    end do
+
+    end subroutine dbspvd
 !*****************************************************************************************
 
 !*****************************************************************************************
@@ -4087,6 +4653,18 @@
 
     case(1101_ip); msg='Warning in dbsgq8: a and b are too nearly equal to allow normal integration.'
     case(1102_ip); msg='Error in dbsgq8: ans is probably insufficiently accurate.'
+
+    case(2001_ip); msg='Error in dbint4: ndata is less than 2'
+    case(2002_ip); msg='Error in dbint4: x values are not distinct or not ordered'
+    case(2003_ip); msg='Error in dbint4: ibcl is not 1 or 2'
+    case(2004_ip); msg='Error in dbint4: ibcr is not 1 or 2'
+    case(2005_ip); msg='Error in dbint4: kntopt is not 1, 2, or 3'
+    case(2006_ip); msg='Error in dbint4: knot input through tleft, tright is not ordered properly'
+    case(2007_ip); msg='Error in dbint4: the system of equations is singular'
+
+    case(3001_ip); msg='Error in dbspvd: k does not satisfy k>=1'
+    case(3002_ip); msg='Error in dbspvd: nderiv does not satisfy 1<=nderiv<=k'
+    case(3003_ip); msg='Error in dbspvd: ldvnik does not satisfy ldvnik>=k'
 
     case default
         write(istr,fmt='(I10)',iostat=istat) iflag
