@@ -73,6 +73,8 @@
             <li><a href="../lists/types.html">Derived Types</a></li>
         
         
+            <li><a href="../lists/programs.html">Programs</a></li>
+        
             </ul>
             </li>
 
@@ -92,6 +94,8 @@
                              
 <li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
 
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/programs.html">Programs</a></li>
 
           </ul>
         
@@ -130,7 +134,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 1.6% of total for procedures.">60 statements</a>
+    title=" 4.9% of total for procedures.">60 statements</a>
      </li> 
      
      
@@ -220,26 +224,23 @@ public pure subroutine db3val(xval, yval, zval, idx, idy, idz, tx, ty, tz, nx, n
   interpolant itself, set <code>idx=idy=idz=0</code>, to evaluate the first
   partial with respect to <code>x</code>, set <code>idx=1</code>,<code>idy=idz=0</code>, and so on.</p>
 <p><a href="../proc/db3val.html">db3val</a> returns 0.0 if (<code>xval</code>,<code>yval</code>,<code>zval</code>) is out of range. that is,</p>
-<div class="codehilite"><pre><span></span> <span class="n">xval</span><span class="o">&lt;</span><span class="n">tx</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">.</span><span class="nb">or</span><span class="p">.</span> <span class="n">xval</span><span class="o">&gt;</span><span class="n">tx</span><span class="p">(</span><span class="n">nx</span><span class="o">+</span><span class="n">kx</span><span class="p">)</span> <span class="p">.</span><span class="nb">or</span><span class="p">.</span>
+<div class="codehilite"><pre><span></span><code> <span class="n">xval</span><span class="o">&lt;</span><span class="n">tx</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">.</span><span class="nb">or</span><span class="p">.</span> <span class="n">xval</span><span class="o">&gt;</span><span class="n">tx</span><span class="p">(</span><span class="n">nx</span><span class="o">+</span><span class="n">kx</span><span class="p">)</span> <span class="p">.</span><span class="nb">or</span><span class="p">.</span>
  <span class="n">yval</span><span class="o">&lt;</span><span class="n">ty</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">.</span><span class="nb">or</span><span class="p">.</span> <span class="n">yval</span><span class="o">&gt;</span><span class="n">ty</span><span class="p">(</span><span class="n">ny</span><span class="o">+</span><span class="n">ky</span><span class="p">)</span> <span class="p">.</span><span class="nb">or</span><span class="p">.</span>
  <span class="n">zval</span><span class="o">&lt;</span><span class="n">tz</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">.</span><span class="nb">or</span><span class="p">.</span> <span class="n">zval</span><span class="o">&gt;</span><span class="n">tz</span><span class="p">(</span><span class="n">nz</span><span class="o">+</span><span class="n">kz</span><span class="p">)</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>if the knots <code>tx</code>, <code>ty</code>, and <code>tz</code> were chosen by <a href="../proc/db3ink.html">db3ink</a>, then this is
   equivalent to</p>
-<div class="codehilite"><pre><span></span> <span class="n">xval</span><span class="o">&lt;</span><span class="n">x</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">.</span><span class="nb">or</span><span class="p">.</span> <span class="n">xval</span><span class="o">&gt;</span><span class="n">x</span><span class="p">(</span><span class="n">nx</span><span class="p">)</span><span class="o">+</span><span class="n">epsx</span> <span class="p">.</span><span class="nb">or</span><span class="p">.</span>
+<div class="codehilite"><pre><span></span><code> <span class="n">xval</span><span class="o">&lt;</span><span class="n">x</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">.</span><span class="nb">or</span><span class="p">.</span> <span class="n">xval</span><span class="o">&gt;</span><span class="n">x</span><span class="p">(</span><span class="n">nx</span><span class="p">)</span><span class="o">+</span><span class="n">epsx</span> <span class="p">.</span><span class="nb">or</span><span class="p">.</span>
  <span class="n">yval</span><span class="o">&lt;</span><span class="n">y</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">.</span><span class="nb">or</span><span class="p">.</span> <span class="n">yval</span><span class="o">&gt;</span><span class="n">y</span><span class="p">(</span><span class="n">ny</span><span class="p">)</span><span class="o">+</span><span class="n">epsy</span> <span class="p">.</span><span class="nb">or</span><span class="p">.</span>
  <span class="n">zval</span><span class="o">&lt;</span><span class="n">z</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">.</span><span class="nb">or</span><span class="p">.</span> <span class="n">zval</span><span class="o">&gt;</span><span class="n">z</span><span class="p">(</span><span class="n">nz</span><span class="p">)</span><span class="o">+</span><span class="n">epsz</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>where</p>
-<div class="codehilite"><pre><span></span> <span class="n">epsx</span> <span class="o">=</span> <span class="mf">0.1</span><span class="o">*</span><span class="p">(</span><span class="n">x</span><span class="p">(</span><span class="n">nx</span><span class="p">)</span><span class="o">-</span><span class="n">x</span><span class="p">(</span><span class="n">nx</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+<div class="codehilite"><pre><span></span><code> <span class="n">epsx</span> <span class="o">=</span> <span class="mf">0.1</span><span class="o">*</span><span class="p">(</span><span class="n">x</span><span class="p">(</span><span class="n">nx</span><span class="p">)</span><span class="o">-</span><span class="n">x</span><span class="p">(</span><span class="n">nx</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
  <span class="n">epsy</span> <span class="o">=</span> <span class="mf">0.1</span><span class="o">*</span><span class="p">(</span><span class="n">y</span><span class="p">(</span><span class="n">ny</span><span class="p">)</span><span class="o">-</span><span class="n">y</span><span class="p">(</span><span class="n">ny</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
  <span class="n">epsz</span> <span class="o">=</span> <span class="mf">0.1</span><span class="o">*</span><span class="p">(</span><span class="n">z</span><span class="p">(</span><span class="n">nz</span><span class="p">)</span><span class="o">-</span><span class="n">z</span><span class="p">(</span><span class="n">nz</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>The input quantities <code>tx</code>, <code>ty</code>, <code>tz</code>, <code>nx</code>, <code>ny</code>, <code>nz</code>, <code>kx</code>, <code>ky</code>, <code>kz</code>, and <code>bcoef</code>
   should remain unchanged since the last call of <a href="../proc/db3ink.html">db3ink</a>.</p>
@@ -269,7 +270,7 @@ public pure subroutine db3val(xval, yval, zval, idx, idy, idz, tx, ty, tz, nx, n
   
 <tr>
   
-  <td><span class="anchor" id="variable-xval%7E9"></span>real(kind=wp),</td>
+  <td><span class="anchor" id="variable-xval~3"></span>real(kind=wp),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -285,7 +286,7 @@ public pure subroutine db3val(xval, yval, zval, idx, idy, idz, tx, ty, tz, nx, n
   
 <tr>
   
-  <td><span class="anchor" id="variable-yval%7E7"></span>real(kind=wp),</td>
+  <td><span class="anchor" id="variable-yval~2"></span>real(kind=wp),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -301,7 +302,7 @@ public pure subroutine db3val(xval, yval, zval, idx, idy, idz, tx, ty, tz, nx, n
   
 <tr>
   
-  <td><span class="anchor" id="variable-zval%7E5"></span>real(kind=wp),</td>
+  <td><span class="anchor" id="variable-zval"></span>real(kind=wp),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -317,7 +318,7 @@ public pure subroutine db3val(xval, yval, zval, idx, idy, idz, tx, ty, tz, nx, n
   
 <tr>
   
-  <td><span class="anchor" id="variable-idx%7E11"></span>integer(kind=ip),</td>
+  <td><span class="anchor" id="variable-idx~4"></span>integer(kind=ip),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -333,7 +334,7 @@ public pure subroutine db3val(xval, yval, zval, idx, idy, idz, tx, ty, tz, nx, n
   
 <tr>
   
-  <td><span class="anchor" id="variable-idy%7E7"></span>integer(kind=ip),</td>
+  <td><span class="anchor" id="variable-idy~2"></span>integer(kind=ip),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -349,7 +350,7 @@ public pure subroutine db3val(xval, yval, zval, idx, idy, idz, tx, ty, tz, nx, n
   
 <tr>
   
-  <td><span class="anchor" id="variable-idz%7E5"></span>integer(kind=ip),</td>
+  <td><span class="anchor" id="variable-idz"></span>integer(kind=ip),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -365,7 +366,7 @@ public pure subroutine db3val(xval, yval, zval, idx, idy, idz, tx, ty, tz, nx, n
   
 <tr>
   
-  <td><span class="anchor" id="variable-tx%7E29"></span>real(kind=wp),</td>
+  <td><span class="anchor" id="variable-tx~8"></span>real(kind=wp),</td>
   <td>intent(in),</td>
   <td></td>
   
@@ -381,7 +382,7 @@ public pure subroutine db3val(xval, yval, zval, idx, idy, idz, tx, ty, tz, nx, n
   
 <tr>
   
-  <td><span class="anchor" id="variable-ty%7E20"></span>real(kind=wp),</td>
+  <td><span class="anchor" id="variable-ty~4"></span>real(kind=wp),</td>
   <td>intent(in),</td>
   <td></td>
   
@@ -397,7 +398,7 @@ public pure subroutine db3val(xval, yval, zval, idx, idy, idz, tx, ty, tz, nx, n
   
 <tr>
   
-  <td><span class="anchor" id="variable-tz%7E15"></span>real(kind=wp),</td>
+  <td><span class="anchor" id="variable-tz~2"></span>real(kind=wp),</td>
   <td>intent(in),</td>
   <td></td>
   
@@ -413,7 +414,7 @@ public pure subroutine db3val(xval, yval, zval, idx, idy, idz, tx, ty, tz, nx, n
   
 <tr>
   
-  <td><span class="anchor" id="variable-nx%7E17"></span>integer(kind=ip),</td>
+  <td><span class="anchor" id="variable-nx~8"></span>integer(kind=ip),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -429,7 +430,7 @@ public pure subroutine db3val(xval, yval, zval, idx, idy, idz, tx, ty, tz, nx, n
   
 <tr>
   
-  <td><span class="anchor" id="variable-ny%7E10"></span>integer(kind=ip),</td>
+  <td><span class="anchor" id="variable-ny~4"></span>integer(kind=ip),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -445,7 +446,7 @@ public pure subroutine db3val(xval, yval, zval, idx, idy, idz, tx, ty, tz, nx, n
   
 <tr>
   
-  <td><span class="anchor" id="variable-nz%7E7"></span>integer(kind=ip),</td>
+  <td><span class="anchor" id="variable-nz~2"></span>integer(kind=ip),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -461,7 +462,7 @@ public pure subroutine db3val(xval, yval, zval, idx, idy, idz, tx, ty, tz, nx, n
   
 <tr>
   
-  <td><span class="anchor" id="variable-kx%7E41"></span>integer(kind=ip),</td>
+  <td><span class="anchor" id="variable-kx~8"></span>integer(kind=ip),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -477,7 +478,7 @@ public pure subroutine db3val(xval, yval, zval, idx, idy, idz, tx, ty, tz, nx, n
   
 <tr>
   
-  <td><span class="anchor" id="variable-ky%7E30"></span>integer(kind=ip),</td>
+  <td><span class="anchor" id="variable-ky~4"></span>integer(kind=ip),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -493,7 +494,7 @@ public pure subroutine db3val(xval, yval, zval, idx, idy, idz, tx, ty, tz, nx, n
   
 <tr>
   
-  <td><span class="anchor" id="variable-kz%7E23"></span>integer(kind=ip),</td>
+  <td><span class="anchor" id="variable-kz~2"></span>integer(kind=ip),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -509,7 +510,7 @@ public pure subroutine db3val(xval, yval, zval, idx, idy, idz, tx, ty, tz, nx, n
   
 <tr>
   
-  <td><span class="anchor" id="variable-bcoef%7E16"></span>real(kind=wp),</td>
+  <td><span class="anchor" id="variable-bcoef~8"></span>real(kind=wp),</td>
   <td>intent(in),</td>
   <td></td>
   
@@ -524,7 +525,7 @@ public pure subroutine db3val(xval, yval, zval, idx, idy, idz, tx, ty, tz, nx, n
   
 <tr>
   
-  <td><span class="anchor" id="variable-f%7E14"></span>real(kind=wp),</td>
+  <td><span class="anchor" id="variable-f~6"></span>real(kind=wp),</td>
   <td>intent(out)</td>
   <td></td>
   
@@ -539,7 +540,7 @@ public pure subroutine db3val(xval, yval, zval, idx, idy, idz, tx, ty, tz, nx, n
   
 <tr>
   
-  <td><span class="anchor" id="variable-iflag%7E35"></span>integer(kind=ip),</td>
+  <td><span class="anchor" id="variable-iflag~9"></span>integer(kind=ip),</td>
   <td>intent(out)</td>
   <td></td>
   
@@ -560,7 +561,7 @@ public pure subroutine db3val(xval, yval, zval, idx, idy, idz, tx, ty, tz, nx, n
   
 <tr>
   
-  <td><span class="anchor" id="variable-inbvx%7E4"></span>integer(kind=ip),</td>
+  <td><span class="anchor" id="variable-inbvx~3"></span>integer(kind=ip),</td>
   <td>intent(inout)</td>
   <td></td>
   
@@ -577,7 +578,7 @@ public pure subroutine db3val(xval, yval, zval, idx, idy, idz, tx, ty, tz, nx, n
   
 <tr>
   
-  <td><span class="anchor" id="variable-inbvy%7E7"></span>integer(kind=ip),</td>
+  <td><span class="anchor" id="variable-inbvy~2"></span>integer(kind=ip),</td>
   <td>intent(inout)</td>
   <td></td>
   
@@ -594,7 +595,7 @@ public pure subroutine db3val(xval, yval, zval, idx, idy, idz, tx, ty, tz, nx, n
   
 <tr>
   
-  <td><span class="anchor" id="variable-inbvz%7E5"></span>integer(kind=ip),</td>
+  <td><span class="anchor" id="variable-inbvz"></span>integer(kind=ip),</td>
   <td>intent(inout)</td>
   <td></td>
   
@@ -611,7 +612,7 @@ public pure subroutine db3val(xval, yval, zval, idx, idy, idz, tx, ty, tz, nx, n
   
 <tr>
   
-  <td><span class="anchor" id="variable-iloy%7E7"></span>integer(kind=ip),</td>
+  <td><span class="anchor" id="variable-iloy~2"></span>integer(kind=ip),</td>
   <td>intent(inout)</td>
   <td></td>
   
@@ -628,7 +629,7 @@ public pure subroutine db3val(xval, yval, zval, idx, idy, idz, tx, ty, tz, nx, n
   
 <tr>
   
-  <td><span class="anchor" id="variable-iloz%7E5"></span>integer(kind=ip),</td>
+  <td><span class="anchor" id="variable-iloz"></span>integer(kind=ip),</td>
   <td>intent(inout)</td>
   <td></td>
   
@@ -660,7 +661,7 @@ public pure subroutine db3val(xval, yval, zval, idx, idy, idz, tx, ty, tz, nx, n
   
 <tr>
   
-  <td><span class="anchor" id="variable-w1%7E2"></span>real(kind=wp),</td>
+  <td><span class="anchor" id="variable-w1~2"></span>real(kind=wp),</td>
   <td>intent(inout),</td>
   <td></td>
   
@@ -675,7 +676,7 @@ public pure subroutine db3val(xval, yval, zval, idx, idy, idz, tx, ty, tz, nx, n
   
 <tr>
   
-  <td><span class="anchor" id="variable-w0%7E5"></span>real(kind=wp),</td>
+  <td><span class="anchor" id="variable-w0~5"></span>real(kind=wp),</td>
   <td>intent(inout),</td>
   <td></td>
   
@@ -690,7 +691,7 @@ public pure subroutine db3val(xval, yval, zval, idx, idy, idz, tx, ty, tz, nx, n
   
 <tr>
   
-  <td><span class="anchor" id="variable-extrap%7E31"></span>logical,</td>
+  <td><span class="anchor" id="variable-extrap~3"></span>logical,</td>
   <td>intent(in),</td>
   <td>optional</td>
   
@@ -706,219 +707,7 @@ public pure subroutine db3val(xval, yval, zval, idx, idy, idz, tx, ty, tz, nx, n
     
     
     
-    <br>
     
-    
-    <div class="panel panel-default">
-      <div class="panel-heading">
-  <h3 class="panel-title">Calls</h3>
-      </div>
-      <div class="panel-body">
-  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
- "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<!-- Generated by graphviz version 2.38.0 (20140413.2041)
- -->
-<!-- Title: proc~~db3val~~CallsGraph Pages: 1 -->
-<svg id="procdb3valCallsGraph" width="339pt" height="74pt"
- viewBox="0.00 0.00 339.00 74.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="proc~~db3val~~CallsGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 70)">
-<title>proc~~db3val~~CallsGraph</title>
-<polygon fill="white" stroke="none" points="-4,4 -4,-70 335,-70 335,4 -4,4"/>
-<!-- proc~db3val -->
-<g id="proc~~db3val~~CallsGraph_node1" class="node"><title>proc~db3val</title>
-<polygon fill="none" stroke="black" points="54,-45 0,-45 0,-21 54,-21 54,-45"/>
-<text text-anchor="middle" x="27" y="-30.6" font-family="Helvetica,sans-Serif" font-size="10.50">db3val</text>
-</g>
-<!-- proc~check_value -->
-<g id="proc~~db3val~~CallsGraph_node2" class="node"><title>proc~check_value</title>
-<g id="a_proc~~db3val~~CallsGraph_node2"><a xlink:href=".././proc/check_value.html" xlink:title="check_value">
-<polygon fill="#d94e8f" stroke="#d94e8f" points="166,-66 90,-66 90,-42 166,-42 166,-66"/>
-<text text-anchor="middle" x="128" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">check_value</text>
-</a>
-</g>
-</g>
-<!-- proc~db3val&#45;&gt;proc~check_value -->
-<g id="proc~~db3val~~CallsGraph_edge1" class="edge"><title>proc~db3val&#45;&gt;proc~check_value</title>
-<path fill="none" stroke="#000000" d="M54.0111,-38.5175C62.0029,-40.2127 71.0581,-42.1335 80.004,-44.0312"/>
-<polygon fill="#000000" stroke="#000000" points="79.4866,-47.4992 89.9953,-46.1505 80.9392,-40.6516 79.4866,-47.4992"/>
-</g>
-<!-- proc~dintrv -->
-<g id="proc~~db3val~~CallsGraph_node3" class="node"><title>proc~dintrv</title>
-<g id="a_proc~~db3val~~CallsGraph_node3"><a xlink:href=".././proc/dintrv.html" xlink:title="dintrv">
-<polygon fill="#d9534f" stroke="#d9534f" points="155,-24 101,-24 101,-0 155,-0 155,-24"/>
-<text text-anchor="middle" x="128" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dintrv</text>
-</a>
-</g>
-</g>
-<!-- proc~db3val&#45;&gt;proc~dintrv -->
-<g id="proc~~db3val~~CallsGraph_edge2" class="edge"><title>proc~db3val&#45;&gt;proc~dintrv</title>
-<path fill="none" stroke="#000000" d="M54.0111,-27.4825C65.2899,-25.09 78.6867,-22.2483 90.905,-19.6565"/>
-<polygon fill="#000000" stroke="#000000" points="91.7629,-23.0525 100.819,-17.5536 90.3103,-16.2049 91.7629,-23.0525"/>
-</g>
-<!-- proc~get_temp_x_for_extrap -->
-<g id="proc~~db3val~~CallsGraph_node4" class="node"><title>proc~get_temp_x_for_extrap</title>
-<g id="a_proc~~db3val~~CallsGraph_node4"><a xlink:href=".././proc/get_temp_x_for_extrap.html" xlink:title="get_temp_x_for_extrap">
-<polygon fill="#d94e8f" stroke="#d94e8f" points="331,-24 202,-24 202,-0 331,-0 331,-24"/>
-<text text-anchor="middle" x="266.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">get_temp_x_for_extrap</text>
-</a>
-</g>
-</g>
-<!-- proc~dintrv&#45;&gt;proc~get_temp_x_for_extrap -->
-<g id="proc~~db3val~~CallsGraph_edge3" class="edge"><title>proc~dintrv&#45;&gt;proc~get_temp_x_for_extrap</title>
-<path fill="none" stroke="#000000" d="M155.319,-12C165.937,-12 178.766,-12 191.862,-12"/>
-<polygon fill="#000000" stroke="#000000" points="191.896,-15.5001 201.896,-12 191.896,-8.5001 191.896,-15.5001"/>
-</g>
-</g>
-</svg>
-</div><div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div><div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="-graph-help-label">Graph Key</h4></div><div class="modal-body">
-    <p>Nodes of different colours represent the following: </p>
-    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
- "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<!-- Generated by graphviz version 2.38.0 (20140413.2041)
- -->
-<!-- Title: Graph Key Pages: 1 -->
-<svg width="590pt" height="32pt"
- viewBox="0.00 0.00 589.50 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
-<title>Graph Key</title>
-<polygon fill="white" stroke="none" points="-4,4 -4,-28 585.5,-28 585.5,4 -4,4"/>
-<!-- Subroutine -->
-<g id="node1" class="node"><title>Subroutine</title>
-<polygon fill="#d9534f" stroke="#d9534f" points="70,-24 0,-24 0,-0 70,-0 70,-24"/>
-<text text-anchor="middle" x="35" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
-</g>
-<!-- Function -->
-<g id="node2" class="node"><title>Function</title>
-<polygon fill="#d94e8f" stroke="#d94e8f" points="145.5,-24 88.5,-24 88.5,-0 145.5,-0 145.5,-24"/>
-<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
-</g>
-<!-- Interface -->
-<g id="node3" class="node"><title>Interface</title>
-<polygon fill="#a7506f" stroke="#a7506f" points="222,-24 164,-24 164,-0 222,-0 222,-24"/>
-<text text-anchor="middle" x="193" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Interface</text>
-</g>
-<!-- Unknown Procedure Type -->
-<g id="node4" class="node"><title>Unknown Procedure Type</title>
-<polygon fill="#777777" stroke="#777777" points="385.5,-24 240.5,-24 240.5,-0 385.5,-0 385.5,-24"/>
-<text text-anchor="middle" x="313" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
-</g>
-<!-- Program -->
-<g id="node5" class="node"><title>Program</title>
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="460,-24 404,-24 404,-0 460,-0 460,-24"/>
-<text text-anchor="middle" x="432" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
-</g>
-<!-- This Page&#39;s Entity -->
-<g id="node6" class="node"><title>This Page&#39;s Entity</title>
-<polygon fill="none" stroke="black" points="581.5,-24 478.5,-24 478.5,-0 581.5,-0 581.5,-24"/>
-<text text-anchor="middle" x="530" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
-</g>
-</g>
-</svg>
-
-    
-    <p>Solid arrows point from a procedure to one which it calls. Dashed 
-    arrows point from an interface to procedures which implement that interface.
-    This could include the module procedures in a generic interface or the
-    implementation in a submodule of an interface in a parent module.
-    </p>
-    </div></div></div></div>
-      </div>
-    </div>
-     
-     
-    <div class="panel panel-default">
-      <div class="panel-heading">
-  <h3 class="panel-title">Called by</h3>
-      </div>
-      <div class="panel-body">
-  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
- "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<!-- Generated by graphviz version 2.38.0 (20140413.2041)
- -->
-<!-- Title: proc~~db3val~~CalledByGraph Pages: 1 -->
-<svg id="procdb3valCalledByGraph" width="173pt" height="32pt"
- viewBox="0.00 0.00 173.00 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="proc~~db3val~~CalledByGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
-<title>proc~~db3val~~CalledByGraph</title>
-<polygon fill="white" stroke="none" points="-4,4 -4,-28 169,-28 169,4 -4,4"/>
-<!-- proc~db3val -->
-<g id="proc~~db3val~~CalledByGraph_node1" class="node"><title>proc~db3val</title>
-<polygon fill="none" stroke="black" points="165,-24 111,-24 111,-0 165,-0 165,-24"/>
-<text text-anchor="middle" x="138" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">db3val</text>
-</g>
-<!-- proc~evaluate_3d -->
-<g id="proc~~db3val~~CalledByGraph_node2" class="node"><title>proc~evaluate_3d</title>
-<g id="a_proc~~db3val~~CalledByGraph_node2"><a xlink:href=".././proc/evaluate_3d.html" xlink:title="evaluate_3d">
-<polygon fill="#d9534f" stroke="#d9534f" points="75,-24 7.10543e-15,-24 7.10543e-15,-0 75,-0 75,-24"/>
-<text text-anchor="middle" x="37.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">evaluate_3d</text>
-</a>
-</g>
-</g>
-<!-- proc~evaluate_3d&#45;&gt;proc~db3val -->
-<g id="proc~~db3val~~CalledByGraph_edge1" class="edge"><title>proc~evaluate_3d&#45;&gt;proc~db3val</title>
-<path fill="none" stroke="#000000" d="M75.1778,-12C83.4849,-12 92.3035,-12 100.599,-12"/>
-<polygon fill="#000000" stroke="#000000" points="100.749,-15.5001 110.749,-12 100.749,-8.5001 100.749,-15.5001"/>
-</g>
-</g>
-</svg>
-</div><div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div><div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="-graph-help-label">Graph Key</h4></div><div class="modal-body">
-    <p>Nodes of different colours represent the following: </p>
-    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
- "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<!-- Generated by graphviz version 2.38.0 (20140413.2041)
- -->
-<!-- Title: Graph Key Pages: 1 -->
-<svg width="590pt" height="32pt"
- viewBox="0.00 0.00 589.50 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
-<title>Graph Key</title>
-<polygon fill="white" stroke="none" points="-4,4 -4,-28 585.5,-28 585.5,4 -4,4"/>
-<!-- Subroutine -->
-<g id="node1" class="node"><title>Subroutine</title>
-<polygon fill="#d9534f" stroke="#d9534f" points="70,-24 0,-24 0,-0 70,-0 70,-24"/>
-<text text-anchor="middle" x="35" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
-</g>
-<!-- Function -->
-<g id="node2" class="node"><title>Function</title>
-<polygon fill="#d94e8f" stroke="#d94e8f" points="145.5,-24 88.5,-24 88.5,-0 145.5,-0 145.5,-24"/>
-<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
-</g>
-<!-- Interface -->
-<g id="node3" class="node"><title>Interface</title>
-<polygon fill="#a7506f" stroke="#a7506f" points="222,-24 164,-24 164,-0 222,-0 222,-24"/>
-<text text-anchor="middle" x="193" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Interface</text>
-</g>
-<!-- Unknown Procedure Type -->
-<g id="node4" class="node"><title>Unknown Procedure Type</title>
-<polygon fill="#777777" stroke="#777777" points="385.5,-24 240.5,-24 240.5,-0 385.5,-0 385.5,-24"/>
-<text text-anchor="middle" x="313" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
-</g>
-<!-- Program -->
-<g id="node5" class="node"><title>Program</title>
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="460,-24 404,-24 404,-0 460,-0 460,-24"/>
-<text text-anchor="middle" x="432" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
-</g>
-<!-- This Page&#39;s Entity -->
-<g id="node6" class="node"><title>This Page&#39;s Entity</title>
-<polygon fill="none" stroke="black" points="581.5,-24 478.5,-24 478.5,-0 581.5,-0 581.5,-24"/>
-<text text-anchor="middle" x="530" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
-</g>
-</g>
-</svg>
-
-    
-    <p>Solid arrows point from a procedure to one which it calls. Dashed 
-    arrows point from an interface to procedures which implement that interface.
-    This could include the module procedures in a generic interface or the
-    implementation in a submodule of an interface in a parent module.
-    </p>
-    </div></div></div></div>
-      </div>
-    </div>
      
     <br>
 
@@ -1086,7 +875,7 @@ public pure subroutine db3val(xval, yval, zval, idx, idy, idz, tx, ty, tz, nx, n
     <footer>
       <div class="container">
       <div class="row">
-        <div class="col-xs-6 col-md-4"><p>&copy; 2019 
+        <div class="col-xs-6 col-md-4"><p>&copy; 2021 
                                           </p></div>
         <div class="col-xs-6 col-md-4 col-md-push-4">
           <p class="text-right">
