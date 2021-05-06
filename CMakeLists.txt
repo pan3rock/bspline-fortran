@@ -1,2 +1,2 @@
 file(GLOB SOURCES src/*.f90)
-add_library(${PROJECT_NAME} ${SOURCES})
+add_library(bspline ${SOURCES})
