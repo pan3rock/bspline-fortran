@@ -71,6 +71,7 @@
     public :: db4ink, db4val
     public :: db5ink, db5val
     public :: db6ink, db6val
+    public :: dbspvn, dintrv
 
     public :: get_status_message
 
