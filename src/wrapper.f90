@@ -92,3 +92,24 @@ subroutine dbspvn_wrapper(t,n,jhigh,k,x,vnikx,ileft,iflag) bind(c)
 
     call dbspvn(t,jhigh,k,index,x,ileft,vnikx,work,iwork,iflag)
 end subroutine dbspvn_wrapper
+
+subroutine db1fqad_wrapper(fun,tx,bcoef,nx,kx,idx,x1,x2,tol,f,iflag,w0) bind(c)
+    use iso_c_binding
+    use bspline_sub_module, only : db1fqad
+    type(c_funptr), intent(in), value :: fun
+    integer(c_int), intent(in) :: nx
+    integer(c_int), intent(in) :: kx
+    real(c_double), intent(in) :: tx(nx + kx)
+    real(c_double), intent(in) :: bcoef(nx)
+    integer(c_int), intent(in) :: idx
+    real(c_double), intent(in) :: x1
+    real(c_double), intent(in) :: x2
+    real(c_double), intent(in) :: tol
+    real(c_double), intent(out) :: f
+    integer(c_int), intent(out) :: iflag
+    real(c_double), intent(inout) :: w0(3 * kx)
+
+
+    call db1fqad(fun,tx,bcoef,nx,kx,idx,x1,x2,tol,f,iflag,w0)
+
+end subroutine db1fqad_wrapper
