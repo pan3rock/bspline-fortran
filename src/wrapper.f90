@@ -20,7 +20,7 @@ subroutine db1val_wrapper(xval,idx,tx,nx,kx,bcoef,f,iflag,inbvx,w0) bind(c)
     integer(kind=c_int), intent(in) :: nx
     integer(kind=c_int), intent(in) :: kx
     real(kind=c_double), intent(in) :: xval
-    real(kind=c_double), dimension(*), intent(in) :: tx
+    real(kind=c_double), intent(in) :: tx(nx + kx)
     real(kind=c_double), intent(in) :: bcoef(nx)
     real(kind=c_double), intent(out) :: f
     integer(kind=c_int), intent(out) :: iflag
@@ -33,7 +33,7 @@ subroutine db1val_wrapper(xval,idx,tx,nx,kx,bcoef,f,iflag,inbvx,w0) bind(c)
 end subroutine db1val_wrapper
 
 
-subroutine dbspvn_wrapper(t,n,jhigh,k,x,vnikx,ileft,iflag)
+subroutine dbspvn_wrapper(t,n,jhigh,k,x,vnikx,ileft,iflag) bind(c)
     use iso_c_binding
     use bspline_sub_module, only : dbspvn, dintrv
     use bspline_kinds_module, only: wp, ip
