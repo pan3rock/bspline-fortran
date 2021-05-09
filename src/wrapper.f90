@@ -37,10 +37,10 @@ subroutine dbspvn_wrapper(t,n,jhigh,k,x,vnikx,ileft,iflag) bind(c)
     use iso_c_binding
     use bspline_sub_module, only : dbspvn, dintrv
     use bspline_kinds_module, only: wp, ip
-    real(kind=c_double), intent(in) :: t(n + k)
     integer(kind=c_int), intent(in) :: n
-    integer(kind=c_int), intent(in) :: jhigh
     integer(kind=c_int), intent(in) :: k
+    real(kind=c_double), intent(in) :: t(n + k)
+    integer(kind=c_int), intent(in) :: jhigh
     real(kind=c_double), intent(in) :: x
     real(kind=c_double), intent(out) :: vnikx(k)
     integer(kind=c_int), intent(out) :: ileft
@@ -93,10 +93,10 @@ subroutine dbspvn_wrapper(t,n,jhigh,k,x,vnikx,ileft,iflag) bind(c)
     call dbspvn(t,jhigh,k,index,x,ileft,vnikx,work,iwork,iflag)
 end subroutine dbspvn_wrapper
 
-subroutine db1fqad_wrapper(fun,tx,bcoef,nx,kx,idx,x1,x2,tol,f,iflag,w0) bind(c)
+subroutine db1fqad_wrapper(cproc,tx,bcoef,nx,kx,idx,x1,x2,tol,f,iflag,w0) bind(c)
     use iso_c_binding
-    use bspline_sub_module, only : db1fqad
-    type(c_funptr), intent(in), value :: fun
+    use bspline_sub_module, only : db1fqad, b1fqad_func
+    type(c_funptr), intent(in), value :: cproc
     integer(c_int), intent(in) :: nx
     integer(c_int), intent(in) :: kx
     real(c_double), intent(in) :: tx(nx + kx)
@@ -109,7 +109,9 @@ subroutine db1fqad_wrapper(fun,tx,bcoef,nx,kx,idx,x1,x2,tol,f,iflag,w0) bind(c)
     integer(c_int), intent(out) :: iflag
     real(c_double), intent(inout) :: w0(3 * kx)
 
+    procedure(b1fqad_func), pointer :: proc
+    call c_f_procpointer(cproc, proc)
 
-    call db1fqad(fun,tx,bcoef,nx,kx,idx,x1,x2,tol,f,iflag,w0)
+    call db1fqad(proc,tx,bcoef,nx,kx,idx,x1,x2,tol,f,iflag,w0)
 
 end subroutine db1fqad_wrapper
