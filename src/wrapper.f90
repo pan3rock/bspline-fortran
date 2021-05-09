@@ -27,13 +27,33 @@ subroutine db1val_wrapper(xval,idx,tx,nx,kx,bcoef,f,iflag,inbvx,w0) bind(c)
     integer(kind=c_int), intent(inout) :: inbvx
     real(kind=c_double), intent(inout) :: w0(3 * kx)
 
-    logical :: extrap = .true.
+    logical :: extrap = .false.
+    ! TODO: whether to use extrap
     call db1val(xval,idx,tx,nx,kx,bcoef,f,iflag,inbvx,w0,extrap)
-
 end subroutine db1val_wrapper
 
+subroutine dbvalu_wrapper(t,a,n,k,ideriv,x,inbv,work,iflag,val) bind(c)
+    use iso_c_binding
+    use bspline_sub_module, only : dbvalu
+    implicit none
+    integer(c_int), intent(in) :: n
+    integer(c_int), intent(in) :: k
+    real(c_double), intent(in) :: t(n + k)
+    real(c_double), intent(in) :: a(n)
+    integer(c_int), intent(in) :: ideriv
+    real(c_double), intent(in) :: x
+    integer(c_int), intent(out) :: inbv
+    real(c_double), intent(inout) :: work(3 * k)
+    integer(c_int), intent(out) :: iflag
+    real(c_double), intent(out) :: val
 
-subroutine dbspvn_wrapper(t,n,jhigh,k,x,vnikx,ileft,iflag) bind(c)
+    logical :: extrap = .false.
+    ! TODO: whether to use extrap
+    call dbvalu(t,a,n,k,ideriv,x,inbv,work,iflag,val,extrap)
+end subroutine dbvalu_wrapper
+
+
+subroutine db1spvn_wrapper(t,n,jhigh,k,x,vnikx,ileft,iflag) bind(c)
     use iso_c_binding
     use bspline_sub_module, only : dbspvn, dintrv
     use bspline_kinds_module, only: wp, ip
@@ -46,7 +66,6 @@ subroutine dbspvn_wrapper(t,n,jhigh,k,x,vnikx,ileft,iflag) bind(c)
     integer(kind=c_int), intent(out) :: ileft
     integer(kind=c_int), intent(out) :: iflag
 
-    logical :: extrap = .true.
     real(kind=c_double) :: xt
     integer(kind=c_int) :: mflag
     integer(kind=c_int) :: inbv = 1
@@ -54,6 +73,8 @@ subroutine dbspvn_wrapper(t,n,jhigh,k,x,vnikx,ileft,iflag) bind(c)
     real(kind=c_double), dimension(2 * k) :: work
     integer(kind=c_int) :: iwork
 
+    logical :: extrap = .false.
+    ! TODO: whether to use extrap
     if (extrap) then
         if (x<t(1_ip)) then
             xt = t(1_ip)
@@ -91,7 +112,8 @@ subroutine dbspvn_wrapper(t,n,jhigh,k,x,vnikx,ileft,iflag) bind(c)
     end if
 
     call dbspvn(t,jhigh,k,index,x,ileft,vnikx,work,iwork,iflag)
-end subroutine dbspvn_wrapper
+end subroutine db1spvn_wrapper
+
 
 subroutine db1fqad_wrapper(cproc,tx,bcoef,nx,kx,idx,x1,x2,tol,f,iflag,w0) bind(c)
     use iso_c_binding
@@ -115,3 +137,21 @@ subroutine db1fqad_wrapper(cproc,tx,bcoef,nx,kx,idx,x1,x2,tol,f,iflag,w0) bind(c
     call db1fqad(proc,tx,bcoef,nx,kx,idx,x1,x2,tol,f,iflag,w0)
 
 end subroutine db1fqad_wrapper
+
+
+subroutine dintrv_wrapper(xt,lxt,xx,ilo,ileft,mflag) bind(c)
+    use iso_c_binding
+    use bspline_sub_module, only : dintrv
+    implicit none
+
+    integer(c_int),intent(in) :: lxt    
+    real(c_double), intent(in) :: xt(lxt)     
+    real(c_double),intent(in) :: xx     
+    integer(c_int),intent(inout) :: ilo    
+    integer(c_int),intent(out) :: ileft  
+    integer(c_int),intent(out) :: mflag  
+
+    logical :: extrap = .false.
+    ! TODO: whether to use extrap
+    call dintrv(xt,lxt,xx,ilo,ileft,mflag,extrap)                                             
+end subroutine dintrv_wrapper
