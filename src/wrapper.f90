@@ -28,7 +28,6 @@ subroutine db1val_wrapper(xval,idx,tx,nx,kx,bcoef,f,iflag,inbvx,w0) bind(c)
     real(kind=c_double), intent(inout) :: w0(3 * kx)
 
     logical :: extrap = .false.
-    ! TODO: whether to use extrap
     call db1val(xval,idx,tx,nx,kx,bcoef,f,iflag,inbvx,w0,extrap)
 end subroutine db1val_wrapper
 
@@ -48,7 +47,6 @@ subroutine dbvalu_wrapper(t,a,n,k,ideriv,x,inbv,work,iflag,val) bind(c)
     real(c_double), intent(out) :: val
 
     logical :: extrap = .false.
-    ! TODO: whether to use extrap
     call dbvalu(t,a,n,k,ideriv,x,inbv,work,iflag,val,extrap)
 end subroutine dbvalu_wrapper
 
@@ -74,7 +72,6 @@ subroutine db1spvn_wrapper(t,n,jhigh,k,x,vnikx,ileft,iflag) bind(c)
     integer(kind=c_int) :: iwork
 
     logical :: extrap = .false.
-    ! TODO: whether to use extrap
     if (extrap) then
         if (x<t(1_ip)) then
             xt = t(1_ip)
@@ -152,6 +149,18 @@ subroutine dintrv_wrapper(xt,lxt,xx,ilo,ileft,mflag) bind(c)
     integer(c_int),intent(out) :: mflag  
 
     logical :: extrap = .false.
-    ! TODO: whether to use extrap
     call dintrv(xt,lxt,xx,ilo,ileft,mflag,extrap)                                             
 end subroutine dintrv_wrapper
+
+subroutine dbknot_wrapper(x,n,k,t) bind(c)
+    use iso_c_binding
+    use bspline_sub_module, only : dbknot
+    implicit none
+
+    integer(c_int),intent(in) :: n
+    integer(c_int),intent(in) :: k
+    real(c_double),intent(in) :: x(n)
+    real(c_double),intent(out) :: t(n + k)
+
+    call dbknot(x,n,k,t)
+end subroutine dbknot_wrapper
