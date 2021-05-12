@@ -164,3 +164,22 @@ subroutine dbknot_wrapper(x,n,k,t) bind(c)
 
     call dbknot(x,n,k,t)
 end subroutine dbknot_wrapper
+
+subroutine dbtpcf_wrapper(x,n,fcn,ldf,nf,t,k,bcoef,work,iflag) bind(c)
+    use iso_c_binding
+    use bspline_sub_module, only : dbtpcf
+    implicit none
+
+    integer(c_int),intent(in) :: n
+    integer(c_int),intent(in) :: nf
+    integer(c_int),intent(in) :: ldf
+    integer(c_int),intent(in) :: k
+    real(c_double),intent(in) :: x(n)
+    real(c_double),intent(in) :: fcn(ldf, nf)
+    real(c_double),intent(in) :: t(n + k)
+    real(c_double),intent(out) :: bcoef(nf, n)
+    real(c_double),intent(out) :: work(2 * k * (n + 1))
+    integer(c_int),intent(out) :: iflag
+
+    call dbtpcf(x,n,fcn,ldf,nf,t,k,bcoef,work,iflag)
+end subroutine dbtpcf_wrapper
